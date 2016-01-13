@@ -21,7 +21,7 @@
 * https://try.github.io
 * http://pcottle.github.io/learnGitBranching
 
-## 추가로 찾은 좋은 리소스
+#### 추가로 찾은 좋은 리소스
 * http://gitref.org/index.html
 * https://rogerdudler.github.io/git-guide/index.ko.html
 
