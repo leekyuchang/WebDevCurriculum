@@ -21,12 +21,9 @@
 * https://try.github.io
 * http://pcottle.github.io/learnGitBranching
 
-<<<<<<< HEAD
 #### 추가로 찾은 좋은 리소스
 * http://gitref.org/index.html
 * https://rogerdudler.github.io/git-guide/index.ko.html
-=======
->>>>>>> 75866b8f8a44566dd87df7f6e521d2ad8b80e3b4
 
 ## Checklist
 * 버전 관리 시스템은 왜 필요한가요?
