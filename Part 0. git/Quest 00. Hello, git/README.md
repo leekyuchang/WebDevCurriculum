@@ -20,6 +20,9 @@
 * [GitHub 사용 설명서](http://www.yes24.com/24/Goods/17638082?Acode=101), 교학사
 * https://try.github.io
 * http://pcottle.github.io/learnGitBranching
+추가로 찾은 좋은 리소스
+* http://gitref.org/index.html
+* https://rogerdudler.github.io/git-guide/index.ko.html
 
 ## Checklist
 * 버전 관리 시스템은 왜 필요한가요?
