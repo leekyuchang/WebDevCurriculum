@@ -28,5 +28,5 @@
   * branch를 만들경우 `git branch newbranchname` 이동할경우 `git checkout branchname`
   * branch를 삭제할경우 `git branch -D branchname`
   * stash사용 `git stash`, `git stash list`, `git stash apply (--index)`, `git stash drop`
-  * 상태를 나타내는 `git state`
+  * 상태를 나타내는 `git status`
    
