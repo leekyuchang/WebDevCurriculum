@@ -14,28 +14,61 @@
 	<body>
 		<header>
 			<!-- TODO: 상단의 회색 부분은 어떻게 처리하면 좋을까요? -->
-			<a href="https://github.com">GitHub</a>
+			<h3><b><a href="https://github.com">GitHub</a></b></h3>
+			<form>
+				This repository
+				<input type="text" name="repository" placeholder="Search">
+			</form>
 			<ul>
-				<li><a href="https://github.com/explore">Explore</a></li>
-				<li><a href="https://github.com/features">Features</a></li>
-				<li><a href="https://enterprise.github.com/home">Enterprise</a></li>
-				<li><a href="https://github.com/pricing">Pricing</a></li>
+				<li><b><a href="https://github.com/explore">Explore</a></b></li>
+				<li><b><a href="https://github.com/features">Features</a></b></li>
+				<li><b><a href="https://enterprise.github.com/home">Enterprise</a></b></li>
+				<li><b><a href="https://github.com/pricing">Pricing</a></b></li>
 			</ul>
 			<ul>
-				<li><a href="https://github.com/join">Sign up</a></li>
-				<li><a href="https://github.com/login">Sign in</a></li>
+				<li><a href="https://github.com/join"><button type="button">Sign up</button></a></li>
+				<li><a href="https://github.com/login"><button type="button">Sign in</button></a></li>
 			</ul>
 		</header>
 
 		<section class="main">
 			<header class="main-header">
 				<!-- TODO: 메인의 헤더 부분 -->
-				
+				<a href="https://github.com/KnowRe/WebDevCurriculum"><b>KnowRe/WebDevCurriculum</b></a>
+				<ul>
+					<li><button type="button"><b>Watch</b></button></li>
+					<li><button type="button"><b>Star</b></button></li>
+					<li><button type="button"><b>Fork</b></button></li>
+				</ul>
 			</header>
 
 			<section class="main-detail">
 				<div>
 					<!-- TODO: 메인의 왼쪽 부분 -->
+					KnowRe web development curriculum for noobs
+					<div>
+						<ul>
+							<li>commits</li>
+							<li>branch</li>
+							<li>releases</li>
+							<li>contributors</li>
+						</ul>
+					</div>
+					<div>
+						<select name="Branch">
+  							<option value="master">Master</option> 
+  							<option value="branch2">branch2</option>
+						</select>
+					</div>
+					<div>
+					<a href="https://github.com/KnowRe/WebDevCurriculum"><b>WebDevCurriculum</b></a>
+					</div>
+					This branch is 5 commits ahead of master.
+					
+					<div>
+					<a href="https://github.com/KnowRe/WebDevCurriculum/compare/master...leekyuchang:master">Pull request</a>
+					<a href="https://github.com/KnowRe/WebDevCurriculum/compare/master...leekyuchang:master">Compare</a>
+					</div>
 				</div>
 
 				<aside>
