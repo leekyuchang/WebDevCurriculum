@@ -25,4 +25,7 @@
   * `git add` 명령어를 통해 변경파일을 index(stage)에 추가
   * `git commit -m "comment"` 명령어를 통해 변경내용을 HEAD에 추가
   * `git push -u origin master` 명령어를 통해서 origin(현제 작업환경)에 있는 변경사항을 master branch의 원격저장소로 업로드
-  *   
+  * branch를 만들경우 `git branch newbranchname` 이동할경우 `git checkout branchname`
+  * branch를 삭제할경우 `git branch -D branchname`
+  * stash사용 `git stash`, `git stash list`, `git stash apply (--index)`, `git stash drop`
+   
