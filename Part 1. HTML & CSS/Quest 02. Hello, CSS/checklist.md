@@ -20,10 +20,10 @@
 
 ##레이아웃을 위해 몇 가지 중요한 속성들
   * `position`
-	 * static
-	 * relative
-	 * fixed
-	 * absolute
+	 * static - default, 위치를 지정하지 않은것
+	 * relative - property를 지정하지 않는한 static과 동일, top left등 property를 주어 위치조
+	 * fixed - 인터넷 창크기, 스크롤이위치가 변하더라도 그 위치가 고정된다.
+	 * absolute - 부모element의 위치를 기준으로 위치가 fix된다. 
   * `left`/`top`
   * `display`
 	  * `display`는 Block-level, Inline Elements에 사용한다.
@@ -34,6 +34,8 @@
 	  * 가로/세로를 표현
 	  * `max-width`, `max-height`, `min-width`, `min-height`
   * `display: flex;`
+	  * CSS3의 flexbox
+	  * 
   * CSS Box Model
 	  * margin, border, padding, content
 ![CSS Boxmodel](http://postfiles3.naver.net/20151113_2/kyuchang90_1447406426196U5jn8_PNG/%BD%BA%C5%A9%B8%B0%BC%A6_2015-11-13_%BF%C0%C8%C4_6.19.20.png?type=w2)
@@ -48,8 +50,18 @@
 
 ## Checklist
 * CSS를 HTML에 적용하는 세 가지 방법의 장단점은 무엇인가요?
+	* Inline Style, Internal Styles
+		* 장점: 간단하게 코드에 css를 사용할 수 있다.
+		* 단점: 코드가 길어질 경우 복잡해진다. 
+ 	* Link 
+	 	* 장점: 복잡한 프로젝트 진행시에 html파일과 css파일들을 나누어 관리를 쉽게 할 수 있다.
 * 여러 개의 CSS 규칙이 한 개의 대상에 적용될 때, 어떤 규칙이 우선순위를 가지게 되나요?
+	* 가장 마지막에 지정된 스타일을 우선적으로 적용한다.
+		* 한개의 선택자에 여러개의 동일한 프로퍼티가 적용된경우 나중에 적은 프로퍼티가 적용
+		* 같은 태그에 다중클래스를 주어 다른 프로퍼티를 적용한 경우 나중에 적은 클래스의 프로퍼티가  적용
+	* CSS를 HTML에 적용하는 세 가지 방법중 Inline Style을 우선적으로 적용한다.
 * 어떤 박스가 `position: absolute;`인 속성을 갖는다면, 그 위치의 기준점은 어디가 되나요?
+	* 부모element의 위치를 기준으로 한다.
 * 가로나 세로로 여러 개의 박스가 공간을 채우되, 그 중 한 개의 박스만 가변적인 크기를 가지고 나머지 박스는 고정된 크기를 갖게 하려면 어떻게 해야 할까요?
 * `float` 속성은 왜 좋지 않을까요?
 * Flexbox(Flexible box)를 사용할 때의 한계점은 무엇인가요?
