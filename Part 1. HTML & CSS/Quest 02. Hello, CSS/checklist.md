@@ -20,13 +20,22 @@
 
 ##레이아웃을 위해 몇 가지 중요한 속성들
   * `position`
+	 * static
+	 * relative
+	 * fixed
+	 * absolute
   * `left`/`top`
   * `display`
+	  * `display`는 Block-level, Inline Elements에 사용한다.
+	  * `display: none;`
+	  * `display: inline;` - li의 dot를 없애준다.
+	  * `display: block;`
   * `width`/`height`
 	  * 가로/세로를 표현
 	  * `max-width`, `max-height`, `min-width`, `min-height`
   * `display: flex;`
   * CSS Box Model
+	  * margin, border, padding, content
 ![CSS Boxmodel](http://postfiles3.naver.net/20151113_2/kyuchang90_1447406426196U5jn8_PNG/%BD%BA%C5%A9%B8%B0%BC%A6_2015-11-13_%BF%C0%C8%C4_6.19.20.png?type=w2)
 
 * 브라우저별 Developer tools
