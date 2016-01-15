@@ -8,6 +8,17 @@
   * 버전관리 시스템은 소프트웨어 프로젝트에서 팀원들이 온라인 상으로 쉽게 협력할 수 있도록 도와주는 시스템입니다. 버전 관리 시스템을 이용하면 온라인상으로 팀원들끼리 수정한 코드를 공유할 수 있습니다. 
 
 * git 외의 버전관리 시스템에는 무엇이 있나요? git은 그 시스템과 어떤 점이 다르며, 어떤 장점을 가지고 있나요?
+	* SVN(Apache Subversion)
+		* SVN은 보통 개인이 코드를 완성한후 중앙 저장소에 commit하기 때문에 개인 version history를 가질수 없다. (그에 반해 git은 commit을 해도 push하기 전까지는 서버에 영향을 미치지 않기 때문에 개인이 version history를 관리 할 수 있다.
+		* SVN의 저장소는 외부에 존재, GIt은 로컬 저장소가 존
+	* Mercurial
+		* Mercurial는 Git과 같은 DVCS의 형태이다.(history, branch, merge가 장점)
+		* git의 저장소는 스냅샨 기반이다. git의 변경된 저장소를 통째 스냅샷을 통해 push하는 형태.
+		* 그에 반해 Mercurial은 각 파일의 변경분만 추적을 한다.
+		* mercurial의 같은경우 git보다 성능이 낮아 효율이 떨어
+
+	* [SNV, Mercurial, GIT 비교](http://ora-sysdba.tistory.com/entry/Infra-%EB%B2%84%EC%A0%84%EA%B4%80%EB%A6%AC%EC%9D%98-%ED%9A%A8%EC%9C%A8%ED%99%94-git-%EA%B0%9C%EC%9A%94)
+	
 
 * git의 명령어
   * `clone` : git의 repo를 local로 복제
