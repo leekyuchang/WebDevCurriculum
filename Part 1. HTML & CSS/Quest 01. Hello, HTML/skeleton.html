@@ -2,8 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<!-- TODO: 또 무엇이 필요할까요? 
-		<style>, <link>태그는 필요 없을것 같음-->
+		<!-- TODO: 또 무엇이 필요할까요? -->
 		
 		<title>Hello, HTML</title>
 		<meta name="keywords" content="HTML">
@@ -12,63 +11,115 @@
 
 	</head>
 	<body>
-		<header>
+
+		<!-- Website-Main-Header -->
+		<header id="website-main-header">
 			<!-- TODO: 상단의 회색 부분은 어떻게 처리하면 좋을까요? -->
-			<h3><b><a href="https://github.com">GitHub</a></b></h3>
-			<form>
+			
+			<!-- Website-Main-Header-logo -->
+			<div id="github-logo">
+				<h3><b><a href="https://github.com">GitHub</a></b></h3>
+			</div>
+			
+			<!-- Website-Main-Header-search -->
+			<form id="repo-search">
 				This repository
 				<input type="text" name="repository" placeholder="Search">
 			</form>
-			<ul>
-				<li><b><a href="https://github.com/explore">Explore</a></b></li>
-				<li><b><a href="https://github.com/features">Features</a></b></li>
-				<li><b><a href="https://enterprise.github.com/home">Enterprise</a></b></li>
-				<li><b><a href="https://github.com/pricing">Pricing</a></b></li>
+			
+			<!-- Website-Main-Header-menu -->
+			<ul id="header-menu">
+				<li><a href="https://github.com/explore" class="header-menu-name">Explore</a></li>
+				<li><a href="https://github.com/features" class="header-menu-name">Features</a></li>
+				<li><a href="https://enterprise.github.com/home" class="header-menu-name">Enterprise</a></li>
+				<li><a href="https://github.com/pricing" class="header-menu-name">Pricing</a></li>
 			</ul>
-			<ul>
-				<li><a href="https://github.com/join"><button type="button">Sign up</button></a></li>
-				<li><a href="https://github.com/login"><button type="button">Sign in</button></a></li>
-			</ul>
+			
+			<!-- Website-Main-Header-sign -->
+			<div id="sign">
+				<a href="https://github.com/join" class="sign-up-in"><button type="button" id="sign-up">Sign up</button></a>
+				<a href="https://github.com/login" class="sign-up-in"><button type="button" id="sign-in">Sign in</button></a>
+			</div>
 		</header>
 
+		<!-- Website-Main-Content -->
 		<section class="main">
-			<header class="main-header">
+			
+			<!-- Website-Main-Content-Header -->
+			<header class="main-content-header">
+
 				<!-- TODO: 메인의 헤더 부분 -->
-				<a href="https://github.com/KnowRe/WebDevCurriculum"><b>KnowRe/WebDevCurriculum</b></a>
-				<ul>
-					<li><button type="button"><b>Watch</b></button></li>
-					<li><button type="button"><b>Star</b></button></li>
-					<li><button type="button"><b>Fork</b></button></li>
-				</ul>
+				<p>
+				<div id="main-content-header-current">
+					<a href="https://github.com/KnowRe/WebDevCurriculum"><b>KnowRe/WebDevCurriculum</b></a>
+				</div>
+				</p>
+				<!-- Website-Main-Content-Header-Button -->
+				<p>
+				<div id="main-content-header-button">
+					<button type="button" class="main-header-button-name">Watch</button>
+					<button type="button" class="main-header-button-name">Star</button>
+					<button type="button" class="main-header-button-name">Fork</button>
+				</div>
+				</p>
 			</header>
 
+<!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
+
 			<section class="main-detail">
-				<div>
+				<div class="main-content">
+
 					<!-- TODO: 메인의 왼쪽 부분 -->
+					
 					KnowRe web development curriculum for noobs
+					
+					<!-- Website-Main-Content-Nav -->
 					<div>
-						<ul>
-							<li>commits</li>
-							<li>branch</li>
-							<li>releases</li>
-							<li>contributors</li>
+						<ul id="main-content-nav">
+							<li class="main-content-nav"><a href="https://github.com/KnowRe/WebDevCurriculum/commits/master">commits</a>
+							<li class="main-content-nav"><a href="https://github.com/KnowRe/WebDevCurriculum/branches">branch</a>
+							<li class="main-content-nav"><a href="https://github.com/KnowRe/WebDevCurriculum/releases">releases</a>
+							<li class="main-content-nav"><a href="https://github.com/KnowRe/WebDevCurriculum/graphs/contributors">contributors</a>
 						</ul>
 					</div>
-					<div>
+					
+					<!-- Website-Main-Content-Branch Select -->
+					<div id="branch-select">
 						<select name="Branch">
   							<option value="master">Master</option> 
   							<option value="branch2">branch2</option>
 						</select>
 					</div>
-					<div>
-					<a href="https://github.com/KnowRe/WebDevCurriculum"><b>WebDevCurriculum</b></a>
-					</div>
-					This branch is 5 commits ahead of master.
 					
-					<div>
-					<a href="https://github.com/KnowRe/WebDevCurriculum/compare/master...leekyuchang:master">Pull request</a>
-					<a href="https://github.com/KnowRe/WebDevCurriculum/compare/master...leekyuchang:master">Compare</a>
+					<!-- Website-Main-Content-Current Address Link -->
+					<div id="main-content-current">
+						<a href="https://github.com/KnowRe/WebDevCurriculum"><b>WebDevCurriculum</b></a>
 					</div>
+					
+					<!-- Website-Main-Content-Container -->
+					<div id="main-content-container">
+						
+						<div id="main-content-first-container">
+							This branch is 5 commits ahead of master.
+							
+							<ul>
+								<li class="first-container-link"><a href="https://github.com/KnowRe/WebDevCurriculum/compare/master...leekyuchang:master">Pull request</a></li>
+								<li class="first-container-link"><a href="https://github.com/KnowRe/WebDevCurriculum/compare/master...leekyuchang:master">Compare</a></li>
+							</ul>
+						</div>	
+						
+						<div id ="main-content-second-container">
+							...
+						</div>
+						
+						<div id ="main-content-third-container">
+							
+
+							
+						</div>
+
+					</div>
+
 				</div>
 
 				<aside>
