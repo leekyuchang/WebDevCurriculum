@@ -20,22 +20,25 @@
 
 ##레이아웃을 위해 몇 가지 중요한 속성들
   * `position`
-	 * static - default, 위치를 지정하지 않은것
-	 * relative - property를 지정하지 않는한 static과 동일, top left등 property를 주어 위치조
-	 * fixed - 인터넷 창크기, 스크롤이위치가 변하더라도 그 위치가 고정된다.
-	 * absolute - 부모element의 위치를 기준으로 위치가 fix된다. 
+    * static - default, 위치를 지정하지 않은것
+    * relative - property를 지정하지 않는한 static과 동일, top left등 property를 주어 위치조
+    * fixed - 인터넷 창크기, 스크롤이위치가 변하더라도 그 위치가 고정된다.
+    * absolute - 부모element의 위치를 기준으로 위치가 fix된다. 
   * `left`/`top`
   * `display`
 	  * `display`는 Block-level, Inline Elements에 사용한다.
-	  * `display: none;`
-	  * `display: inline;` - li의 dot를 없애준다.
-	  * `display: block;`
+	  * `display: none;` - 해당 요소는 보여지지 않고 사라진다.
+	  * `display: inline;` - 해당 요소의 줄바꿈이 되지않는다.
+      * `display: block;` - 해당요소의 줄의 가로폭을 최대로 한다.(자동 줄바꿈)
+      
   * `width`/`height`
 	  * 가로/세로를 표현
 	  * `max-width`, `max-height`, `min-width`, `min-height`
   * `display: flex;`
-	  * CSS3의 flexbox
-	  * 
+	  * CSS3의 flexbox로 block레벨의 flex container를 생성 (`display: inline-flex`inline레벨의 flex container를 생성)
+	  * flexbox의 콘텐츠는 자유로운 정렬, 순서 지정, 크기와 위치 자동조정 가능.
+      * `display: flex`를 하게되면 그요소가 flex container(부모요소)가 된다. 자식요소들의 배열 지정가능.
+
   * CSS Box Model
 	  * margin, border, padding, content
 ![CSS Boxmodel](http://postfiles3.naver.net/20151113_2/kyuchang90_1447406426196U5jn8_PNG/%BD%BA%C5%A9%B8%B0%BC%A6_2015-11-13_%BF%C0%C8%C4_6.19.20.png?type=w2)
@@ -68,6 +71,7 @@
 	* `float`는 block-line element의 정렬을 하기위한 속성이다. value는 left, right
 	* `float`는 parent element의 높이가 child element에 상속되지 않는 문제가 있다.(float가 적용된 element는 html의 기본 구조에 제외되어 떠있는 레이어 처럼됨)
 * Flexbox(Flexible box)를 사용할 때의 한계점은 무엇인가요?
+
 
 ## Quest
 * 아래의 그림들은 모두 전체적으로 창의 크기에 꽉 차야 하며, 창의 크기가 일정 크기 이상일 경우 전체 창 크기가 어떻게 바뀌되더라도 그림에 맞게 각 박스의 크기가 조절되어야 합니다.
