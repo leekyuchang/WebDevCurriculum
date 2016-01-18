@@ -82,4 +82,12 @@ Semantic elements은 웹페이지의 각각 다른 parts를 정의한다.
 * HTML 4.x 이후의 HTML 표준의 변천사는 어떻게 되나요?
 * MS와 IE는 왜 역사의 죄인이 되었을까요?
 * `<section>`과 `<div>`, `<header>`, `<footer>`, `<article>` 엘리먼트의 차이점
+    * `<section>`: 서로 관계있는 content들을 그룹핑할때 사용, section 하위에 section사용 가능 
+    * `<div>`: 
+    * `<header>`: content의 header를 나타낼때 사용
+    * `<footer>`: content의 아랫단을 나타낼때 사용 주로 페이지의 intro, contact등의 정보를 표현
+    * `<article>`: 독립적이고 혼자 사용되는 content들을 표현할때 사용, section과 다름
+    
 * 블럭 레벨 엘리먼트와 인라인 엘리먼트의 차이점
+    * 블럭 레벨 엘리먼트: 웹페이지의 컨텐츠들을 블럭으로 구분되는 엘리먼트, 항상 새로운 line에서 시작
+    * 인라인 엘리먼트: 텍스트안에 사용되며 블럭으로 구분되지 않는 엘리먼트
