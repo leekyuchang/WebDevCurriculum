@@ -68,7 +68,7 @@ Semantic elements은 웹페이지의 각각 다른 parts를 정의한다.
 	* `<ul>`, `<ol>`
 	
 * Inline elements
-	* 새로운 line에서 시작하지 않으며 한 line에 여러개 사용가능
+	* 새로운 line에서 시작하지 않으며 한 line에 여러개 사용 가능
 	* `<span>`
 	* `<a>`
 	* `<img>`
