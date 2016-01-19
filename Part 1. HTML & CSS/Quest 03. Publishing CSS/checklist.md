@@ -24,6 +24,7 @@
     * selector에다 사용 (a:hover {})
     * `:hover` - 마우스를 올려놨을 때(클릭전) 동작
     * `:active` - 마우스로 클릭했을 때 동작
+    
 ## Resources
 * [MDN - CSS](https://developer.mozilla.org/ko/docs/Web/CSS)
 * [모던 웹 디자인을 위한 HTML5+CSS3 입문](http://www.yes24.com/24/Goods/15683538?Acode=101), 한빛미디어
