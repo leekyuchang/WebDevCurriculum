@@ -71,6 +71,12 @@
 	* `float`는 block-line element의 정렬을 하기위한 속성이다. value는 left, right
 	* `float`는 parent element의 높이가 child element에 상속되지 않는 문제가 있다.(float가 적용된 element는 html의 기본 구조에 제외되어 떠있는 레이어 처럼됨)
 * Flexbox(Flexible box)를 사용할 때의 한계점은 무엇인가요?
+    * flexbox는 브라우져마다 사용방법이 조금씩 다르며 지원하지 않는 버전도 있다.
+        * display: -webkit-box;  /* chrome */
+        * display: -moz-box;   /* firefox */
+        * display: -ms-flexbox;   /* IE 10 */
+        * display: -webkit-flex;   /* safari */
+        * display: flex;   /* general */
 
 
 ## Quest
