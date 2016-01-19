@@ -1,9 +1,6 @@
 # Quest 03. Publishing CSS
 
 
-## Introduction
-* 이번 퀘스트에서는 CSS를 이용해 실제 웹 페이지를 모사해 퍼블리싱하는 것에 도전해볼 예정입니다.
-
 ## Topics
 * 퍼블리싱을 위해 몇 가지 중요한 속성들
   * `font-*`
