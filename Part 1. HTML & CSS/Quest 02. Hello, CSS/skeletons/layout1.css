@@ -1,5 +1,5 @@
 body {
-	position: absolute;
+	position: relative;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -12,7 +12,8 @@ aside {
 	background-color: pink;
 	/* TODO: 이 곳을 채우세요! */
 	width: 200px;
-
+    height: 100%;
+    
 }
 
 .main {
@@ -21,5 +22,6 @@ aside {
 	position: absolute;
 	top: 0; 
 	left: 200px;
+    height: 100%;
 	
 }
