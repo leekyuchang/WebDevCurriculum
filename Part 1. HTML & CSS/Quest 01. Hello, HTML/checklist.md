@@ -76,7 +76,6 @@ Semantic elements은 웹페이지의 각각 다른 parts를 정의한다.
 	* `<button>`
 	* `<select>`
 
-
 #Checklist
 
 * HTML 4.x 이후의 HTML 표준의 변천사는 어떻게 되나요?
@@ -86,6 +85,7 @@ Semantic elements은 웹페이지의 각각 다른 parts를 정의한다.
     * WHATWG 결성 XHTML의 문제 제기, DOM level 3
     * 2009년 XHTML포기 HTML 5.0, CSS3
 * MS와 IE는 왜 역사의 죄인이 되었을까요?
+    * IE6 - 95%
     * MS는 IE에 액트브X를 개발하여 브라우저 사용자에게 여러 플러그인들을 내려받아 설치해야하는 불편을 제공 
 * `<section>`과 `<div>`, `<header>`, `<footer>`, `<article>` 엘리먼트의 차이점
     * `<section>`: 서로 관계있는 content들을 그룹핑할때 사용, section 하위에 section사용 가능 
