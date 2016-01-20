@@ -2,6 +2,12 @@
 	/* TODO: 어떤 코드가 들어가야 할까요? */
 }
 
+/* Github Web Page Style */
+
+a {
+    text-decoration: none;
+}
+
 html {
 	/* TODO: 어떤 코드가 들어가야 할까요? */
 }
@@ -9,54 +15,97 @@ html {
 /* Github Web Page Layout */
 
 body {
-    position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
+   margin: 0;
+    padding: 0;
+	
 }
 
 .Main-header {
-    position: absolute;
-    top: 0px;
-    width: 100%;
+    margin: 0;
+	width: 100%;
     background-color: #F5F5F5;
     height: 70px;
 }
 
-.Content {
-    position: absolute;
-    top: 70px;
-    width: 100%;
-    height: 100%;
-}
-
 .Content-header {
-    position: absolute;
-    background-color: white;
-    top: 0px;
     width: 100%;
     height: 70px;
-    border-bottom-style: solid;
-    border-bottom-color: #F5F5F5;
+    background-color: white;
+    border-top: 3px solid #F5F5F5;
+    border-bottom: 3px solid #F5F5F5;
+}
+
+.Content {
+    overflow: hidden;
+    margin: 0 auto;
+	width: 960px;
 }
 
 .Content-section {
-    position: absolute;
-    top: 70px;
-    height: 100%;
+    float: left;
+    width: 760px; 
+}
+
+.Content-section1 {
+    border: 3px solid #F5F5F5;
+}
+
+.Content-section2 {
+     
+}
+
+.Content-section3 {
+    border: 3px solid #F5F5F5;
+}
+
+.Content-section4 {
+    border: 3px solid #F5F5F5;
 }
 
 .Content-aside {
-    position: absolute;
-    top: 70px;
-    width: 20%;
-    height: 100%;
-    right: 0px;
-    border-left-style: solid;
-    border-left-color: #F5F5F5;
+    float: left;
+    width: 200px;
 }
+
+footer {
+    margin: 0 auto;
+	width: 960px;
+    height: 100px;
+    border-top: 3px solid #F5F5F5; 
+}
+
+
+/* Main-header */
+
+.Main-header-center {
+    width: 960px;
+    height: 70px;
+    margin: 0 auto;
+}
+
+.github-logo {
+    position: relative;
+    left: 0;
+    float: left;
+}
+
+.repo-search {
+    float: left;
+}
+
+.header-menu {
+    list-style-type: none;
+}
+
+.header-menu li {
+    display: inline;
+}
+
+.sign {
+
+}
+
+
+
 
 
