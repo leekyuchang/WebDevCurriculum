@@ -63,13 +63,16 @@
 		* 한개의 선택자에 여러개의 동일한 프로퍼티가 적용된경우 나중에 적은 프로퍼티가 적용
 		* 같은 태그에 다중클래스를 주어 다른 프로퍼티를 적용한 경우 나중에 적은 클래스의 프로퍼티가  적용
 	* CSS를 HTML에 적용하는 세 가지 방법중 Inline Style을 우선적으로 적용한다.
+    * display: block !important;
 * 어떤 박스가 `position: absolute;`인 속성을 갖는다면, 그 위치의 기준점은 어디가 되나요?
-	* 부모element의 위치를 기준으로 한다.
+	* 부모element들 중 relative속성이 있는것을 찾아 그 위치를 기준으로 한다.
 * 가로나 세로로 여러 개의 박스가 공간을 채우되, 그 중 한 개의 박스만 가변적인 크기를 가지고 나머지 박스는 고정된 크기를 갖게 하려면 어떻게 해야 할까요?
 	* 고정된 크기를 갖게 하려면 원하는 px값을 주어 크기를 고정시킨다. 가변적인 크기를 주려면 `width: auto;`, `height: auto;`로 한다. 
 * `float` 속성은 왜 좋지 않을까요?
 	* `float`는 block-line element의 정렬을 하기위한 속성이다. value는 left, right
-	* `float`는 parent element의 높이가 child element에 상속되지 않는 문제가 있다.(float가 적용된 element는 html의 기본 구조에 제외되어 떠있는 레이어 처럼됨)
+    * float가 적용된 element는 html의 기본 구조에 제외되어 떠있는 레이어 처럼됨
+	* `float`는 parent element의 높이가 child element에 상속되지 않는 문제가 있다.(parent element의 높이가 지정되지 않는 문제 해결법: overflow: hidden)
+    * `float`속성을 부여하지 않은 객체는 박스 모델상 문제가 발생 될 수 있다.(해결법: overflow: hidden)
 * Flexbox(Flexible box)를 사용할 때의 한계점은 무엇인가요?
     * flexbox는 브라우져마다 사용방법이 조금씩 다르며 지원하지 않는 버전도 있다.
         * display: -webkit-box;  /* chrome */
