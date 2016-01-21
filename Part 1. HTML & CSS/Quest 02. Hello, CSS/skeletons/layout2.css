@@ -8,22 +8,21 @@ body {
 
 .main {
 	background-color: skyblue;
-	/* TODO: 이 곳을 채우세요! */
-    position: absolute;
+	position: absolute;
     top: 0px;
     left: 200px;
     height: 100%;
+    width: calc(100% - 500px);
 }
 
 .left {
-	background-color: pink;
-	/* TODO: 이 곳을 채우세요! */
+    background-color: pink;
     width: 200px;
+    height: 100%;
 }
 
 .right {
 	background-color: greenyellow;
-	/* TODO: 이 곳을 채우세요! */
     position: absolute;
     top: 0px;
     right: 0px;
