@@ -1,7 +1,6 @@
 * {
-	/* TODO: 어떤 코드가 들어가야 할까요? */
+    list-style-type: none;
 }
-
 
 
 
@@ -21,7 +20,6 @@ html {
 
 
 
-
 /****** Github Web Page Layout ******/
 
 body {
@@ -31,15 +29,11 @@ body {
 
 .Main-header {
     margin: 0px;
-    background-color: #F5F5F5;
     height: 70px;
 }
 
 .Content-header {
     height: 70px;
-    background-color: white;
-    border-top: 1px solid #EAEAEA;
-    border-bottom: 1px solid #EAEAEA;
 }
 
 .Content {
@@ -76,7 +70,7 @@ footer {
     height: 70px;
 }
 
-.Main-header-center *{
+.Main-header-center * {
     margin: 0;
     padding: 0;
 }
@@ -97,7 +91,6 @@ footer {
     position: absolute;
     top: 24.5px;
     left: 430px;
-    list-style-type: none;
 }
 
 .header-menu li {
@@ -110,7 +103,6 @@ footer {
     top: 24px;
     right: 0;
 }
-
 
 
 
@@ -133,7 +125,6 @@ footer {
     position: absolute;
     top: 23.5px;
     right: 0;
-
 }
 
 .octicon-repo {
@@ -141,7 +132,6 @@ footer {
     top: 19px;
     left: 0;
 }
-
 
 
 
@@ -157,12 +147,7 @@ footer {
 }
 
 /* Main-content-section1 */
-.Content-section1 {
-    border: 1px solid #EAEAEA;
-}
-
 .main-content-nav-ul {
-    list-style-type: none;
     text-align: center;
     padding-left: 0;
 }
@@ -200,22 +185,18 @@ footer {
 
 /* Main-content-section3 */
 .Content-section3 {
-    border: 1px solid #EAEAEA;
     position: relative;
 }
 
 .main-content-first-container {
-    border-bottom: 1px solid #EAEAEA;
     height: 25px;
-    margin: 0;
-    background-color: #F5F5F5;
+    margin: 0;   
 }
 
 .first-container-link-ul {
     position: absolute;
     right: 0;
     top: 0.5px;
-    list-style-type: none;
     margin: 0;
     padding-left: 0;
 }
@@ -231,34 +212,24 @@ footer {
 }
 
 .main-content-second-container {
-    border-bottom: 1px solid #EAEAEA;
     height: 25px;
     margin: 0;
     background-color: #E6F1F6;
 }
 
 .main-content-third-container {
-    border-bottom: 1px solid #EAEAEA;
     height: 25px;
-    margin: 0;
-    background-color: #F5F5F5;
+    margin: 0;  
 }
 
 .main-content-fourth-container-ul {
-    
-    list-style-type: none;
     padding-left: 0;
     margin: 0;
 }
 
 .main-content-fourth-container-li {
-    border-bottom: 1px solid #EAEAEA;
     padding: 3px;
     margin: 0;
-}
-
-.main-content-fourth-container-li:hover {
-    background-color: #F5F5F5;
 }
 
 #main-content-fourth-container-li4 {
@@ -270,23 +241,17 @@ footer {
     padding-right: 5px;
 }
 
-
-
 /* Main-content-section4 */
 .Content-section4 {
-    border: 1px solid #EAEAEA;
     border-bottom: none;
     margin-bottom: 60px;
 }
 
 .section4-first-container {
-    background-color: #F5F5F5;
-    border-bottom: 1px solid #EAEAEA;
     margin: 0;
 }
 
 .section4-second-container {
-    border-bottom: 1px solid #EAEAEA;
     margin: 0;
     height: 50px;
 }
@@ -312,9 +277,7 @@ footer {
     margin-left: 20px;
 }
 
-
 .aside-ul {
-    list-style-type: none;
     position: absolute;
     padding-left: 10px;
     border-left: 1px solid #EAEAEA; 
@@ -325,8 +288,7 @@ footer {
 }
 
 .aside-li1 {
-    border-top: 1px solid #EAEAEA;
-    border-bottom: 1px solid #EAEAEA;
+    
 }
 
 .conle-URL-copy {
@@ -336,7 +298,8 @@ footer {
 }
 
 .octicon-issue-opened,
-.octicon-git-pull-request, .octicon-pulse {
+.octicon-git-pull-request, 
+.octicon-pulse {
     padding-right: 6px;
 }
 
@@ -350,7 +313,6 @@ footer {
 }
 
 .footer-link-ul {
-    list-style-type: none;
     padding-left: 0;
     margin: 0;
 }
@@ -374,4 +336,35 @@ footer {
 .octicon-mark-github {
     position: absolute;
     right: 50%;
+}
+
+
+
+/****** Color ******/
+
+.main-content-third-container,.main-content-fourth-container-li:hover
+.section4-first-container, .Main-header,
+.main-content-first-container {
+    background-color: #F5F5F5;
+}
+
+.Content-section1,
+.Content-section3,
+.Content-section4 {
+    border: 1px solid #EAEAEA;
+}
+
+.Content-header,
+.aside-li1 {
+    border-top: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.main-content-first-container,
+.main-content-second-container,
+.main-content-third-container,
+.main-content-fourth-container-li,
+.section4-first-container,
+.section4-second-container {
+    border-bottom: 1px solid #EAEAEA;
 }
