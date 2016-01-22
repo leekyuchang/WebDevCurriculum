@@ -7,6 +7,7 @@
 /****** Github Web Page Style ******/
 
 a {
+    color: #4078c0;
     text-decoration: none;
 }
 
@@ -342,7 +343,7 @@ footer {
 
 /****** Color ******/
 
-.main-content-third-container,.main-content-fourth-container-li:hover
+.main-content-third-container,.main-content-fourth-container-li:hover,
 .section4-first-container, .Main-header,
 .main-content-first-container {
     background-color: #F5F5F5;
@@ -367,4 +368,13 @@ footer {
 .section4-first-container,
 .section4-second-container {
     border-bottom: 1px solid #EAEAEA;
+}
+
+
+.black {
+    color: black;
+}
+
+.gray {
+    color: gray;
 }
