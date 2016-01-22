@@ -11,6 +11,10 @@ a {
     text-decoration: none;
 }
 
+/*a:visited {
+    color: blue;
+}*/
+
 html {
 	/* TODO: 어떤 코드가 들어가야 할까요? */
 }
@@ -63,7 +67,7 @@ footer {
 
 
 
-/****** Main-header ******/
+/****** Website-Main-Header ******/
 
 .Main-header-center {
     position: relative;
@@ -110,7 +114,7 @@ footer {
 
 
 
-/****** Main-header ******/
+/****** Website-Content-Header ******/
 
 .Content-header-center {
     position: relative;
@@ -141,7 +145,7 @@ footer {
 
 
 
-/****** Main-content ******/
+/****** Website-Main-Content ******/
 
 .Content-section * {
     margin-top: 15px;
@@ -165,8 +169,13 @@ footer {
 
 .main-content-nav-li {
     display: inline;
-    margin: 60px;
+    margin: 50px;
+}
 
+.octicon-history, .octicon-git-branch, 
+.octicon-tag, .octicon-organization {
+    margin: 0;
+    padding-right: 3px;
 }
 
 /* Main-content-section2 */
@@ -213,7 +222,12 @@ footer {
 
 .first-container-link-li {
     display: inline;
-    margin-right: 3px;
+    margin-right: 7px;
+}
+
+.octicon-git-pull-request, .octicon-diff {
+    margin: 0;
+    padding-right: 4px;
 }
 
 .main-content-second-container {
@@ -230,11 +244,133 @@ footer {
     background-color: #F5F5F5;
 }
 
-.main-content-fourth-container {
-
+.main-content-fourth-container-ul {
+    
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
 }
+
+.main-content-fourth-container-li {
+    border-bottom: 1px solid #EAEAEA;
+    padding: 3px;
+    margin: 0;
+}
+
+.main-content-fourth-container-li:hover {
+    background-color: #F5F5F5;
+}
+
+#main-content-fourth-container-li4 {
+    border: none;
+}
+
+.octicon-file-directory, .octicon-file-text {
+    margin: 0;
+    padding-right: 5px;
+}
+
+
 
 /* Main-content-section4 */
 .Content-section4 {
     border: 1px solid #EAEAEA;
+    border-bottom: none;
+}
+
+.section4-first-container {
+    background-color: #F5F5F5;
+    border-bottom: 1px solid #EAEAEA;
+    margin: 0;
+}
+
+.section4-second-container {
+    border-bottom: 1px solid #EAEAEA;
+    margin: 0;
+    height: 50px;
+}
+
+.octicon-book {
+    margin: 0;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.readme-text {
+    margin: 23px;
+    font-size: 30px;
+}
+
+
+
+/****** Website-Content-aside ******/
+
+.Content-aside-center {
+    position: relative;
+    width: 160px;
+    margin-left: 20px;
+}
+
+
+.aside-ul {
+    list-style-type: none;
+    position: absolute;
+    padding-left: 10px;
+    border-left: 1px solid #EAEAEA; 
+}
+
+.aside-li {
+    margin: 15px 0;
+}
+
+.aside-li1 {
+    border-top: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.conle-URL-copy {
+    position: absolute;
+    top: 230px;
+    font-size: 0.7em;
+}
+
+.octicon-issue-opened,
+.octicon-git-pull-request, .octicon-pulse {
+    padding-right: 6px;
+}
+
+/****** Website-footer ******/
+.footer-content {
+    position: relative;
+    top: 50px;
+}
+
+.githubinc {
+}
+
+.footer-link-ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.footer-link-li {
+    display: inline;
+}
+
+.footer-link-1 {
+    position: absolute;
+    top: 0;
+    left: 150px;
+}
+
+.footer-link-2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.octicon-mark-github {
+    position: absolute;
+    right: 50%;
 }
