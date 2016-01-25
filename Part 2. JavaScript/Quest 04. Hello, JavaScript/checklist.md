@@ -22,13 +22,12 @@
     } else {
 
     }
-    ``` 
+``` 
 * `for`
   * ```javascript
     for (var i = 0; i < 10; i += 1) {
 
-  }
-  ```
+  }```
 * `function`
   * ```javascript
     function foo() {
@@ -38,7 +37,7 @@
 
   };
   ```
-  
+
 ## Resources
 * [자바스크립트 완벽 가이드](http://www.yes24.com/24/Goods/8275120?Acode=101), 인사이트
 * [자바스크립트 객체지향 프로그래밍](http://www.yes24.com/24/Goods/7276246?Acode=101), 위키북스
