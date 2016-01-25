@@ -20,5 +20,3 @@ var plus = function(){
     }
 }
 plus();
-
-
