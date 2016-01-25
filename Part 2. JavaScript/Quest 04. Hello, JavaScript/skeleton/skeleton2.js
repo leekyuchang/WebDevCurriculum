@@ -23,12 +23,16 @@ var number = prompt("Please input number.");
 // plus();
 
 var space = " ";
-var star = "*";
+var star = "";
 
 var star_number = function (){
 
     for (var i = 0; i < number; i += 1){
 
+        for (var j = 0; j <i +1; j += 1){
+            star += "*";
+            console.log(star);
+        }
 
     }
 }
