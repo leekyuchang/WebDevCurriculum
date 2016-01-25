@@ -22,21 +22,21 @@
     } else {
 
     }``` 
-    
+
 * `for`
   * ```javascript
     for (var i = 0; i < 10; i += 1) {
 
-  }```
+    }```
 
 * `function`
   * ```javascript
     function foo() {
 
-  }
-  var foo = function () {
+    }
+    var foo = function () {
 
-  };```
+    };```
 
 ## Resources
 * [자바스크립트 완벽 가이드](http://www.yes24.com/24/Goods/8275120?Acode=101), 인사이트
