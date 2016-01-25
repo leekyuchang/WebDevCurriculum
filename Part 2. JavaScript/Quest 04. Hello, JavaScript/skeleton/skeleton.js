@@ -1,10 +1,9 @@
 var number = prompt("Please input number.");
-
 var star = "";
 
-var plus = function() {
+var plus = function(){
 
-    if (isNaN(number)) {
+    if (isNaN(number)){
         console.log("Please input the correct number");
     }
     else if (number > 0){
@@ -15,13 +14,11 @@ var plus = function() {
             console.log(star);
         }
 
-    }else {
+    }else{
         console.log("number: " + number);
         return 0;
     }
-
 }
-
 plus();
 
 
