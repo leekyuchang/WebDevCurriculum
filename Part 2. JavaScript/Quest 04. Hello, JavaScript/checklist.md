@@ -14,30 +14,32 @@
 * `var`
   * 문자, 숫자, $, _만 허용, 숫자로 시작하면 안된다.
 * `if`
-  * ```javascript
-    if () {
+```javascript
+if () {
 
-    } else if () {
+} else if () {
 
-    } else {
+} else {
 
-    }``` 
+}
+``` 
 
 * `for`
-  * ```javascript
-    for (var i = 0; i < 10; i += 1) {
+```javascript
+for (var i = 0; i < 10; i += 1) {
 
-    }
-    ```
+}
+```
 
 * `function`
-  * ```javascript
-    function foo() {
+```javascript
+function foo() {
 
-    }
-    var foo = function () {
+}
+var foo = function () {
 
-    };```
+};
+```
 
 ## Resources
 * [자바스크립트 완벽 가이드](http://www.yes24.com/24/Goods/8275120?Acode=101), 인사이트
