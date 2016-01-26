@@ -1,22 +1,18 @@
 var number = prompt("Please input number.");
-var star = "";
+parseInt(number);
 
-var plus = function(){
+var space = "";
+var star = "*";
+var star_number = function (){
 
-    if (isNaN(number)){
-        console.log("Please input the correct number");
+    for (var j = 0; j < number; j++) { //공간늘리기
+        space += " ";
     }
-    else if (number > 0){
-        console.log("number: " + number);
-
-        for (var i = 0; i < number; i += 1){
-            star +="*";
-            console.log(star);
-        }
-
-    }else{
-        console.log("number: " + number);
-        return 0;
+    for (var k = number; k > 0; k--) {
+        space = space.substring(1, space.length); //공간 하나씩 줄이기
+        console.log(space + star);
+        star += "**";
     }
 }
-plus();
+
+star_number();
