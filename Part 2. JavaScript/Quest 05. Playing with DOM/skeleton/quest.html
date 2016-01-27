@@ -38,6 +38,17 @@
 			for(var i = 0; i < row1Squares.length; i++) {
 				var node = row1Squares[i];
 				/* TODO: node 변수를 어떻게 조작해야 할까요? */
+				row1Squares[i].style.backgroundColor = "yellow";
+				(function(){
+					var e = i;
+					node.onclick = function(){
+						if(row1Squares[e].style.backgroundColor === "white"){
+							row1Squares[e].style.backgroundColor = "yellow";
+						}else {
+							row1Squares[e].style.backgroundColor = "white";
+						}
+					}
+				})();
 			}
 
 			var row2Squares = document.querySelectorAll('.row2 .square');
@@ -45,6 +56,18 @@
 			for(var i = 0; i < row2Squares.length; i++) {
 				var node = row2Squares[i];
 				/* TODO: node 변수를 어떻게 조작해야 할까요? */
+
+				(function(){
+					var e = i;
+					node.onclick = function(){
+						if(row2Squares[e].classList.contains("enabled")) {
+							row2Squares[e].classList.remove("enabled");
+						}else {
+							row2Squares[e].classList.add("enabled");
+						}
+					}
+				})();
+
 			}
 		</script>
 	</body>
