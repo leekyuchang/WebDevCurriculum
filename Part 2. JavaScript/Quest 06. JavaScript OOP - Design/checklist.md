@@ -9,12 +9,38 @@
  * new와 Object생성자 이용
  * 객체 리터럴 이용 {} - 객체 리터럴에서 사용하는 this는 {}로 생성되는 객체를 가르킨다.
  * new와 사용자 정의 생성자 이용 - function
-* Prototype
+* Prototype - 어떠한 객체가 만들어지기 위해 그 객체의 모태가 되는 것을 프로토타입.
+  * Prototype을 사용하는 이유는 객체의 상속을 사용하기 위해.
   * `Foo.prototype = ...`
+  * Prototype link는 상위에서 물려받은 객체의 프로토타입에 대한 정보(__proto__)
+  * Prototype property는 자신을 원형으로 만들어질 새로운 객체들에게 물려줄 연결에 대한 속성(prototype)
+```JavaScript
+    function foo(x) {
+        this.x = x;
+    };
+
+    var A = new foo('hello');
+    console.log(A.x);
+    > hello
+
+    console.log(A.prototype.x)
+    > syntax error
+```
 * 생성자: 생성자(constructor)는 객체를 만드는 역할을 하는 함수, new와 함께 사용되어 새로운 객체를 생성하는 함수
   * 멤버 함수
   * 멤버 변수
 * 상속
+  * 상위객체를 prototype으로 생성된 하위 객체는 상위 객체의 변수와 메소드를 상속 받는다.(공유의 의미-상위객체의 변수, 메소드가 수정되면 함께 수정됨)
+ ```JavaScript
+ var A = function () { };
+     A.prototype.x = function () {
+          console.log('hello');
+     };
+     var B = new A();
+
+     B.x();
+     > hello
+ ```
 
 ## Resources
 * [자바스크립트 완벽 가이드](http://www.yes24.com/24/Goods/8275120?Acode=101), 인사이트
@@ -22,11 +48,14 @@
 
 ## Checklist
 * 프로토타입 기반의 객체지향 프로그래밍은 무엇일까요?
-  * 클래스 기반의 객체지향 프로그래밍과 어떤 점이 다를까요?
+  * 객체를 원형(prototype)으로 하여 객체의 복제 방법으로 새로운 객체를 만들어 내는 방식(프로토타입 기반 프로그래밍)
+* 클래스 기반의 객체지향 프로그래밍과 어떤 점이 다를까요?
+  * 클래스 기반의 객체지향은 새로운 method를 만드려면 클래스를 직접 수정해야하지만 prototype기반은 쉽게 객체의 prototype에 접근하여 수정.
 * 객체의 프로토타입 함수는 무엇일까요?
+  * 자신을 원형으로 하여 새로운 객체들에게 상속하기 위한 객체
 * JavaScript에서 `private`한 멤버 변수를 구현하려면 어떤 식으로 해야 할까요?
 * 자바스크립트에서 클래스간에 상속을 하려면 어떤 식으로 구현해야 할까요?
-
+  * Prototype을 이용하여 상위 객체의 메소드나 변수를 하위객체에 상속한다.
 ## Quest
 * Quest 06 ~ Quest 07 을 통해, 웹 상에서 동작하는 간단한 바탕화면 시스템을 만들 예정입니다.
 * 요구사항은 다음과 같습니다:
