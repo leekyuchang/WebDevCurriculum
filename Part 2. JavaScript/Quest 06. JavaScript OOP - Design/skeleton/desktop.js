@@ -2,7 +2,7 @@ var Desktop = function(icon, folder) {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.icon = function(){};
 	this.folder = function(){};
-	//Icon, Folder를 매게변수로 넘겨서 갯수 만큼 생성
+	//Icon, Folder를 매게변수로 넘겨서 갯수 만큼 생성 - ?
 };
 
 var Icon = function(name) {
@@ -21,7 +21,7 @@ var Folder = function(name) {
 
 var Window = function() {
 	/* TODO: Window 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	//window의 name과 Folder의 name이 같게 표현
+	//window의 name과 Folder의 name이 같게 표현 - ?
 	//drag함수 상속
 	Folder.call(this);
 };
