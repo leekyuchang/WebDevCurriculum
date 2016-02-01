@@ -15,18 +15,6 @@
   * `Foo.prototype = ...`
   * Prototype link는 상위에서 물려받은 객체의 프로토타입에 대한 정보(__proto__)
   * Prototype property는 자신을 원형으로 만들어질 새로운 객체들에게 물려줄 연결에 대한 속성(prototype)
-```JavaScript
-    function foo(x) {
-        this.x = x;
-    };
-
-    var A = new foo('hello');
-    console.log(A.x);
-    > hello
-
-    console.log(A.prototype.x)
-    > syntax error
-```
 * 생성자: 생성자(constructor)는 객체를 만드는 역할을 하는 함수, new와 함께 사용되어 새로운 객체를 생성하는 함수
   * 멤버 함수
   * 멤버 변수
