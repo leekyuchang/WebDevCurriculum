@@ -38,17 +38,27 @@ var desktop1 = new Desktop(3);
 
 
 ///////////////////////////////////////
-var Foo = function(){
-	instancename = new Goo('gooname');
+var Desktop = function(iconname, foldername){
+  folder = new Array();
+  icon = new Array();
+
+  for(var i = 0; i < foldername.length; i++){
+  	folder[i] = new Folder(foldername[i]);
+	folder[i].classLidt.add("icon");
+	icon[i] = new Icon(iconname[i]);
+	icon[i].classLidt.add("folder");
+  }
 }
 
-var Goo = function(name){
-	this.name = name;
+var Folder = function(name){
+  this.name = name;
 }
+Folder.prototype.alt = function(){ alert(this.name);}
 
-Goo.prototype.callname = function(){
-	console.log(this.name);
+var Icon = function(name){
+  this.name = name;
 }
+Icon.prototype.allt = function(){ alert(this.name);}
 
-var foo1 = new Foo();
+var desk1 = new Desktop(['lee'], ['kyu', 'chang']);
 /////////////////////////////////////
