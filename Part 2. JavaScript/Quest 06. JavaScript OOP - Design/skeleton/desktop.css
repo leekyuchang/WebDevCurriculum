@@ -5,6 +5,8 @@ body {
 	height: 100%;
 }
 
+
+/*  desktop class  */
 .desktop {
 	background-color: skyblue;
 	margin: 0 auto;
@@ -14,8 +16,25 @@ body {
 }
 
 
-.desktop > * {
+/*  icon class  */
+.icon *{
+	background-color: yellow;
+	width: 50px;
+	height: 50px;
+}
+
+
+/*  folder class  */
+.folder *{
 	background-color: red;
 	width: 50px;
 	height: 50px;
+}
+
+
+/*  window class  */
+.window *{
+	background-color: green;
+	width: 100px;
+	height: 100px;
 }
