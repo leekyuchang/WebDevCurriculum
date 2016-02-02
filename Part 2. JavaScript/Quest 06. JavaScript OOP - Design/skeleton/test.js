@@ -143,7 +143,7 @@ var Folder = function(name) {
 	this.clickopen = function(){alert("open");};
 };
 
-Window.prototype = new Icon();
+Folder.prototype = Icon.prototype;
 
 var Window = function(name) {
 	// Folder의 인스턴스와 같은 name
