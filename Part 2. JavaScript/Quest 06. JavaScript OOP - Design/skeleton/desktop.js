@@ -1,14 +1,18 @@
-var Desktop = function(iconname, foldername) {
+var Desktop = function(foldername) {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	folder = new Array();
 	icon = new Array();
-
+	var folderclass = document.querySelector('.desktop');
+	var strHTML = "";
 	for(var i = 0; i < foldername.length; i++){
 		folder[i] = new Folder(foldername[i]);
-		icon[i] = new Icon(iconname[i]);
+		strHTML += '<div class="folder' + i + '"></div>';
 	}
+	folderclass.innerHTML = strHTML;
 
 };
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

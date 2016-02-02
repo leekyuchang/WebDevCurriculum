@@ -6,17 +6,16 @@ body {
 }
 
 .desktop {
-	position: relative;
 	background-color: skyblue;
 	margin: 0 auto;
 	width: 800px;
 	height: 800px;
+	color: black;
 }
 
 
-.icon .folder {
-	color: red;
-	position: absolute;
+.folder {
+	background-color: red;
 	width: 50px;
 	height: 50px;
 }
