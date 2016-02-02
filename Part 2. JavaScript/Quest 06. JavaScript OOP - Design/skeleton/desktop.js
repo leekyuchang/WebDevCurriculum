@@ -1,7 +1,7 @@
 var Desktop = function(iconname, foldername) {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 
-	//Desktop에서 인스턴스를 생성하면 icon, folder의 인스턴스들이 생성되게 구현
+	//Desktop의 인스턴스를 생성하면 icon, folder의 인스턴스들이 생성되게 구현
 	//멤버변수: Icon, Folder의 인스턴스를 생성할 변수들,
 	//멤버함수:
 
@@ -26,7 +26,7 @@ var Icon = function(name) {
 	this.name = name;
 };
 Icon.prototype.drag = function(){alert("drag");};
-Icon.prototype.createclass = function(){};  // 인스턴스들의 class 생성
+Icon.prototype.createclass = function(){};  // 인스턴스들의 CSS class 생성 후 추가
 
 /*  Folder 생성자  */
 var Folder = function(name) {
@@ -34,7 +34,8 @@ var Folder = function(name) {
 	//멤버변수: name
 	//멤버함수: clickopen
 	this.name = name;
-	this.clickopen = function(){alert("open");};  //Folder만 쓰는 clickopen함수 생성
+	this.clickopen = function(){alert("open");};
+	//click하면 window인스턴스 생성, Folder만 쓰는 clickopen함수
 };
 Folder.prototype = Icon.prototype; //drag, createclass함수 상속
 
