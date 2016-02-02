@@ -17,7 +17,7 @@ body {
 
 
 /*  icon class  */
-.icon *{
+.icon {
 	background-color: yellow;
 	width: 50px;
 	height: 50px;
@@ -25,7 +25,7 @@ body {
 
 
 /*  folder class  */
-.folder *{
+.folder {
 	background-color: red;
 	width: 50px;
 	height: 50px;
@@ -33,7 +33,7 @@ body {
 
 
 /*  window class  */
-.window *{
+.window {
 	background-color: green;
 	width: 100px;
 	height: 100px;
