@@ -129,8 +129,6 @@ var Window = function(name) {
 /////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-
-
 var Icon = function(name) {
 	this.name = name;
 };
@@ -155,3 +153,23 @@ var icon1 = new Icon("1icon");
 var folder1 = new Folder("1folder");
 var folder2 = new Folder("2folder");
 var window1 = new Window("1window");
+
+//////////////////////////////////////////////////////////////////
+
+
+var A = function(){
+
+	this.function(){
+		b.bbb();
+	}
+
+}
+
+var B = function(){}
+B.prototype.bbb = function(){alert('BBB');}
+var C = function(){}
+C.prototype.ccc = function(){alert('CCC');}
+
+var a = new A();
+var b = new B();
+var c = new C();

@@ -15,6 +15,15 @@ var Desktop = function(iconname, foldername) {
 	for(var j = 0; j < iconname.length; j++){
 		icon[j] = new Icon(iconname[j]);
 	}
+
+	this.dragging = function(){
+		//instance(icon, folder, window) drag function
+	}
+
+	this.open = fuction(){
+		//instance(folder) open function
+	}
+
 };
 
 
