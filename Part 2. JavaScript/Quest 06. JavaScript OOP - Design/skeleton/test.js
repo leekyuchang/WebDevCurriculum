@@ -159,7 +159,7 @@ var window1 = new Window("1window");
 
 var A = function(){
 
-	this.function(){
+	this.kyu = function(){
 		b.bbb();
 	}
 
