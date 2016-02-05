@@ -21,13 +21,16 @@
 * 상속
   * 상위객체를 prototype으로 생성된 하위 객체는 상위 객체의 변수와 메소드를 상속 받는다.(공유의 의미-상위객체의 변수, 메소드가 수정되면 함께 수정됨)
  ```JavaScript
- var A = function () { };
-     A.prototype.x = function () {
-          console.log('hello');
-     };
-     var B = new A();
+    var A = function () { };
+         A.prototype.x = function () {
+              console.log('hello');
+         };
 
-     B.x();
+    var B = function() {};
+    B.prototype = new A();
+    var b = new B();
+
+     b.x();
      > hello
  ```
 
@@ -37,13 +40,13 @@
 
 ## Checklist
 * 프로토타입 기반의 객체지향 프로그래밍은 무엇일까요?
-  * 객체를 원형(prototype)으로 하여 객체의 복제 방법으로 새로운 객체를 만들어 내는 방식(프로토타입 기반 프로그래밍)
+  * 한 생성자를 prototype, new를 이용하여 그 생성자의 프로퍼티와 메소드를 다른 생성자에 상속 하는 방식(프로토타입 기반 프로그래밍)
 * 클래스 기반의 객체지향 프로그래밍과 어떤 점이 다를까요?
-  * 클래스 기반의 객체지향은 새로운 method를 만드려면 클래스를 직접 수정해야하지만 prototype기반은 쉽게 객체의 prototype에 접근하여 수정.
+  * 클래스 기반의 객체지향은 새로운 method를 만드려면 클래스를 직접 수정해야하지만 prototype기반은 쉽게 생성자의 prototype를 수정.
 * 객체의 프로토타입 함수는 무엇일까요?
   * 자신을 원형으로 하여 새로운 객체들에게 상속하기 위한 객체
 * JavaScript에서 `private`한 멤버 변수를 구현하려면 어떤 식으로 해야 할까요?
-  * var 로 선언한 변수와 함수의 매개변수는 private 멤버이다.(Closure이론)
+  * var 로 선언한 변수와 함수는 private 멤버이다. 외부에서 접근 불가 - (Closure이론)
   * Privileged 멤버는 Prototype, this를 이용하여 구현.(Privileged 멤버는 Private 멤버에 접근 가능)
 * 자바스크립트에서 클래스간에 상속을 하려면 어떤 식으로 구현해야 할까요?
   * Prototype을 이용하여 상위 객체의 메소드나 변수를 하위객체에 상속한다.

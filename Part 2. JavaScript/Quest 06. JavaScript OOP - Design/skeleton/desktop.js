@@ -16,14 +16,6 @@ var Desktop = function(iconname, foldername) {
 		icon[j] = new Icon(iconname[j]);
 	}
 
-	// this.dragging = function(){
-	// 	//instance(icon, folder, window) drag function
-	// }
-	//
-	// this.open = fuction(){
-	// 	//instance(folder) open function
-	// }
-
 };
 
 
@@ -60,6 +52,7 @@ var Window = function(name) {
 	//멤버변수: name
 	//멤버함수: drag(상속), createclass(상속)
 	this.name = name;  // Folder의 인스턴스와 같은 name이어야 한다.
-	this.drag();  // instance 생성후 바로 메소드 실행
+	this.drag();
+	this.createclass(); // instance 생성후 바로 메소드 실행
 };
 Window.prototype = Icon.prototype;  //drag, createclass함수 상속
