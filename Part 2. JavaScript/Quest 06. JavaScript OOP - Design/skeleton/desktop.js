@@ -16,13 +16,13 @@ var Desktop = function(iconname, foldername) {
 		icon[j] = new Icon(iconname[j]);
 	}
 
-	this.dragging = function(){
-		//instance(icon, folder, window) drag function
-	}
-
-	this.open = fuction(){
-		//instance(folder) open function
-	}
+	// this.dragging = function(){
+	// 	//instance(icon, folder, window) drag function
+	// }
+	//
+	// this.open = fuction(){
+	// 	//instance(folder) open function
+	// }
 
 };
 
@@ -33,6 +33,8 @@ var Icon = function(name) {
 	//멤버변수: name
 	//멤버함수: prototype.drag, prototype.createclass
 	this.name = name;
+	this.drag();
+	this.createclass(); // instance 생성후 바로 메소드 실행
 };
 Icon.prototype.drag = function(){alert("drag");};
 Icon.prototype.createclass = function(){};  // 인스턴스들의 CSS class 생성 후 추가
@@ -46,6 +48,8 @@ var Folder = function(name) {
 	this.name = name;
 	this.clickopen = function(){alert("open");};
 	//click하면 window인스턴스 생성, Folder만 쓰는 clickopen함수
+	this.drag();
+	this.createclass();  // instance 생성후 바로 메소드 실행
 };
 Folder.prototype = Icon.prototype; //drag, createclass함수 상속
 
@@ -56,5 +60,6 @@ var Window = function(name) {
 	//멤버변수: name
 	//멤버함수: drag(상속), createclass(상속)
 	this.name = name;  // Folder의 인스턴스와 같은 name이어야 한다.
+	this.drag();  // instance 생성후 바로 메소드 실행
 };
 Window.prototype = Icon.prototype;  //drag, createclass함수 상속
