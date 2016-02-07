@@ -49,7 +49,7 @@
   * var 로 선언한 변수와 함수는 private 멤버이다. 외부에서 접근 불가 - (Closure이론)
   * Privileged 멤버는 Prototype, this를 이용하여 구현.(Privileged 멤버는 Private 멤버에 접근 가능)
 * 자바스크립트에서 클래스간에 상속을 하려면 어떤 식으로 구현해야 할까요?
-  * Prototype을 이용하여 상위 객체의 메소드나 변수를 하위객체에 상속.
+  * Prototype을 이용하여 상위 객체의 메소드나 변수를 하위객체에 상속한다.
 
 ## Quest
 * Quest 06 ~ Quest 07 을 통해, 웹 상에서 동작하는 간단한 바탕화면 시스템을 만들 예정입니다.
