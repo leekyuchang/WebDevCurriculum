@@ -18,8 +18,18 @@ Desktop.prototype._setDom = function() {
 
 		this.dom.appendChild(icon.dom);  //this.dom에 icon.dom을 넣는다
 
+		// this.dom -> <section class="desktop">..</section>
+		// icon.dom -> <div class="icon">..</div><div class="icon folder">..</div>
+
 		icon.dom.addEventListener('openWindow', function() {
 			console.log('open window');
+			// var windowa = new Window();
+			// this.appendChild(icon.dom);
+
+			////
+			// <div class="icon folder window">..</div> 이거를 만들어야 할것 같다!!!
+			/// new Window(); 하면 생겨야 하지 않나?  -> Window.prototype._setDom에 문제가 있는것 같다
+			///
 		});
 
 
@@ -127,7 +137,6 @@ var Window = function() {
 	this.desktop = null;
 
 	this._initialize();
-
 };
 
 Window.prototype._initialize = function() {
@@ -136,7 +145,7 @@ Window.prototype._initialize = function() {
 
 Window.prototype._setDom = function() {
 	Icon.prototype._setDom.apply(this);
-	this.dom.classList.add('window');
+	this.dom.classList.add('windowa');
 };
 
 Window.prototype._bindEvents = function() {
