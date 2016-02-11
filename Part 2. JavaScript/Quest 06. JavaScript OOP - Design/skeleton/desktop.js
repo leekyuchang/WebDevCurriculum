@@ -1,3 +1,4 @@
+// Desktop 생성자
 var Desktop = function(dom, icons) {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = dom;
@@ -6,6 +7,7 @@ var Desktop = function(dom, icons) {
 	this._initialize();
 };
 
+//초기화 함수(인스턴스가 생기면 메소드가 바로 실행되게 구현)
 Desktop.prototype._initialize = function() {
 	this._setDom();
 };
@@ -14,12 +16,14 @@ Desktop.prototype._setDom = function() {
 	for(var i = 0; i < this.icons.length; i++) {
 		var icon = this.icons[i];
 
-		this.dom.appendChild(icon.dom);
+		this.dom.appendChild(icon.dom);  //this.dom에 icon.dom을 넣는다
 
 		icon.dom.addEventListener('openWindow', function() {
 			console.log('open window');
 		});
 
+
+		//random position of icon, folder
 		var coord = [
 			Math.floor(Math.random() * (this.dom.getBoundingClientRect().width - 50)),
 			Math.floor(Math.random() * (this.dom.getBoundingClientRect().height - 50))
@@ -30,7 +34,7 @@ Desktop.prototype._setDom = function() {
 	}
 };
 
-
+// Icon 생성자
 var Icon = function() {
 	/* TODO: Icon 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = null;
@@ -54,7 +58,7 @@ Icon.prototype._setDom = function() {
 };
 
 Icon.prototype._bindEvents = function() {
-	var that = this;
+	var that = this; // this가 전역객체를 참조하는 것을 방지
 
 	this.dom.addEventListener('mousedown', function(e) {
 		that.isMouseDown = true;
@@ -81,8 +85,7 @@ Icon.prototype._bindEvents = function() {
 };
 
 
-
-
+// Folder 생성자
 var Folder = function() {
 	/* TODO: Folder 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = null;
@@ -94,12 +97,13 @@ var Folder = function() {
 };
 
 Folder.prototype._initialize = function() {
-	Icon.prototype._initialize.apply(this);
+	Icon.prototype._initialize.apply(this); //this 는 Folder객체
 };
 
 Folder.prototype._setDom = function() {
 	Icon.prototype._setDom.apply(this);
 	this.dom.classList.add('folder');
+	// folder class가 생기지만 Icon_setDom에 있는것은 apply해서 icon class도 생성됨
 };
 
 Folder.prototype._bindEvents = function() {
@@ -109,10 +113,33 @@ Folder.prototype._bindEvents = function() {
 
 	this.dom.addEventListener('dblclick', function(e) {
 		that.dom.dispatchEvent(new Event('openWindow'));
+		// dblclick할때 Icon proto에 만든 openWindow 실행
 	});
 };
 
 
+// Window 생성자
 var Window = function() {
 	/* TODO: Window 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
+	this.dom = null;
+	this.isMouseDown = false;
+	this.mouseCoord = [0, 0];
+	this.desktop = null;
+
+	this._initialize();
+
+};
+
+Window.prototype._initialize = function() {
+	Icon.prototype._initialize.apply(this); //this 는 Window객체
+};
+
+Window.prototype._setDom = function() {
+	Icon.prototype._setDom.apply(this);
+	this.dom.classList.add('window');
+};
+
+Window.prototype._bindEvents = function() {
+	Icon.prototype._bindEvents.apply(this);
+
 };
