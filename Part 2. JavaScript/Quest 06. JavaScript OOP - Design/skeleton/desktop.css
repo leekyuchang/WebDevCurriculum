@@ -1,40 +1,22 @@
 /* TODO: 자유롭게 바탕화면 시스템의 CSS를 만들어 보세요! */
-
-body {
-	width: 100%;
-	height: 100%;
-}
-
-
-/*  desktop class  */
 .desktop {
-	background-color: skyblue;
-	margin: 0 auto;
+	border: 1px solid black;
 	width: 800px;
-	height: 800px;
-	color: black;
+	height: 600px;
+
+	position: relative;
 }
 
-
-/*  icon class  */
 .icon {
+	width: 50px;
+	height: 50px;
 	background-color: yellow;
-	width: 50px;
-	height: 50px;
+
+	position: absolute;
+	top: 0px;
+	left: 0px;
 }
 
-
-/*  folder class  */
 .folder {
-	background-color: red;
-	width: 50px;
-	height: 50px;
-}
-
-
-/*  window class  */
-.window {
-	background-color: green;
-	width: 100px;
-	height: 100px;
+	background-color: pink;
 }

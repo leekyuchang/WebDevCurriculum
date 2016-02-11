@@ -1,58 +1,118 @@
-var Desktop = function(iconname, foldername) {
+var Desktop = function(dom, icons) {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
+	this.dom = dom;
+	this.icons = icons;
 
-	//Desktop의 인스턴스를 생성하면 icon, folder의 인스턴스들이 생성되게 구현
-	//멤버변수: Icon, Folder의 인스턴스를 생성할 변수들,
-	//멤버함수:
+	this._initialize();
+};
 
-	folder = new Array();
-	icon = new Array();
+Desktop.prototype._initialize = function() {
+	this._setDom();
+};
 
-	for(var i = 0; i < foldername.length; i++){
-		folder[i] = new Folder(foldername[i]);
+Desktop.prototype._setDom = function() {
+	for(var i = 0; i < this.icons.length; i++) {
+		var icon = this.icons[i];
+
+		this.dom.appendChild(icon.dom);
+
+		icon.dom.addEventListener('openWindow', function() {
+			console.log('open window');
+		});
+
+		var coord = [
+			Math.floor(Math.random() * (this.dom.getBoundingClientRect().width - 50)),
+			Math.floor(Math.random() * (this.dom.getBoundingClientRect().height - 50))
+		];
+
+		icon.dom.style.left = (icon.dom.getBoundingClientRect().left - this.dom.getBoundingClientRect().left + coord[0]) + 'px';
+		icon.dom.style.top = (icon.dom.getBoundingClientRect().top - this.dom.getBoundingClientRect().top + coord[1]) + 'px';
 	}
-
-	for(var j = 0; j < iconname.length; j++){
-		icon[j] = new Icon(iconname[j]);
-	}
-
 };
 
 
-/*  Icon 생성자  */
-var Icon = function(name) {
+var Icon = function() {
 	/* TODO: Icon 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	//멤버변수: name
-	//멤버함수: prototype.drag, prototype.createclass
-	this.name = name;
-	this.drag();
-	this.createclass(); // instance 생성후 바로 메소드 실행
+	this.dom = null;
+	this.isMouseDown = false;
+	this.mouseCoord = [0, 0];
+	this.desktop = null;
+
+	this._initialize();
 };
-Icon.prototype.drag = function(){alert("drag");};
-Icon.prototype.createclass = function(){};  // 인스턴스들의 CSS class 생성 후 추가
+
+Icon.prototype._initialize = function() {
+	this._setDom();
+	this._bindEvents();
+};
+
+Icon.prototype._setDom = function() {
+	var dom = document.createElement('div');
+	dom.classList.add('icon');
+
+	this.dom = dom;
+};
+
+Icon.prototype._bindEvents = function() {
+	var that = this;
+
+	this.dom.addEventListener('mousedown', function(e) {
+		that.isMouseDown = true;
+		that.mouseCoord = [e.clientX, e.clientY];
+	});
+
+	this.dom.addEventListener('mousemove', function(e) {
+		if(that.isMouseDown) {
+			var diff = [
+				e.clientX - that.mouseCoord[0],
+				e.clientY - that.mouseCoord[1]
+			];
+			that.mouseCoord = [e.clientX, e.clientY];
+
+			that.dom.style.left = (Number(that.dom.style.left.replace('px', '')) + diff[0]) + 'px';
+			that.dom.style.top = (Number(that.dom.style.top.replace('px', '')) + diff[1]) + 'px';
+		}
+
+		var mouseUpEvent = document.addEventListener('mouseup', function() {
+			that.isMouseDown = false;
+			document.removeEventListener('mouseup', mouseUpEvent);
+		});
+	});
+};
 
 
-/*  Folder 생성자  */
-var Folder = function(name) {
+
+
+var Folder = function() {
 	/* TODO: Folder 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	//멤버변수: name
-	//멤버함수: drag(상속), clickopen, createclass(상속)
-	this.name = name;
-	this.clickopen = function(){alert("open");};
-	//click하면 window인스턴스 생성, Folder만 쓰는 clickopen함수
-	this.drag();
-	this.createclass();  // instance 생성후 바로 메소드 실행
+	this.dom = null;
+	this.isMouseDown = false;
+	this.mouseCoord = [0, 0];
+	this.desktop = null;
+
+	this._initialize();
 };
-Folder.prototype = Icon.prototype; //drag, createclass함수 상속
+
+Folder.prototype._initialize = function() {
+	Icon.prototype._initialize.apply(this);
+};
+
+Folder.prototype._setDom = function() {
+	Icon.prototype._setDom.apply(this);
+	this.dom.classList.add('folder');
+};
+
+Folder.prototype._bindEvents = function() {
+	Icon.prototype._bindEvents.apply(this);
+
+	var that = this;
+
+	this.dom.addEventListener('dblclick', function(e) {
+		that.dom.dispatchEvent(new Event('openWindow'));
+	});
+};
 
 
-/*  Window 생성자  */
-var Window = function(name) {
+var Window = function() {
 	/* TODO: Window 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	//멤버변수: name
-	//멤버함수: drag(상속), createclass(상속)
-	this.name = name;  // Folder의 인스턴스와 같은 name이어야 한다.
-	this.drag();
-	this.createclass(); // instance 생성후 바로 메소드 실행
 };
-Window.prototype = Icon.prototype;  //drag, createclass함수 상속
