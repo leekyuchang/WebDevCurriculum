@@ -23,12 +23,12 @@ Desktop.prototype._setDom = function() {
 
 		icon.dom.addEventListener('openWindow', function() {
 			console.log('open window');
-			// var windowa = new Window();
+
+			var windowa = new Desktop(document.querySelector('.desktop'), [new Window()]);
 			// this.appendChild(icon.dom);
 
 			////
-			// <div class="icon folder window">..</div> 이거를 만들어야 할것 같다!!!
-			/// new Window(); 하면 생겨야 하지 않나?  -> Window.prototype._setDom에 문제가 있는것 같다
+			/// 처음 var myDesktop = new Desktop(); 할때 처럼 불러오면 될것 같다.
 			///
 		});
 
@@ -137,6 +137,7 @@ var Window = function() {
 	this.desktop = null;
 
 	this._initialize();
+
 };
 
 Window.prototype._initialize = function() {
@@ -146,6 +147,8 @@ Window.prototype._initialize = function() {
 Window.prototype._setDom = function() {
 	Icon.prototype._setDom.apply(this);
 	this.dom.classList.add('windowa');
+
+
 };
 
 Window.prototype._bindEvents = function() {
