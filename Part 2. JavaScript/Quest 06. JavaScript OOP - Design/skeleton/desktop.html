@@ -7,26 +7,43 @@
 	</head>
 	<body>
 		<section class="desktop">
-			<form>
-				Icon:<input type="text" name="firstname"><br>
-				Forder:<input type="text" name="lastname">
-				<button onclick="myFunction()">Try it</button>
-
+			<form name="create_icon" action="" method="get">
+				Icon:<input type="number" name="Icon" value="">
+				<input type="button" name="button" value="Click" onClick="iconfunc(this.form)">
+				<br>
 			</form>
+			<form name="create_folder" method="get">
+				Forder:<input type="number" name="Folder" value="">
+				<input type="button" name="button" value="Click" onClick="folderfunc(this.form)">
+				<br>
+			</form>
+
 		</section>
 
 		<script>
-			var myDesktop = new Desktop(
-				/* TODO: myDesktop 인스턴스의 생성자의 변수로 무엇이 들어가야 할까요? */
-				document.querySelector('.desktop'),
-				[
-					new Icon(),
-					new Icon(),
-					new Folder(),
-					new Folder(),
-
-				]
-			);
+			// var myDesktop = new Desktop(
+			// 	/* TODO: myDesktop 인스턴스의 생성자의 변수로 무엇이 들어가야 할까요? */
+			// 	document.querySelector('.desktop'),
+			// 	[
+			// 		new Icon(),
+			// 		new Icon(),
+			// 		new Folder(),
+			// 		new Folder(),
+			//
+			// 	]
+			//);
+			function iconfunc(form) {
+			    var iconnum = form.Icon.value;
+				for(var i = 0; i  < iconnum; i++){
+					var myDesktop = new Desktop(document.querySelector('.desktop'), [new Icon()]);
+				}
+			}
+			function folderfunc(form) {
+			    var foldernum = form.Folder.value;
+				for(var i = 0; i  < foldernum; i++){
+					var myDesktop = new Desktop(document.querySelector('.desktop'), [new Folder()]);
+				}
+			}
 		</script>
 	</body>
 </html>
