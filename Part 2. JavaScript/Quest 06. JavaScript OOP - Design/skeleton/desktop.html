@@ -7,19 +7,21 @@
 	</head>
 	<body>
 		<section class="desktop">
-			<form name="create_icon" action="" method="get">
-				Icon:<input type="number" name="Icon" value="">
-				<input type="button" name="button" value="Click" onClick="iconfunc(this.form)">
-				<br>
-			</form>
-			<form name="create_folder" method="get">
-				Forder:<input type="number" name="Folder" value="">
-				<input type="button" name="button" value="Click" onClick="folderfunc(this.form)">
-				<br>
-			</form>
 
 		</section>
+		<div class="form_div">
+			<form name="create_icon" action="" method="get">
+				<h2>Icon:<input type="number" name="Icon" value="">
+				<input type="button" name="button" value="Click" onClick="iconfunc(this.form)">
+				</h2>
 
+			</form>
+			<form name="create_folder" method="get">
+				<h2>Folder:<input type="number" name="Folder" value="">
+				<input type="button" name="button" value="Click" onClick="folderfunc(this.form)">
+				</h2>
+			</form>
+		</div>
 		<script>
 			// var myDesktop = new Desktop(
 			// 	/* TODO: myDesktop 인스턴스의 생성자의 변수로 무엇이 들어가야 할까요? */

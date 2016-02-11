@@ -1,4 +1,20 @@
 /* TODO: 자유롭게 바탕화면 시스템의 CSS를 만들어 보세요! */
+
+
+input[type=number]{
+    width: 40px;
+	height: 40px;
+	font-size: 20px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.form_div {
+	position: absolute;
+	top: 10px;
+	left: 820px;
+}
+
 .desktop {
 	border: 1px solid black;
 	width: 800px;
