@@ -32,6 +32,7 @@
 			//
 			// 	]
 			//);
+
 			function iconfunc(form) {
 			    var iconnum = form.Icon.value;
 				for(var i = 0; i  < iconnum; i++){
@@ -44,6 +45,8 @@
 					var myDesktop = new Desktop(document.querySelector('.desktop'), [new Folder()]);
 				}
 			}
+			////////////////////////////////// myDesktop이 전역변수가 아니기 때문에 dbclick 했을때 window생성되지 않는 문제
+
 		</script>
 	</body>
 </html>
