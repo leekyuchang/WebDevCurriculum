@@ -38,8 +38,8 @@ input[type=text]{
 
 
 .icon {
-	width: 50px;
-	height: 50px;
+	width: 35px;
+	height: 35px;
 	background-color: yellow;
 
 	position: absolute;
@@ -55,7 +55,7 @@ input[type=text]{
     position: absolute;
     top: 0px;
 	left: 0px;
-	width: 100px;
-	height: 100px;
+	width: 50px;
+	height: 50px;
 	background-color: blue;
 }
