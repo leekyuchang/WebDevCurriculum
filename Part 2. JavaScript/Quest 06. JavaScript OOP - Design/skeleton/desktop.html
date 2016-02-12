@@ -7,30 +7,31 @@
 	</head>
 	<body>
 		<section class="desktop">
+			<div class="form_div">
+				<form name="create_icon" action="" method="get">
+					<h2>
+						Icon:<input type="number" name="Iconnumber" value="1">
+						<input type="button" name="button" value="Click" onClick="iconfunc(this.form)">
+					</h2>
+				</form>
+				<form name="create_folder" method="get">
+					<h2>
+						Folder:<input type="number" name="Foldernumber" value="1">
+						<input type="button" name="button" value="Click" onClick="folderfunc(this.form)">
+					</h2>
+				</form>
+			</div>
+			<div class="shape_size">
+				<form name="midify_shape_size" method="get">
+					<h2>
+						W:<input type="text" name="iconwidth" value="50">
+						H:<input type="text" name="iconheight" value="50">
+						<input type="button" name="button" value="Click" onClick="sizefunc(this.form)">
+					</h2>
+				</form>
+			</div>
 		</section>
-		<div class="form_div">
-			<form name="create_icon" action="" method="get">
-				<h2>
-					Icon:<input type="number" name="Iconnumber" value="1">
-					<input type="button" name="button" value="Click" onClick="iconfunc(this.form)">
-				</h2>
-			</form>
-			<form name="create_folder" method="get">
-				<h2>
-					Folder:<input type="number" name="Foldernumber" value="1">
-					<input type="button" name="button" value="Click" onClick="folderfunc(this.form)">
-				</h2>
-			</form>
-		</div>
-		<div class="shape_size">
-			<form name="midify_shape_size" method="get">
-				<h2>
-					W:<input type="text" name="iconwidth" value="50">
-					H:<input type="text" name="iconheight" value="50">
-					<input type="button" name="button" value="Click" onClick="shape_sizefunc(this.form)">
-				</h2>
-			</form>
-		</div>
+
 		<script>
 
 			var iconfunc = function(form) {
@@ -46,7 +47,7 @@
 				}
 			}
 
-			var shape_sizefunc = function(form) {
+			var sizefunc = function(form) {
 				var icon_width = form.iconwidth.value + 'px';
 				var icon_height = form.iconheight.value + 'px';
 				var icon = document.querySelectorAll('.icon');
@@ -55,6 +56,7 @@
 					icon[i].style.height = icon_height;
 				}
 			}
+
 		</script>
 	</body>
 </html>
