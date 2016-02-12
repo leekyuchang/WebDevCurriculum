@@ -9,9 +9,23 @@ input[type=number]{
 	margin-left: 10px;
 }
 
+input[type=text]{
+    width: 50px;
+	height: 30px;
+	font-size: 20px;
+	text-align: center;
+	margin-left: 10px;
+}
+
 .form_div {
 	position: absolute;
 	top: 10px;
+	left: 820px;
+}
+
+.shape_size {
+    position: absolute;
+	top: 200px;
 	left: 820px;
 }
 

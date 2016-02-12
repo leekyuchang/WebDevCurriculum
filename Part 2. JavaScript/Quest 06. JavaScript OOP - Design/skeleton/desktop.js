@@ -17,15 +17,18 @@ Desktop.prototype._setDom = function() {
 		var icon = this.icons[i];
 
 		this.dom.appendChild(icon.dom);  //this.dom에 icon.dom을 넣는다
-
 		// this.dom -> <section class="desktop">..</section>
 		// icon.dom -> <div class="icon">..</div><div class="icon folder">..</div>
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 		icon.dom.addEventListener('openWindow', function() {
-			console.log('open window');
-			new Window();
+			var arr = document.querySelectorAll('.folder');
+			var brr = document.querySelectorAll('.windowa');
+			if(brr.length < arr.length){
+				new Window();
+			}
 		});
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 		//random position of icon, folder
 		var coord = [
@@ -146,7 +149,6 @@ Window.prototype._setDom = function() {
 	dom.classList.add('windowa');
 	this.dom = dom;
 	myDesktop.dom.appendChild(this.dom);
-	//
 
 	this.dom.style.left = (this.dom.getBoundingClientRect().left + 50) + 'px';
 	this.dom.style.top = (this.dom.getBoundingClientRect().top) + 'px';
