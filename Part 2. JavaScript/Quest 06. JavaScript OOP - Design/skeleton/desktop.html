@@ -7,14 +7,12 @@
 	</head>
 	<body>
 		<section class="desktop">
-
 		</section>
 		<div class="form_div">
 			<form name="create_icon" action="" method="get">
 				<h2>Icon:<input type="number" name="Icon" value="">
 				<input type="button" name="button" value="Click" onClick="iconfunc(this.form)">
 				</h2>
-
 			</form>
 			<form name="create_folder" method="get">
 				<h2>Folder:<input type="number" name="Folder" value="">
@@ -23,31 +21,19 @@
 			</form>
 		</div>
 		<script>
-			// var myDesktop = new Desktop(
-			// 	/* TODO: myDesktop 인스턴스의 생성자의 변수로 무엇이 들어가야 할까요? */
-			// 	document.querySelector('.desktop'),
-			// 	[
-			// 		new Icon(),
-			// 		new Icon(),
-			// 		new Folder(),
-			// 		new Folder(),
-			//
-			// 	]
-			//);
-
-			function iconfunc(form) {
+			
+			var iconfunc = function(form) {
 			    var iconnum = form.Icon.value;
 				for(var i = 0; i  < iconnum; i++){
-					var myDesktop = new Desktop(document.querySelector('.desktop'), [new Icon()]);
+					myDesktop = new Desktop(document.querySelector('.desktop'), [new Icon()]);
 				}
 			}
-			function folderfunc(form) {
-			    var foldernum = form.Folder.value;
+			var folderfunc = function(form) {
+			    foldernum = form.Folder.value;
 				for(var i = 0; i  < foldernum; i++){
-					var myDesktop = new Desktop(document.querySelector('.desktop'), [new Folder()]);
+					myDesktop = new Desktop(document.querySelector('.desktop'), [new Folder()]);
 				}
 			}
-			////////////////////////////////// myDesktop이 전역변수가 아니기 때문에 dbclick 했을때 window생성되지 않는 문제
 
 		</script>
 	</body>

@@ -23,16 +23,7 @@ Desktop.prototype._setDom = function() {
 
 		icon.dom.addEventListener('openWindow', function() {
 			console.log('open window');
-			// if 문 줘서  windowa instanceof this.icons[i] 확인하기 // 불확실
-			// folder instance 개수 만큼 생성하게 구현
-			// 이미 folder의 인스턴스의 window가 있으면 return
-			// var windowa = new Desktop(document.querySelector('.desktop'), [new Window()]);
 			new Window();
-
-
-			////
-			/// 처음 var myDesktop = new Desktop(); 할때 처럼 불러오면 될것 같다.
-			///
 		});
 
 
@@ -148,14 +139,17 @@ Window.prototype._initialize = function() {
 };
 
 Window.prototype._setDom = function() {
-	Icon.prototype._setDom.apply(this);
-	this.dom.classList.add('windowa');
+	// Icon.prototype._setDom.apply(this);
+	// this.dom.classList.add('windowa');
 ////////////////////////////////////////////////
-	console.log(myDesktop.icons[2].dom);
+	var dom = document.createElement('div');
+	dom.classList.add('windowa');
+	this.dom = dom;
 	myDesktop.dom.appendChild(this.dom);
 	//
-	this.dom.style.left = (myDesktop.icons[2].dom.getBoundingClientRect().left + 50) + 'px';
-	this.dom.style.top = (myDesktop.icons[2].dom.getBoundingClientRect().top) + 'px';
+
+	this.dom.style.left = (this.dom.getBoundingClientRect().left + 50) + 'px';
+	this.dom.style.top = (this.dom.getBoundingClientRect().top) + 'px';
 
 
 };
