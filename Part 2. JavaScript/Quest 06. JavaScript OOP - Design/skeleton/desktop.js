@@ -20,7 +20,8 @@ Desktop.prototype._setDom = function() {
 		// this.dom -> <section class="desktop">..</section>
 		// icon.dom -> <div class="icon">..</div><div class="icon folder">..</div>
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+
+		/// folder 개수 만큼 window생성
 		icon.dom.addEventListener('openWindow', function() {
 			var arr = document.querySelectorAll('.folder');
 			var brr = document.querySelectorAll('.windowa');
@@ -28,7 +29,6 @@ Desktop.prototype._setDom = function() {
 				new Window();
 			}
 		});
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
 		//random position of icon, folder
 		var coord = [
@@ -150,8 +150,17 @@ Window.prototype._setDom = function() {
 	this.dom = dom;
 	myDesktop.dom.appendChild(this.dom);
 
-	this.dom.style.left = (this.dom.getBoundingClientRect().left + 50) + 'px';
-	this.dom.style.top = (this.dom.getBoundingClientRect().top) + 'px';
+//////////////////////////////
+	// this.dom.style.left = (this.dom.getBoundingClientRect().left + 50) + 'px';
+	// this.dom.style.top = (this.dom.getBoundingClientRect().top) + 'px';
+//////////////////////////////
+	var coord = [
+		Math.floor(Math.random() * (myDesktop.dom.getBoundingClientRect().width - 50)),
+		Math.floor(Math.random() * (myDesktop.dom.getBoundingClientRect().height - 50))
+	];
+
+	this.dom.style.left = (this.dom.getBoundingClientRect().left - myDesktop.dom.getBoundingClientRect().left + coord[0]) + 'px';
+	this.dom.style.top = (this.dom.getBoundingClientRect().top - myDesktop.dom.getBoundingClientRect().top + coord[1]) + 'px';
 
 
 };
