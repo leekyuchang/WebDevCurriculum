@@ -88,20 +88,47 @@ Icon.prototype._setDom = function() {
 
 	this.dom = dom;
 
-	////// size change
-
+	////// size change ////////
+	var icon_class = document.querySelectorAll(".icon");
 	var sizechange = document.querySelector(".sizebutton");
 	sizechange.addEventListener("click", function(){
-
 		var icon_width = document.querySelector(".sizeW").value + 'px';
 		var icon_height = document.querySelector(".sizeH").value + 'px';
-		var icon = document.querySelectorAll('.icon', '.folder');
-			for(var i=0; i < icon.length; i++){
-				icon[i].style.width = icon_width;
-				icon[i].style.height = icon_height;
+		var icon_class = document.querySelectorAll('.icon');
+			for(var i=0; i < icon_class.length; i++){
+				icon_class[i].style.width = icon_width;
+				icon_class[i].style.height = icon_height;
 			}
 	});
+
+	////// shape change ////////
+
+	var shape_square = document.querySelector(".square_radio");
+	var shape_circle = document.querySelector(".circle_radio");
+	var shape_triangle = document.querySelector(".triangle_radio");
+
+	// var radios = document.forms["midify_shape"].elements["shape"];
+	// for(var i = 0; i < radios.length; i++) {
+	//     radios[i].onclick = function() {
+	//         console.log(this.value);
+	//     }
+	// }
+
+	document.addEventListener('DOMContentLoaded', function () {
+  	document.querySelector('.circle_radio').addEventListener('change', changeHandler);
+	});
+	function changeHandler(){
+	    if(nameOfField.checked){
+	        alert('Hi');
+	    }
+	    else{
+	        //do something else
+	    }
+	}
+
+
 };
+
 
 Icon.prototype._bindEvents = function() {
 	var that = this; // this가 전역객체를 참조하는 것을 방지

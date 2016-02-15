@@ -17,8 +17,6 @@
 					<input type="button" name="button" value="Click" class="folderbutton"></h2>
 				</form>
 			</div>
-
-
 			<form class="size" name="midify_size" method="get">
 				<h2>
 					W:<input type="text" name="iconwidth" value="35" class="sizeW">
@@ -26,12 +24,11 @@
 					<input type="button" name="button" value="Click" class="sizebutton">
 				</h2>
 			</form>
-
 			<form class="shape" name="midify_shape" method="get">
 				<h2>
-					<input type="radio" name="shape" value="'.Square'" checked> Square
-  					<input type="radio" name="shape" value="'.Circle'"> Circle
- 					<input type="radio" name="shape" value="'.Triangle'"> Triangle
+					<input type="radio" class="square_radio" name="shape" value="Square" checked> Square
+  					<input type="radio" class="circle_radio" name="shape" value="'Circle"> Circle
+ 					<input type="radio" class="triangle_radio" name="shape" value="Triangle"> Triangle
 				</h2>
 			</form>
 
@@ -41,16 +38,7 @@
 
 			var myDesktop = new Desktop(document.querySelector('.desktop'));
 
-			// var sizefunc = function(form) {
-			// 	var icon_width = form.iconwidth.value + 'px';
-			// 	var icon_height = form.iconheight.value + 'px';
-			// 	var icon = document.querySelectorAll('.icon');
-			// 	for(var i=0; i < icon.length; i++){
-			// 		icon[i].style.width = icon_width;
-			// 		icon[i].style.height = icon_height;
-			// 	}
-			// }
-			//
+
 			// var shapefunc = function(form) {
 			// 	var icon = document.querySelectorAll('.icon');
 			// 	icon.classList.add(value);

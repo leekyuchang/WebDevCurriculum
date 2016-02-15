@@ -81,4 +81,5 @@ input[type=text]{
     border-bottom: 70px solid yellow;
     border-left: 35px solid transparent;
     border-right: 35px solid transparent;
+    background-color: transparent;
 }
