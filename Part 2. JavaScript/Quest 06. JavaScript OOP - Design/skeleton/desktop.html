@@ -17,12 +17,19 @@
 					<input type="button" name="button" value="Click" onClick="folderfunc(this.form)"></h2>
 				</form>
 			</div>
-
-			<form class="shape_size" name="midify_shape_size" method="get">
+			<form class="size" name="midify_size" method="get">
 				<h2>
 					W:<input type="text" name="iconwidth" value="35">
 					H:<input type="text" name="iconheight" value="35">
 					<input type="button" name="button" value="Click" onClick="sizefunc(this.form)">
+				</h2>
+			</form>
+
+			<form class="shape" name="midify_shape" method="get">
+				<h2>
+					<input type="radio" name="shape" value="'.Square'" checked> Square
+  					<input type="radio" name="shape" value="'.Circle'"> Circle
+ 					 <input type="radio" name="shape" value="'.Triangle'"> Triangle
 				</h2>
 			</form>
 
@@ -51,6 +58,11 @@
 					icon[i].style.width = icon_width;
 					icon[i].style.height = icon_height;
 				}
+			}
+
+			var shapefunc = function(form) {
+				var icon = document.querySelectorAll('.icon');
+				icon.classList.add();
 			}
 
 		</script>
