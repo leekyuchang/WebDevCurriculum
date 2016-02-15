@@ -1,8 +1,8 @@
 // Desktop 생성자
-var Desktop = function(dom, icons) {
+var Desktop = function(dom) {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = dom;
-	this.icons = icons;
+	// this.icons = icons;
 
 	this._initialize();
 };
@@ -13,32 +13,57 @@ Desktop.prototype._initialize = function() {
 };
 
 Desktop.prototype._setDom = function() {
-	for(var i = 0; i < this.icons.length; i++) {
-		var icon = this.icons[i];
 
-		this.dom.appendChild(icon.dom);  //this.dom에 icon.dom을 넣는다
-		// this.dom -> <section class="desktop">..</section>
-		// icon.dom -> <div class="icon">..</div><div class="icon folder">..</div>
+	var that = this;
+	var g = {
+		iconnumber : document.querySelector('.Iconnumber'),
+		iconbutton : document.querySelector('.iconbutton'),
+		Foldernumber : document.querySelector('.Foldernumber'),
+		folderbutton : document.querySelector('.folderbutton')
+	};
+
+	/// icon 생성
+	g.iconbutton.addEventListener('click', function(){
+		for(var i = 0; i < g.iconnumber.value; i++){
+			var icon = new Icon();
+			that.dom.appendChild(icon.dom);
+
+			//random position of icon, folder
+			var coord = [
+				Math.floor(Math.random() * (that.dom.getBoundingClientRect().width - 50)),
+				Math.floor(Math.random() * (that.dom.getBoundingClientRect().height - 50))
+			];
+
+			icon.dom.style.left = (icon.dom.getBoundingClientRect().left - that.dom.getBoundingClientRect().left + coord[0]) + 'px';
+			icon.dom.style.top = (icon.dom.getBoundingClientRect().top - that.dom.getBoundingClientRect().top + coord[1]) + 'px';
+		}
+	});
 
 
-		/// folder 개수 만큼 window생성
-		icon.dom.addEventListener('openWindow', function() {
-			var arr = document.querySelectorAll('.folder');
-			var brr = document.querySelectorAll('.windowa');
-			if(brr.length < arr.length){
-				new Window();
-			}
-		});
+	g.folderbutton.addEventListener('click', function(){
+		for(var j = 0; j < g.Foldernumber.value; j++){
+			var folder = new Folder();
+			that.dom.appendChild(folder.dom);
 
-		//random position of icon, folder
-		var coord = [
-			Math.floor(Math.random() * (this.dom.getBoundingClientRect().width - 50)),
-			Math.floor(Math.random() * (this.dom.getBoundingClientRect().height - 50))
-		];
+			// window 개수 만큼 만들기
+			folder.dom.addEventListener('openWindow', function() {
+				var arr = document.querySelectorAll('.folder');
+				var brr = document.querySelectorAll('.windowa');
+				if(brr.length < arr.length){
+					new Window();
+				}
+			});
 
-		icon.dom.style.left = (icon.dom.getBoundingClientRect().left - this.dom.getBoundingClientRect().left + coord[0]) + 'px';
-		icon.dom.style.top = (icon.dom.getBoundingClientRect().top - this.dom.getBoundingClientRect().top + coord[1]) + 'px';
-	}
+			//random position of icon, folder
+			var coord = [
+				Math.floor(Math.random() * (that.dom.getBoundingClientRect().width - 50)),
+				Math.floor(Math.random() * (that.dom.getBoundingClientRect().height - 50))
+			];
+
+			folder.dom.style.left = (folder.dom.getBoundingClientRect().left - that.dom.getBoundingClientRect().left + coord[0]) + 'px';
+			folder.dom.style.top = (folder.dom.getBoundingClientRect().top - that.dom.getBoundingClientRect().top + coord[1]) + 'px';
+		}
+	});
 };
 
 // Icon 생성자
@@ -62,6 +87,10 @@ Icon.prototype._setDom = function() {
 	dom.classList.add('icon');
 
 	this.dom = dom;
+
+	////// create
+
+
 };
 
 Icon.prototype._bindEvents = function() {
@@ -142,9 +171,6 @@ Window.prototype._initialize = function() {
 };
 
 Window.prototype._setDom = function() {
-	// Icon.prototype._setDom.apply(this);
-	// this.dom.classList.add('windowa');
-////////////////////////////////////////////////
 	var dom = document.createElement('div');
 	dom.classList.add('windowa');
 	this.dom = dom;
@@ -162,5 +188,4 @@ Window.prototype._setDom = function() {
 
 Window.prototype._bindEvents = function() {
 	Icon.prototype._bindEvents.apply(this);
-
 };
