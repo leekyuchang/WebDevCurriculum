@@ -88,9 +88,19 @@ Icon.prototype._setDom = function() {
 
 	this.dom = dom;
 
-	////// create
+	////// size change
 
+	var sizechange = document.querySelector(".sizebutton");
+	sizechange.addEventListener("click", function(){
 
+		var icon_width = document.querySelector(".sizeW").value + 'px';
+		var icon_height = document.querySelector(".sizeH").value + 'px';
+		var icon = document.querySelectorAll('.icon', '.folder');
+			for(var i=0; i < icon.length; i++){
+				icon[i].style.width = icon_width;
+				icon[i].style.height = icon_height;
+			}
+	});
 };
 
 Icon.prototype._bindEvents = function() {
