@@ -5,6 +5,7 @@ input[type=number]{
 	font-size: 20px;
 	text-align: center;
 	margin-left: 10px;
+    margin-right: 10px;
 
 }
 h2 {
@@ -18,6 +19,7 @@ input[type=text]{
 	font-size: 20px;
 	text-align: center;
 	margin-left: 10px;
+    margin-right: 10px;
 }
 
 .desktopsystem {

@@ -32,48 +32,37 @@ Tolbox.prototype._initialize = function() {
 Tolbox.prototype._setDom = function() {
 	var tolbox = document.createElement("div");
 	tolbox.classList.add('tolbox');
-	//<div class="tolbox"><div>
 
+	// tolbox setting //
+	var input_num = '<div class="form_div">';
+	input_num+= '<form name="create_icon" action="" method="get">';
+	input_num+= '<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">';
+	input_num+= '<input type="button" name="button" value="Click" class="iconbutton"></h2></form>';
+	input_num+= '<form name="create_folder" method="get">';
+	input_num+= '<h2>Folder:<input type="number" name="Foldernumber" value="1" class="Foldernumber">';
+	input_num+= '<input type="button" name="button" value="Click" class="folderbutton"></h2></form></div>';
+	input_num+= '<form class="size" name="midify_size" method="get">';
+	input_num+= '<h2>W:<input type="text" name="iconwidth" value="35" class="sizeW">';
+	input_num+= 'H:<input type="text" name="iconheight" value="35" class="sizeH">';
+	input_num+= '<input type="button" name="button" value="Click" class="sizebutton"></h2></form>';
+	input_num+= '<form class="shape" name="midify_shape" method="get"><h2>';
+	input_num+= '<input type="radio" class="square_radio" name="shape" value="square" checked> Square';
+	input_num+= '<input type="radio" class="circle_radio" name="shape" value="circle"> Circle</h2></form>';
 
-	//icon & folder number, click button // form_div
-	// var form_div = document.createElement("div");
-	// form_div.classList.add("form_div");
-	//
-	//
-	// var form_form = document.createElement("form");
-	// form_form.setAttribute('method', "get");
-	//
-	//
-	// var input_iconnumber = document.createElement("input");
-	// input_iconnumber.setAttribute('type', "number");
-	// input_iconnumber.setAttribute('value', "1");
-	// input_iconnumber.classList.add("Iconnumber");
-	//
-	// var button_iconnumber = document.createElement("input");
-	// button_iconnumber.setAttribute("type", "button");
-	// button_iconnumber.setAttribute("name", "button");
-	// button_iconnumber.setAttribute("value", "Click");
-	// button_iconnumber.classList.add("Foldernumber");
-	// var h2 = document.createElement("h2");
-	// h2.
-	// h2.appendChild(input_iconnumber);
-	// h2.appendChild(button_iconnumber);
-	// form_form.appendChild(h2);
-	//<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">
-	//<input type="button" name="button" value="Click" class="iconbutton"></h2>
-
-	var input_foldernumber = document.createElement("input");
-	input_foldernumber.setAttribute('type', "number");
-	input_foldernumber.setAttribute('value', "1");
-	input_foldernumber.classList.add("iconbutton");
-
-
-
-	// size click
-
-
-
-	// shape radio
+	document.querySelector(".desktopsystem").appendChild(tolbox);
+	document.querySelector(".tolbox").innerHTML = input_num;
+	// tolbox class //
+	// class="tolbox">
+	// class="form_div">
+	// class="Iconnumber">
+	// class="iconbutton">
+	// class="Foldernumber">
+	// class="folderbutton"></h2>
+	// class="sizeW">
+	// class="sizeH">
+	// class="sizebutton">
+	// class="square_radio"
+	// class="circle_radio"
 
 };
 
