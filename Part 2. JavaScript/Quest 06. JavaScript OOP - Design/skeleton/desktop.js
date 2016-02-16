@@ -3,7 +3,6 @@ var Desktop = function(dom) {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = dom;
 	// this.icons = icons;
-
 	this._initialize();
 };
 
@@ -85,7 +84,6 @@ Icon.prototype._initialize = function() {
 Icon.prototype._setDom = function() {
 	var dom = document.createElement('div');
 	dom.classList.add('icon');
-
 	this.dom = dom;
 
 	////// size change ////////
@@ -100,33 +98,6 @@ Icon.prototype._setDom = function() {
 				icon_class[i].style.height = icon_height;
 			}
 	});
-
-	////// shape change ////////
-
-	var shape_square = document.querySelector(".square_radio");
-	var shape_circle = document.querySelector(".circle_radio");
-	var shape_triangle = document.querySelector(".triangle_radio");
-
-	// var radios = document.forms["midify_shape"].elements["shape"];
-	// for(var i = 0; i < radios.length; i++) {
-	//     radios[i].onclick = function() {
-	//         console.log(this.value);
-	//     }
-	// }
-
-	document.addEventListener('DOMContentLoaded', function () {
-  	document.querySelector('.circle_radio').addEventListener('change', changeHandler);
-	});
-	function changeHandler(){
-	    if(nameOfField.checked){
-	        alert('Hi');
-	    }
-	    else{
-	        //do something else
-	    }
-	}
-
-
 };
 
 
@@ -145,7 +116,6 @@ Icon.prototype._bindEvents = function() {
 				e.clientY - that.mouseCoord[1]
 			];
 			that.mouseCoord = [e.clientX, e.clientY];
-
 			that.dom.style.left = (Number(that.dom.style.left.replace('px', '')) + diff[0]) + 'px';
 			that.dom.style.top = (Number(that.dom.style.top.replace('px', '')) + diff[1]) + 'px';
 		}
@@ -155,6 +125,21 @@ Icon.prototype._bindEvents = function() {
 			document.removeEventListener('mouseup', mouseUpEvent);
 		});
 	});
+
+	var icon_class = document.querySelectorAll(".icon");
+	var shape_square = document.querySelector(".square_radio");
+	var shape_circle = document.querySelector(".circle_radio");
+	var shape_triangle = document.querySelector(".triangle_radio");
+
+
+	shape_circle.addEventListener("change", function(){
+
+		console.log(icon_class);
+		console.log(icon_class.length);
+		console.log(that.dom);
+
+	});
+
 };
 
 
@@ -165,7 +150,6 @@ var Folder = function() {
 	this.isMouseDown = false;
 	this.mouseCoord = [0, 0];
 	this.desktop = null;
-
 	this._initialize();
 };
 
@@ -183,10 +167,8 @@ Folder.prototype._bindEvents = function() {
 	Icon.prototype._bindEvents.apply(this);
 
 	var that = this;
-
 	this.dom.addEventListener('dblclick', function(e) {
 		that.dom.dispatchEvent(new Event('openWindow'));
-		// dblclick할때 Icon proto에 만든 openWindow 실행
 	});
 };
 
@@ -198,9 +180,7 @@ var Window = function() {
 	this.isMouseDown = false;
 	this.mouseCoord = [0, 0];
 	this.desktop = null;
-
 	this._initialize();
-
 };
 
 Window.prototype._initialize = function() {
@@ -220,7 +200,6 @@ Window.prototype._setDom = function() {
 
 	this.dom.style.left = (this.dom.getBoundingClientRect().left - myDesktop.dom.getBoundingClientRect().left + coord[0]) + 'px';
 	this.dom.style.top = (this.dom.getBoundingClientRect().top - myDesktop.dom.getBoundingClientRect().top + coord[1]) + 'px';
-
 };
 
 Window.prototype._bindEvents = function() {
