@@ -50,6 +50,11 @@ input[type=text]{
 }
 
 .folder {
+    position: absolute;
+	top: 0px;
+	left: 0px;
+    width: 35px;
+	height: 35px;
 	background-color: pink;
 }
 
@@ -83,13 +88,3 @@ input[type=text]{
     border-right: 35px solid transparent;
     background-color: transparent;
 }
-
-/*.test1 {
-    width: 200px;
-    height: 200px;
-    background-color: red;
-}
-
-.test2 {
-    background-color: blue;
-}*/

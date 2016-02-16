@@ -88,16 +88,34 @@ Icon.prototype._setDom = function() {
 
 	////// size change ////////
 	var icon_class = document.querySelectorAll(".icon");
+	var folder_class = document.querySelectorAll(".folder");
 	var sizechange = document.querySelector(".sizebutton");
 	sizechange.addEventListener("click", function(){
 		var icon_width = document.querySelector(".sizeW").value + 'px';
 		var icon_height = document.querySelector(".sizeH").value + 'px';
-		var icon_class = document.querySelectorAll('.icon');
+		var icon_class = document.querySelectorAll(".icon");
 			for(var i=0; i < icon_class.length; i++){
 				icon_class[i].style.width = icon_width;
 				icon_class[i].style.height = icon_height;
 			}
+			for(var j=0; j < folder_class.length; j++){
+				folder_class[j].style.width = icon_width;
+				folder_class[j].style.height = icon_height;
+			}
 	});
+
+	var shape_square = document.querySelector(".square_radio");
+	var shape_circle = document.querySelector(".circle_radio");
+	var shape_triangle = document.querySelector(".triangle_radio");
+
+	shape_circle.addEventListener("change", function(){
+
+		for(var i=0; i < icon_class.length; i++){
+			icon_class[i].classList.add("circle");
+			console.log(icon_class.length);
+		}
+	});
+
 };
 
 
@@ -125,21 +143,6 @@ Icon.prototype._bindEvents = function() {
 			document.removeEventListener('mouseup', mouseUpEvent);
 		});
 	});
-
-	var icon_class = document.querySelectorAll(".icon");
-	var shape_square = document.querySelector(".square_radio");
-	var shape_circle = document.querySelector(".circle_radio");
-	var shape_triangle = document.querySelector(".triangle_radio");
-
-
-	shape_circle.addEventListener("change", function(){
-
-		console.log(icon_class);
-		console.log(icon_class.length);
-		console.log(that.dom);
-
-	});
-
 };
 
 
@@ -158,9 +161,15 @@ Folder.prototype._initialize = function() {
 };
 
 Folder.prototype._setDom = function() {
-	Icon.prototype._setDom.apply(this);
-	this.dom.classList.add('folder');
+	// Icon.prototype._setDom.apply(this);
+	// this.dom.classList.add('folder');
 	// folder class가 생기지만 Icon_setDom에 있는것은 apply해서 icon class도 생성됨
+
+	var dom = document.createElement('div');
+	dom.classList.add('folder');
+	this.dom = dom;
+	myDesktop.dom.appendChild(this.dom);
+
 };
 
 Folder.prototype._bindEvents = function() {
