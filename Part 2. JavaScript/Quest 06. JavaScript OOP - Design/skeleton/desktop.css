@@ -1,12 +1,15 @@
 /* TODO: 자유롭게 바탕화면 시스템의 CSS를 만들어 보세요! */
-
-
 input[type=number]{
     width: 40px;
 	height: 40px;
 	font-size: 20px;
 	text-align: center;
 	margin-left: 10px;
+
+}
+h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 input[type=text]{
@@ -17,28 +20,54 @@ input[type=text]{
 	margin-left: 10px;
 }
 
-.desktop {
-	border: 1px solid black;
-	width: 600px;
-	height: 400px;
-
-	position: relative;
+.desktopsystem {
+    position: relative;
+    border: 1px solid black;
+    width: 620px;
+    height: 660px;
 }
 
-.form_div {
+.desktop {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border: 1px solid black;
+	width: 600px;
+	height: 380px;
+}
+
+.tolbox {
     position: absolute;
     top: 400px;
+    left: 10px;
+    width: 600px;
+    height: 250px;
+    border: 1px solid black;
+}
+
+
+/* inner tolbox */
+.form_div {
+    position: absolute;
+    top: 0px;
+    left: 180px;
 }
 
 .size {
     position: absolute;
-    top: 530px;
+    top: 115px;
+    left: 180px;
 }
 
 .shape {
     position: absolute;
-    top: 580px;
+    top: 160px;
+    left: 180px;
 }
+
+
+
+/* icon & folder */
 
 .icon {
 	position: absolute;
@@ -61,6 +90,8 @@ input[type=text]{
 	height: 50px;
 	background-color: blue;
 }
+
+/* shape */
 
 .square {
     width: 35px;

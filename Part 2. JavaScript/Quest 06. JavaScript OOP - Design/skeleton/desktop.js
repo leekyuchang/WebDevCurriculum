@@ -1,22 +1,40 @@
 // DesktopSystem 생성자
-var DesktopSystem = function() {
+var DesktopSystem = function(dom) {
+	this.dom = dom;
+	this.icons = icons;
+	this._initialize();
+};
 
-}
+DesktopSystem.prototype._initialize = function() {
+this._setDom();
+};
 
 // Tolbox 생성자
-var Tolbox = function(dom) {
-	this.dom = dom;
+var Tolbox = function() {
+	this.dom = null;
 	this._initialize();
-}
+};
 
 Tolbox.prototype._initialize = function() {
 	this._setDom();
+	this._bindEvents();
 };
 
 Tolbox.prototype._setDom = function() {
 	var dom = document.createElement('div');
 	dom.classList.add('tolbox');
 	this.dom = dom;
+
+	//icon & folder number, click button
+
+
+
+	// size click
+
+
+
+	// shape radio
+
 };
 
 Tolbox.prototype._bindEvents = function() {
@@ -55,22 +73,13 @@ Tolbox.prototype._bindEvents = function() {
 	shape_circle.addEventListener("change", change_shape);
 	shape_square.addEventListener("change", change_shape);
 
-
-
-
 };
 
 
-
-
-
-
-
-
 // Desktop 생성자
-var Desktop = function(dom) {
+var Desktop = function() {
 	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	this.dom = dom;
+	this.dom = document.querySelector('.desktop');
 	// this.icons = icons;
 	this._initialize();
 };
@@ -83,16 +92,14 @@ Desktop.prototype._initialize = function() {
 Desktop.prototype._setDom = function() {
 
 	var that = this;
-	var g = {
-		iconnumber : document.querySelector('.Iconnumber'),
-		iconbutton : document.querySelector('.iconbutton'),
-		Foldernumber : document.querySelector('.Foldernumber'),
-		folderbutton : document.querySelector('.folderbutton')
-	};
+	var iconnumber = document.querySelector('.Iconnumber');
+	var iconbutton = document.querySelector('.iconbutton');
+	var Foldernumber = document.querySelector('.Foldernumber');
+	var folderbutton = document.querySelector('.folderbutton');
 
 	/// icon 생성
-	g.iconbutton.addEventListener('click', function(){
-		for(var i = 0; i < g.iconnumber.value; i++){
+	iconbutton.addEventListener('click', function(){
+		for(var i = 0; i < iconnumber.value; i++){
 			var icon = new Icon();
 			that.dom.appendChild(icon.dom);
 
@@ -108,8 +115,8 @@ Desktop.prototype._setDom = function() {
 	});
 
 
-	g.folderbutton.addEventListener('click', function(){
-		for(var j = 0; j < g.Foldernumber.value; j++){
+	folderbutton.addEventListener('click', function(){
+		for(var j = 0; j < Foldernumber.value; j++){
 			var folder = new Folder();
 			that.dom.appendChild(folder.dom);
 
@@ -133,6 +140,10 @@ Desktop.prototype._setDom = function() {
 		}
 	});
 
+};
+
+Desktop.prototype._bindEvents = function(){
+	// tolbox와 연결
 };
 
 // Icon 생성자
