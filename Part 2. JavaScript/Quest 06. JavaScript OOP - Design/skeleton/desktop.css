@@ -50,11 +50,6 @@ input[type=text]{
 }
 
 .folder {
-    position: absolute;
-	top: 0px;
-	left: 0px;
-    width: 35px;
-	height: 35px;
 	background-color: pink;
 }
 
@@ -76,15 +71,14 @@ input[type=text]{
 .circle {
     width: 35px;
 	height: 35px;
-    background-color: yellow;*/
     -moz-border-radius: 60px;
     -webkit-border-radius: 60px;
     border-radius: 60px;
 }
 
-.triangle{
+/*.triangle{
     border-bottom: 70px solid yellow;
     border-left: 35px solid transparent;
     border-right: 35px solid transparent;
     background-color: transparent;
-}
+}*/
