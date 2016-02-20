@@ -18,6 +18,7 @@ function makefolder(foldername){
 	foldername = new Folder(foldername);
 }
 
+
 var Desktop = function(number){
 	for(var i = 0; i < number; i++){
 		makefolder('folder'+i);
