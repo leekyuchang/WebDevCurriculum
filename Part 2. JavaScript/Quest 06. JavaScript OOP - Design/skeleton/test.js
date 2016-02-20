@@ -1,176 +1,23 @@
-// var Folder = function(name){
-// 	this.name = name;
-// };
-//
-// Folder.prototype.callname = function(){
-// 	console.log(this.name);
-// }
-//
-// var Window = function(){
-//
-// };
-//
-// var folder1 = new Folder('1folder');
-//
-// var window1 = new Folder(folder1.name);
+this.tolbox = document.createElement("div");
+this.tolbox.classList.add('tolbox');
 
-function makefolder(foldername){
-	foldername = new Folder(foldername);
-}
+// tolbox setting //
+this.input_num = document.createElement("div");
+this.input_num.classList.add("form_div");
+// this.input_num = '<div class="form_div">';
+// this.input_num += '<form name="create_icon" action="" method="get">';
+// this.input_num += '<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">';
+// this.input_num += '<input type="button" name="button" value="Click" class="iconbutton"></h2></form>';
+// this.input_num += '<form name="create_folder" method="get">';
+// this.input_num += '<h2>Folder:<input type="number" name="Foldernumber" value="1" class="Foldernumber">';
+// this.input_num += '<input type="button" name="button" value="Click" class="folderbutton"></h2></form></div>';
+// this.input_num += '<form class="size" name="midify_size" method="get">';
+// this.input_num += '<h2>W:<input type="text" name="iconwidth" value="35" class="sizeW">';
+// this.input_num += 'H:<input type="text" name="iconheight" value="35" class="sizeH">';
+// this.input_num += '<input type="button" name="button" value="Click" class="sizebutton"></h2></form>';
+// this.input_num += '<form class="shape" name="midify_shape" method="get"><h2>';
+// this.input_num += '<input type="radio" class="square_radio" name="shape" value="square" checked> Square';
+// this.input_num += '<input type="radio" class="circle_radio" name="shape" value="circle"> Circle</h2></form>';
 
-
-var Desktop = function(number){
-	for(var i = 0; i < number; i++){
-		makefolder('folder'+i);
-	}
-}
-var Folder = function(name){
-	this.name = name;
-};
-
-Folder.prototype.callname = function(){
-	console.log(this.name);
-}
-
-var desktop1 = new Desktop(3);
-
-// var folder1 = new Folder('1folder');
-// var window1 = new Folder(folder1.name); //Folder's instance name == windos's instance name
-
-
-///////////////////////////////////////
-var Desktop = function(iconname, foldername){
-  folder = new Array();
-  icon = new Array();
-
-  for(var i = 0; i < foldername.length; i++){
-  	folder[i] = new Folder(foldername[i]);
-	folder[i].classLidt.add("icon");
-	icon[i] = new Icon(iconname[i]);
-	icon[i].classLidt.add("folder");
-  }
-}
-
-var Folder = function(name){
-  this.name = name;
-}
-Folder.prototype.alt = function(){ alert(this.name);}
-
-var Icon = function(name){
-  this.name = name;
-}
-Icon.prototype.allt = function(){ alert(this.name);}
-
-var desk1 = new Desktop(['lee'], ['kyu', 'chang']);
-/////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-/////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-/////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
-var Desktop = function(iconname, foldername) {
-	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	folder = new Array();
-	icon = new Array();
-
-	var folderclass = document.querySelector('.desktop');
-	var strHTML = "";
-
-	for(var i = 0; i < foldername.length; i++){
-		folder[i] = new Folder(foldername[i]);
-		strHTML += '<div class="' + foldername[i] + '"></div>';
-	}
-	folderclass.innerHTML = strHTML;
-
-};
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-var Icon = function(name) {
-	/* TODO: Icon 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	this.name = name;
-};
-
-
-var Folder = function(name) {
-	/* TODO: Folder 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	this.name = name
-};
-
-// Folder.prototype.changecolor = function(){
-// 	document.querySelector(".folder[1]").innerHTML = "folder";
-// 	// for(var i = 0; i < folder.length; i++){
-// 	// 	document.querySelector(".folder[i]").innerHTML = "folder";
-// 	// }
-// }
-
-var Window = function(name) {
-	/* TODO: Window 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	//window의 name과 Folder의 name이 같게 표현 - ?
-
-};
-
-
-// delete Window.prototype.clickopen(); //window의 clickopen함수 제거
-// var folder1 = new Folder('1folder');
-// var window1 = new Folder(folder1.name); //Folder's instance name == windos's instance name
-//함수drag(Icon -> Folder -> Window 상속관계)
-//함수clickOpen(Folder만)
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-/////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
-var Icon = function(name) {
-	this.name = name;
-};
-Icon.prototype.drag = function(){alert("drag");};
-Icon.prototype.getName = function(){alert(this.name);};
-
-
-var Folder = function(name) {
-	this.name = name;
-	this.clickopen = function(){alert("open");};
-};
-
-Folder.prototype = Icon.prototype;
-
-var Window = function(name) {
-	// Folder의 인스턴스와 같은 name
-	//clickopen은 없어야됨
-};
-Window.prototype = Icon.prototype;
-
-var icon1 = new Icon("1icon");
-var folder1 = new Folder("1folder");
-var folder2 = new Folder("2folder");
-var window1 = new Window("1window");
-
-//////////////////////////////////////////////////////////////////
-
-
-var A = function(){
-
-	this.kyu = function(){
-		b.bbb();
-	}
-
-}
-
-var B = function(){}
-B.prototype.bbb = function(){alert('BBB');}
-var C = function(){}
-C.prototype.ccc = function(){alert('CCC');}
-
-var a = new A();
-var b = new B();
-var c = new C();
+// document.querySelector(".desktopsystem").appendChild(this.tolbox);
+this.tolbox.appendChild(this.input_num);
