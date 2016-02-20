@@ -18,6 +18,38 @@ DesktopSystem.prototype._setDom = function() {
 	// Desktop, Tolbox setting //
 	var createtolbox = new Tolbox();
 	this.dom.appendChild(createtolbox.tolbox);
+	var desktop = new Desktop();
+	this.dom.appendChild(desktop.dom);
+
+	/////// view icon in desktop
+	var that = this;
+
+	//random position of icon
+	var coord = [
+		Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
+		Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
+	];
+
+	createtolbox.iconbutton.addEventListener('click', function(){
+		for(var i = 0; i < createtolbox.addicon.value; i++){
+			var icon = new Icon();
+			desktop.dom.appendChild(icon.dom);
+
+			icon.dom.style.left = (icon.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord[0]) + 'px';
+			icon.dom.style.top = (icon.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord[1]) + 'px';
+		}
+	});
+
+	createtolbox.folderbutton.addEventListener('click', function(){
+		for(var j = 0; j < createtolbox.addfolder.value; j++){
+			var folder = new Folder();
+			desktop.dom.appendChild(folder.dom);
+
+			folder.dom.style.left = (folder.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord[0]) + 'px';
+			folder.dom.style.top = (folder.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord[1]) + 'px';
+		}
+	});
+
 
 };
 
@@ -36,81 +68,49 @@ Tolbox.prototype._setDom = function() {
 	this.tolbox = document.createElement("div");
 	this.tolbox.classList.add('tolbox');
 
-	// tolbox setting //
-	this.input_num = '<div class="form_div">';
-	this.input_num += '<form name="create_icon" action="" method="get">';
-	this.input_num += '<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">';
-	this.input_num += '<input type="button" name="button" value="Click" class="iconbutton"></h2></form>';
-	this.input_num += '<form name="create_folder" method="get">';
-	this.input_num += '<h2>Folder:<input type="number" name="Foldernumber" value="1" class="Foldernumber">';
-	this.input_num += '<input type="button" name="button" value="Click" class="folderbutton"></h2></form></div>';
-	this.input_num += '<form class="size" name="midify_size" method="get">';
-	this.input_num += '<h2>W:<input type="text" name="iconwidth" value="35" class="sizeW">';
-	this.input_num += 'H:<input type="text" name="iconheight" value="35" class="sizeH">';
-	this.input_num += '<input type="button" name="button" value="Click" class="sizebutton"></h2></form>';
-	this.input_num += '<form class="shape" name="midify_shape" method="get"><h2>';
-	this.input_num += '<input type="radio" class="square_radio" name="shape" value="square" checked> Square';
-	this.input_num += '<input type="radio" class="circle_radio" name="shape" value="circle"> Circle</h2></form>';
+	///// icon form tag
+	this.iconform = document.createElement("form");
+	this.iconform.setAttribute("name", "create_icon");
+	this.addicon = document.createElement("input");
+	this.addicon.setAttribute("type", "number");
+	this.addicon.setAttribute("name", "Iconnumber");
+	this.addicon.setAttribute("value", 1);
+	this.addicon.classList.add("Iconnumber");
+	this.iconbutton = document.createElement("input");
+	this.iconbutton.setAttribute("type", "BUTTON");
+	this.iconbutton.setAttribute("name", "button");
+	this.iconbutton.setAttribute("value", "Click");
+	this.iconbutton.classList.add("iconbutton");
+	this.iconform.appendChild(this.addicon);
+	this.iconform.appendChild(this.iconbutton);
+	this.tolbox.appendChild(this.iconform);
 
-	this.tolbox.innerHTML = this.input_num;
-	// tolbox class //
-	// class="tolbox">
-	// class="form_div">
-	// class="Iconnumber">
-	// class="iconbutton">
-	// class="Foldernumber">
-	// class="folderbutton"></h2>
-	// class="sizeW">
-	// class="sizeH">
-	// class="sizebutton">
-	// class="square_radio"
-	// class="circle_radio"
+
+	///// folder form tag
+	this.folderform = document.createElement("form");
+	this.folderform.setAttribute("name", "create_folder");
+
+	this.addfolder = document.createElement("input");
+	this.addfolder.setAttribute("type", "number");
+	this.addfolder.setAttribute("name", "Foldernumber");
+	this.addfolder.setAttribute("value", 1);
+	this.addfolder.classList.add("Foldernumber");
+
+	this.folderbutton = document.createElement("input");
+	this.folderbutton.setAttribute("type", "BUTTON");
+	this.folderbutton.setAttribute("name", "button");
+	this.folderbutton.setAttribute("value", "Click");
+	this.folderbutton.classList.add("folderbutton");
+
+	this.folderform.appendChild(this.addfolder);
+	this.folderform.appendChild(this.folderbutton);
+	this.tolbox.appendChild(this.folderform);
 
 };
-
-Tolbox.prototype._bindEvents = function() {
-	var that = this; // this가 전역객체를 참조하는 것을 방지
-
-	var icon_class = document.querySelectorAll(".icon");
-
-	////// size change ////////
-	var sizechange = document.querySelector(".sizebutton");
-	sizechange.addEventListener("click", function(){
-		var icon_width = document.querySelector(".sizeW").value + 'px';
-		var icon_height = document.querySelector(".sizeH").value + 'px';
-			for(var i = 0; i < icon_class.length; i++){
-				icon_class[i].style.width = icon_width;
-				icon_class[i].style.height = icon_height;
-			}
-	});
-
-
-	//////////  shape change  /////////
-	var icon_class = document.querySelectorAll(".icon");
-	var shape_square = document.querySelector(".square_radio");
-	var shape_circle = document.querySelector(".circle_radio");
-	var shape_triangle = document.querySelector(".triangle_radio");
-
-	function change_shape(e){
-		var radio = e.target;
-		if(radio.checked){
-			for(var j = 0; j < icon_class.length; j++){
-				console.log(icon_class[j]);
-				console.log(j);
-				icon_class[j].classList.add(radio.value);
-			}
-		}
-	}
-	shape_circle.addEventListener("change", change_shape);
-	shape_square.addEventListener("change", change_shape);
-};
-
 
 // Desktop 생성자
 var Desktop = function() {
-	/* TODO: Desktop 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
-	this.dom = document.querySelector('.desktop');
-	// this.icons = icons;
+	this.dom = null;
 	this._initialize();
 };
 
@@ -120,55 +120,9 @@ Desktop.prototype._initialize = function() {
 };
 
 Desktop.prototype._setDom = function() {
-
-	var that = this;
-	var iconnumber = document.querySelector('.Iconnumber');
-	var iconbutton = document.querySelector('.iconbutton');
-	var Foldernumber = document.querySelector('.Foldernumber');
-	var folderbutton = document.querySelector('.folderbutton');
-
-	/// icon 생성
-	iconbutton.addEventListener('click', function(){
-		for(var i = 0; i < iconnumber.value; i++){
-			var icon = new Icon();
-			that.dom.appendChild(icon.dom);
-
-			//random position of icon, folder
-			var coord = [
-				Math.floor(Math.random() * (that.dom.getBoundingClientRect().width - 50)),
-				Math.floor(Math.random() * (that.dom.getBoundingClientRect().height - 50))
-			];
-
-			icon.dom.style.left = (icon.dom.getBoundingClientRect().left - that.dom.getBoundingClientRect().left + coord[0]) + 'px';
-			icon.dom.style.top = (icon.dom.getBoundingClientRect().top - that.dom.getBoundingClientRect().top + coord[1]) + 'px';
-		}
-	});
-
-	folderbutton.addEventListener('click', function(){
-		for(var j = 0; j < Foldernumber.value; j++){
-			var folder = new Folder();
-			that.dom.appendChild(folder.dom);
-
-			// window 개수 만큼 만들기
-			folder.dom.addEventListener('openWindow', function() {
-				var arr = document.querySelectorAll('.folder');
-				var brr = document.querySelectorAll('.windowa');
-				if(brr.length < arr.length){
-					new Window();
-				}
-			});
-
-			//random position of icon, folder
-			var coord = [
-				Math.floor(Math.random() * (that.dom.getBoundingClientRect().width - 50)),
-				Math.floor(Math.random() * (that.dom.getBoundingClientRect().height - 50))
-			];
-
-			folder.dom.style.left = (folder.dom.getBoundingClientRect().left - that.dom.getBoundingClientRect().left + coord[0]) + 'px';
-			folder.dom.style.top = (folder.dom.getBoundingClientRect().top - that.dom.getBoundingClientRect().top + coord[1]) + 'px';
-		}
-	});
-
+	var dom = document.createElement('div');
+	dom.classList.add('desktop');
+	this.dom = dom;
 };
 
 Desktop.prototype._bindEvents = function(){
@@ -177,12 +131,10 @@ Desktop.prototype._bindEvents = function(){
 
 // Icon 생성자
 var Icon = function() {
-	/* TODO: Icon 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = null;
 	this.isMouseDown = false;
 	this.mouseCoord = [0, 0];
 	this.desktop = null;
-
 	this._initialize();
 };
 
@@ -226,7 +178,6 @@ Icon.prototype._bindEvents = function() {
 
 // Folder 생성자
 var Folder = function() {
-	/* TODO: Folder 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = null;
 	this.isMouseDown = false;
 	this.mouseCoord = [0, 0];
@@ -256,7 +207,6 @@ Folder.prototype._bindEvents = function() {
 
 // Window 생성자
 var Window = function() {
-	/* TODO: Window 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 	this.dom = null;
 	this.isMouseDown = false;
 	this.mouseCoord = [0, 0];
@@ -269,18 +219,8 @@ Window.prototype._initialize = function() {
 };
 
 Window.prototype._setDom = function() {
-	var dom = document.createElement('div');
-	dom.classList.add('windowa');
-	this.dom = dom;
-	myDesktop.dom.appendChild(this.dom);
-
-	var coord = [
-		Math.floor(Math.random() * (myDesktop.dom.getBoundingClientRect().width - 50)),
-		Math.floor(Math.random() * (myDesktop.dom.getBoundingClientRect().height - 50))
-	];
-
-	this.dom.style.left = (this.dom.getBoundingClientRect().left - myDesktop.dom.getBoundingClientRect().left + coord[0]) + 'px';
-	this.dom.style.top = (this.dom.getBoundingClientRect().top - myDesktop.dom.getBoundingClientRect().top + coord[1]) + 'px';
+	Icon.prototype._setDom.apply(this);
+	this.classList.add('windowa');
 };
 
 Window.prototype._bindEvents = function() {
