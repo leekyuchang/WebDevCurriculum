@@ -21,22 +21,19 @@ DesktopSystem.prototype._setDom = function() {
 	var desktop = new Desktop();
 	this.dom.appendChild(desktop.dom);
 
-	/////// view icon in desktop
 	var that = this;
-
-	//random position of icon
-	var coord = [
-		Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
-		Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
-	];
-
 	createtolbox.iconbutton.addEventListener('click', function(){
 		for(var i = 0; i < createtolbox.addicon.value; i++){
 			var icon = new Icon();
 			desktop.dom.appendChild(icon.dom);
 
-			icon.dom.style.left = (icon.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord[0]) + 'px';
-			icon.dom.style.top = (icon.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord[1]) + 'px';
+			var coord_icon = [
+				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
+				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
+			];
+
+			icon.dom.style.left = (icon.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_icon[0]) + 'px';
+			icon.dom.style.top = (icon.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_icon[1]) + 'px';
 		}
 	});
 
@@ -45,8 +42,31 @@ DesktopSystem.prototype._setDom = function() {
 			var folder = new Folder();
 			desktop.dom.appendChild(folder.dom);
 
-			folder.dom.style.left = (folder.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord[0]) + 'px';
-			folder.dom.style.top = (folder.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord[1]) + 'px';
+			folder.dom.addEventListener('openWindow', function() {
+				var arr = document.querySelectorAll('.folder');
+				var brr = document.querySelectorAll('.windowa');
+				if(brr.length < arr.length){
+					var window = new Window();
+					desktop.dom.appendChild(window.dom);
+				}else {
+					return;
+				}
+				var coord_window = [
+					Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
+					Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
+				];
+
+				window.dom.style.left = (window.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_window[0]) + 'px';
+				window.dom.style.top = (window.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_window[1]) + 'px';
+			});
+
+			var coord_folder = [
+				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
+				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
+			];
+
+			folder.dom.style.left = (folder.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_folder[0]) + 'px';
+			folder.dom.style.top = (folder.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_folder[1]) + 'px';
 		}
 	});
 
@@ -68,6 +88,10 @@ Tolbox.prototype._setDom = function() {
 	this.tolbox = document.createElement("div");
 	this.tolbox.classList.add('tolbox');
 
+	///// icon, folder form_div
+	this.form_div = document.createElement("div");
+	this.form_div.classList.add('form_div');
+
 	///// icon form tag
 	this.iconform = document.createElement("form");
 	this.iconform.setAttribute("name", "create_icon");
@@ -83,7 +107,7 @@ Tolbox.prototype._setDom = function() {
 	this.iconbutton.classList.add("iconbutton");
 	this.iconform.appendChild(this.addicon);
 	this.iconform.appendChild(this.iconbutton);
-	this.tolbox.appendChild(this.iconform);
+	this.form_div.appendChild(this.iconform);
 
 
 	///// folder form tag
@@ -104,7 +128,8 @@ Tolbox.prototype._setDom = function() {
 
 	this.folderform.appendChild(this.addfolder);
 	this.folderform.appendChild(this.folderbutton);
-	this.tolbox.appendChild(this.folderform);
+	this.form_div.appendChild(this.folderform);
+	this.tolbox.appendChild(this.form_div);
 
 };
 
@@ -220,7 +245,7 @@ Window.prototype._initialize = function() {
 
 Window.prototype._setDom = function() {
 	Icon.prototype._setDom.apply(this);
-	this.classList.add('windowa');
+	this.dom.classList.add('windowa');
 };
 
 Window.prototype._bindEvents = function() {
