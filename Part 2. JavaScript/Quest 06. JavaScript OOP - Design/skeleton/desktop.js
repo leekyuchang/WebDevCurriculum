@@ -95,6 +95,7 @@ Tolbox.prototype._setDom = function() {
 	///// icon form tag
 	this.iconform = document.createElement("form");
 	this.iconform.setAttribute("name", "create_icon");
+	this.iconform.innerHTML = "<h2>" + "Icon: " + "</h2>"
 	this.addicon = document.createElement("input");
 	this.addicon.setAttribute("type", "number");
 	this.addicon.setAttribute("name", "Iconnumber");
@@ -113,7 +114,7 @@ Tolbox.prototype._setDom = function() {
 	///// folder form tag
 	this.folderform = document.createElement("form");
 	this.folderform.setAttribute("name", "create_folder");
-
+	this.folderform.innerHTML = "<h2>" + "Folder: " + "</h2>"
 	this.addfolder = document.createElement("input");
 	this.addfolder.setAttribute("type", "number");
 	this.addfolder.setAttribute("name", "Foldernumber");
