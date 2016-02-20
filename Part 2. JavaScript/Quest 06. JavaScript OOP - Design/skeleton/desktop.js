@@ -37,25 +37,22 @@ Tolbox.prototype._setDom = function() {
 	this.tolbox.classList.add('tolbox');
 
 	// tolbox setting //
-	this.input_num = document.createElement("div");
-	this.input_num.classList.add("form_div");
-	// this.input_num = '<div class="form_div">';
-	// this.input_num += '<form name="create_icon" action="" method="get">';
-	// this.input_num += '<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">';
-	// this.input_num += '<input type="button" name="button" value="Click" class="iconbutton"></h2></form>';
-	// this.input_num += '<form name="create_folder" method="get">';
-	// this.input_num += '<h2>Folder:<input type="number" name="Foldernumber" value="1" class="Foldernumber">';
-	// this.input_num += '<input type="button" name="button" value="Click" class="folderbutton"></h2></form></div>';
-	// this.input_num += '<form class="size" name="midify_size" method="get">';
-	// this.input_num += '<h2>W:<input type="text" name="iconwidth" value="35" class="sizeW">';
-	// this.input_num += 'H:<input type="text" name="iconheight" value="35" class="sizeH">';
-	// this.input_num += '<input type="button" name="button" value="Click" class="sizebutton"></h2></form>';
-	// this.input_num += '<form class="shape" name="midify_shape" method="get"><h2>';
-	// this.input_num += '<input type="radio" class="square_radio" name="shape" value="square" checked> Square';
-	// this.input_num += '<input type="radio" class="circle_radio" name="shape" value="circle"> Circle</h2></form>';
+	this.input_num = '<div class="form_div">';
+	this.input_num += '<form name="create_icon" action="" method="get">';
+	this.input_num += '<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">';
+	this.input_num += '<input type="button" name="button" value="Click" class="iconbutton"></h2></form>';
+	this.input_num += '<form name="create_folder" method="get">';
+	this.input_num += '<h2>Folder:<input type="number" name="Foldernumber" value="1" class="Foldernumber">';
+	this.input_num += '<input type="button" name="button" value="Click" class="folderbutton"></h2></form></div>';
+	this.input_num += '<form class="size" name="midify_size" method="get">';
+	this.input_num += '<h2>W:<input type="text" name="iconwidth" value="35" class="sizeW">';
+	this.input_num += 'H:<input type="text" name="iconheight" value="35" class="sizeH">';
+	this.input_num += '<input type="button" name="button" value="Click" class="sizebutton"></h2></form>';
+	this.input_num += '<form class="shape" name="midify_shape" method="get"><h2>';
+	this.input_num += '<input type="radio" class="square_radio" name="shape" value="square" checked> Square';
+	this.input_num += '<input type="radio" class="circle_radio" name="shape" value="circle"> Circle</h2></form>';
 
-	// document.querySelector(".desktopsystem").appendChild(this.tolbox);
-	this.tolbox.appendChild(this.input_num);
+	this.tolbox.innerHTML = this.input_num;
 	// tolbox class //
 	// class="tolbox">
 	// class="form_div">
@@ -71,42 +68,42 @@ Tolbox.prototype._setDom = function() {
 
 };
 
-// Tolbox.prototype._bindEvents = function() {
-// 	var that = this; // this가 전역객체를 참조하는 것을 방지
-//
-// 	var icon_class = document.querySelectorAll(".icon");
-//
-// 	////// size change ////////
-// 	var sizechange = document.querySelector(".sizebutton");
-// 	sizechange.addEventListener("click", function(){
-// 		var icon_width = document.querySelector(".sizeW").value + 'px';
-// 		var icon_height = document.querySelector(".sizeH").value + 'px';
-// 			for(var i = 0; i < icon_class.length; i++){
-// 				icon_class[i].style.width = icon_width;
-// 				icon_class[i].style.height = icon_height;
-// 			}
-// 	});
-//
-//
-// 	//////////  shape change  /////////
-// 	var icon_class = document.querySelectorAll(".icon");
-// 	var shape_square = document.querySelector(".square_radio");
-// 	var shape_circle = document.querySelector(".circle_radio");
-// 	var shape_triangle = document.querySelector(".triangle_radio");
-//
-// 	function change_shape(e){
-// 		var radio = e.target;
-// 		if(radio.checked){
-// 			for(var j = 0; j < icon_class.length; j++){
-// 				console.log(icon_class[j]);
-// 				console.log(j);
-// 				icon_class[j].classList.add(radio.value);
-// 			}
-// 		}
-// 	}
-// 	shape_circle.addEventListener("change", change_shape);
-// 	shape_square.addEventListener("change", change_shape);
-// };
+Tolbox.prototype._bindEvents = function() {
+	var that = this; // this가 전역객체를 참조하는 것을 방지
+
+	var icon_class = document.querySelectorAll(".icon");
+
+	////// size change ////////
+	var sizechange = document.querySelector(".sizebutton");
+	sizechange.addEventListener("click", function(){
+		var icon_width = document.querySelector(".sizeW").value + 'px';
+		var icon_height = document.querySelector(".sizeH").value + 'px';
+			for(var i = 0; i < icon_class.length; i++){
+				icon_class[i].style.width = icon_width;
+				icon_class[i].style.height = icon_height;
+			}
+	});
+
+
+	//////////  shape change  /////////
+	var icon_class = document.querySelectorAll(".icon");
+	var shape_square = document.querySelector(".square_radio");
+	var shape_circle = document.querySelector(".circle_radio");
+	var shape_triangle = document.querySelector(".triangle_radio");
+
+	function change_shape(e){
+		var radio = e.target;
+		if(radio.checked){
+			for(var j = 0; j < icon_class.length; j++){
+				console.log(icon_class[j]);
+				console.log(j);
+				icon_class[j].classList.add(radio.value);
+			}
+		}
+	}
+	shape_circle.addEventListener("change", change_shape);
+	shape_square.addEventListener("change", change_shape);
+};
 
 
 // Desktop 생성자
