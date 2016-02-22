@@ -22,6 +22,12 @@ DesktopSystem.prototype._setDom = function() {
 	var iconarr = [];
 	var folderarr = [];
 	var windowarr = [];
+
+	function goo(icon, desktop, coord_icon){
+		icon.dom.style.left = (icon.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_icon[0]) + 'px';
+		icon.dom.style.top = (icon.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_icon[1]) + 'px';
+	}
+
 	createtolbox.iconbutton.addEventListener('click', function(){
 		for(var i = 0; i < createtolbox.addicon.value; i++){
 			var icon = new Icon();
@@ -32,8 +38,8 @@ DesktopSystem.prototype._setDom = function() {
 				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
 				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
 			];
-			icon.dom.style.left = (icon.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_icon[0]) + 'px';
-			icon.dom.style.top = (icon.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_icon[1]) + 'px';
+
+			goo(icon, desktop, coord_icon);
 
 			if(createtolbox.shapecircle.checked){
 				icon.dom.classList.add("circle");
@@ -60,19 +66,14 @@ DesktopSystem.prototype._setDom = function() {
 					Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
 					Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
 				];
-
-				windowa.dom.style.left = (windowa.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_windowa[0] + 40) + 'px';
-				windowa.dom.style.top = (windowa.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_windowa[1]) + 'px';
+				goo(windowa, desktop, coord_windowa);
 			});
 
 			var coord_folder = [
 				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
 				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
 			];
-
-			folder.dom.style.left = (folder.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_folder[0]) + 'px';
-			folder.dom.style.top = (folder.dom.getBoundingClientRect().top -
-			desktop.dom.getBoundingClientRect().top + coord_folder[1]) + 'px';
+			goo(folder, desktop, coord_folder);
 
 			if(createtolbox.shapecircle.checked){
 				folder.dom.classList.add("circle");
@@ -100,7 +101,11 @@ var Tolbox = function() {
 };
 
 Tolbox.prototype._setDom = function() {
-
+	function setAttributes(el, attrs) {
+	  for(var key in attrs) {
+	    el.setAttribute(key, attrs[key]);
+	  }
+	}
 	this.tolbox = document.createElement("div");
 	this.tolbox.classList.add("tolbox");
 
@@ -109,16 +114,13 @@ Tolbox.prototype._setDom = function() {
 	this.form_div.classList.add("form_div");
 
 	///// icon form tag
+	this.addicon = document.createElement("input");
+	setAttributes(this.addicon, {"type":"number", "value": 1,"class":"Iconnumber"});
+
 	this.iconform = document.createElement("form");
 	this.iconform.innerHTML = "<h2>" + "Icon: " + "</h2>"
-	this.addicon = document.createElement("input");
-	this.addicon.setAttribute("type", "number");
-	this.addicon.setAttribute("value", 1);
-	this.addicon.classList.add("Iconnumber");
 	this.iconbutton = document.createElement("input");
-	this.iconbutton.setAttribute("type", "BUTTON");
-	this.iconbutton.setAttribute("value", "Click");
-	this.iconbutton.classList.add("iconbutton");
+	setAttributes(this.iconbutton, {"type":"BUTTON", "value": "Click","class":"iconbutton"});
 	this.iconform.appendChild(this.addicon);
 	this.iconform.appendChild(this.iconbutton);
 	this.form_div.appendChild(this.iconform);
@@ -127,13 +129,9 @@ Tolbox.prototype._setDom = function() {
 	this.folderform = document.createElement("form");
 	this.folderform.innerHTML = "<h2>" + "Folder: " + "</h2>"
 	this.addfolder = document.createElement("input");
-	this.addfolder.setAttribute("type", "number");
-	this.addfolder.setAttribute("value", 1);
-	this.addfolder.classList.add("Foldernumber");
+	setAttributes(this.addfolder, {"type":"number", "value": 1,"class":"Foldernumber"});
 	this.folderbutton = document.createElement("input");
-	this.folderbutton.setAttribute("type", "BUTTON");
-	this.folderbutton.setAttribute("value", "Click");
-	this.folderbutton.classList.add("folderbutton");
+	setAttributes(this.folderbutton, {"type":"BUTTON", "value": "Click","class":"folderbutton"});
 	this.folderform.appendChild(this.addfolder);
 	this.folderform.appendChild(this.folderbutton);
 	this.form_div.appendChild(this.folderform);
@@ -145,19 +143,13 @@ Tolbox.prototype._setDom = function() {
 	this.h2sizew = document.createElement("H2");
 	this.h2sizew.innerHTML = "W: ";
 	this.sizew = document.createElement("input");
-	this.sizew.setAttribute("type", "text");
-	this.sizew.setAttribute("value", "35");
-	this.sizew.classList.add("sizeW");
+	setAttributes(this.sizew, {"type":"text", "value": "35","class":"sizeW"});
 	this.h2sizeh = document.createElement("H2");
 	this.h2sizeh.innerHTML = "H: ";
 	this.sizeh = document.createElement("input");
-	this.sizeh.setAttribute("type", "text");
-	this.sizeh.setAttribute("value", "35");
-	this.sizeh.classList.add("sizeH");
+	setAttributes(this.sizeh, {"type":"text", "value": "35","class":"sizeH"});
 	this.sizebutton = document.createElement("input");
-	this.sizebutton.setAttribute("type", "BUTTON");
-	this.sizebutton.setAttribute("value", "Click");
-	this.sizebutton.classList.add("sizebutton");
+	setAttributes(this.sizebutton, {"type":"BUTTON", "value": "Click","class":"sizebutton"});
 
 	this.sizechange.appendChild(this.h2sizew);
 	this.sizechange.appendChild(this.sizew);
@@ -172,18 +164,13 @@ Tolbox.prototype._setDom = function() {
 	this.shapesquareh2 = document.createElement("H2");
 	this.shapesquare = document.createElement("input");  // square
 	this.shapesquareh2.innerHTML = "Square";
-	this.shapesquare.setAttribute("type", "radio");
-	this.shapesquare.setAttribute("checked", "checked");
-	this.shapesquare.setAttribute("value", "square");
-	this.shapesquare.setAttribute("name", "radioGroup");
-	this.shapesquare.classList.add("square_radio");
+	setAttributes(this.shapesquare, {"type":"radio", "checked":"checked", "value":"square",
+									"name":"radioGroup", "class":"square_radio"});
 	this.shapecircleh2 = document.createElement("H2");
 	this.shapecircleh2.innerHTML = "Circle";
 	this.shapecircle = document.createElement("input");  // circle
-	this.shapecircle.setAttribute("type", "radio");
-	this.shapecircle.setAttribute("value", "circle");
-	this.shapecircle.setAttribute("name", "radioGroup");
-	this.shapecircle.classList.add("circle_radio");
+	setAttributes(this.shapecircle, {"type":"radio", "value":"circle",
+									"name":"radioGroup", "class":"circle_radio"});
 
 	this.shapesquareh2.appendChild(this.shapesquare);
 	this.shapecircleh2.appendChild(this.shapecircle);
