@@ -20,9 +20,12 @@ DesktopSystem.prototype._setDom = function() {
 	this.dom.appendChild(desktop.dom);
 
 	var that = this;
+	var iconarr = [];
+	var folderarr = [];
 	createtolbox.iconbutton.addEventListener('click', function(){
 		for(var i = 0; i < createtolbox.addicon.value; i++){
 			var icon = new Icon();
+			iconarr.push(icon);
 			desktop.dom.appendChild(icon.dom);
 
 			var coord_icon = [
@@ -38,14 +41,15 @@ DesktopSystem.prototype._setDom = function() {
 	createtolbox.folderbutton.addEventListener('click', function(){
 		for(var j = 0; j < createtolbox.addfolder.value; j++){
 			var folder = new Folder();
+			folderarr.push(folder);
 			desktop.dom.appendChild(folder.dom);
 
 			folder.dom.addEventListener('openWindow', function() {
 				var arr = document.querySelectorAll('.folder');
 				var brr = document.querySelectorAll('.windowa');
 				if(brr.length < arr.length){
-					var window = new Window();
-					desktop.dom.appendChild(window.dom);
+					var windowa = new Window();
+					desktop.dom.appendChild(windowa.dom);
 				}else {
 					return;
 				}
@@ -54,8 +58,8 @@ DesktopSystem.prototype._setDom = function() {
 					Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
 				];
 
-				window.dom.style.left = (window.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_window[0]) + 'px';
-				window.dom.style.top = (window.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_window[1]) + 'px';
+				windowa.dom.style.left = (windowa.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_window[0]) + 'px';
+				windowa.dom.style.top = (windowa.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_window[1]) + 'px';
 			});
 
 			var coord_folder = [
@@ -71,19 +75,15 @@ DesktopSystem.prototype._setDom = function() {
 	createtolbox.sizebutton.addEventListener("click", function(){
 		var icon_w = createtolbox.sizew.value + 'px';
 		var icon_h = createtolbox.sizeh.value + 'px';
-		var icon = document.querySelectorAll(".icon");
-		var iconparent = document.querySelectorAll(".icon").parentNode;
-		console.log(iconparent);
-		for(var i=0; i < icon.length; i++){
-			if(true){
-				icon[i].style.width = icon_w;
-				icon[i].style.height = icon_h;
-			}
-
-
+		for(var i=0; i < iconarr.length; i++){
+			iconarr[i].dom.style.width = icon_w;
+			iconarr[i].dom.style.height = icon_h;
+		}
+		for(var j=0; j < folderarr.length; j++){
+			folderarr[j].dom.style.width = icon_w;
+			folderarr[j].dom.style.height = icon_h;
 		}
 	});
-
 
 };
 
