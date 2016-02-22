@@ -1,8 +1,6 @@
 // DesktopSystem 생성자
 var DesktopSystem = function() {
 	//this.dom = dom;
-	// this.desktop = null;
-	// this.tolbox = null;
 	this._initialize();
 };
 
@@ -70,6 +68,22 @@ DesktopSystem.prototype._setDom = function() {
 		}
 	});
 
+	createtolbox.sizebutton.addEventListener("click", function(){
+		var icon_w = createtolbox.sizew.value + 'px';
+		var icon_h = createtolbox.sizeh.value + 'px';
+		var icon = document.querySelectorAll(".icon");
+		var iconparent = document.querySelectorAll(".icon").parentNode;
+		console.log(iconparent);
+		for(var i=0; i < icon.length; i++){
+			if(true){
+				icon[i].style.width = icon_w;
+				icon[i].style.height = icon_h;
+			}
+
+
+		}
+	});
+
 
 };
 
@@ -80,58 +94,85 @@ var Tolbox = function() {
 
 Tolbox.prototype._initialize = function() {
 	this._setDom();
-	//this._bindEvents();
 };
 
 Tolbox.prototype._setDom = function() {
 
 	this.tolbox = document.createElement("div");
-	this.tolbox.classList.add('tolbox');
+	this.tolbox.classList.add("tolbox");
 
 	///// icon, folder form_div
 	this.form_div = document.createElement("div");
-	this.form_div.classList.add('form_div');
+	this.form_div.classList.add("form_div");
 
 	///// icon form tag
 	this.iconform = document.createElement("form");
-	this.iconform.setAttribute("name", "create_icon");
 	this.iconform.innerHTML = "<h2>" + "Icon: " + "</h2>"
 	this.addicon = document.createElement("input");
 	this.addicon.setAttribute("type", "number");
-	this.addicon.setAttribute("name", "Iconnumber");
 	this.addicon.setAttribute("value", 1);
 	this.addicon.classList.add("Iconnumber");
 	this.iconbutton = document.createElement("input");
 	this.iconbutton.setAttribute("type", "BUTTON");
-	this.iconbutton.setAttribute("name", "button");
 	this.iconbutton.setAttribute("value", "Click");
 	this.iconbutton.classList.add("iconbutton");
 	this.iconform.appendChild(this.addicon);
 	this.iconform.appendChild(this.iconbutton);
 	this.form_div.appendChild(this.iconform);
 
-
 	///// folder form tag
 	this.folderform = document.createElement("form");
-	this.folderform.setAttribute("name", "create_folder");
 	this.folderform.innerHTML = "<h2>" + "Folder: " + "</h2>"
 	this.addfolder = document.createElement("input");
 	this.addfolder.setAttribute("type", "number");
-	this.addfolder.setAttribute("name", "Foldernumber");
 	this.addfolder.setAttribute("value", 1);
 	this.addfolder.classList.add("Foldernumber");
-
 	this.folderbutton = document.createElement("input");
 	this.folderbutton.setAttribute("type", "BUTTON");
-	this.folderbutton.setAttribute("name", "button");
 	this.folderbutton.setAttribute("value", "Click");
 	this.folderbutton.classList.add("folderbutton");
-
 	this.folderform.appendChild(this.addfolder);
 	this.folderform.appendChild(this.folderbutton);
 	this.form_div.appendChild(this.folderform);
 	this.tolbox.appendChild(this.form_div);
 
+	/////size change form
+	this.sizechange = document.createElement("form");
+	this.sizechange.setAttribute("name", "size_change");
+	this.sizechange.classList.add("size");
+	this.h2sizew = document.createElement("H2");
+	this.h2sizew.innerHTML = "W: ";
+	this.sizew = document.createElement("input");
+	this.sizew.setAttribute("type", "text");
+	this.sizew.setAttribute("name", "iconwidth");
+	this.sizew.setAttribute("value", "35");
+	this.sizew.classList.add("sizeW");
+	this.h2sizeh = document.createElement("H2");
+	this.h2sizeh.innerHTML = "H: ";
+	this.sizeh = document.createElement("input");
+	this.sizeh.setAttribute("type", "text");
+	this.sizeh.setAttribute("name", "iconheight");
+	this.sizeh.setAttribute("value", "35");
+	this.sizeh.classList.add("sizeH");
+	this.sizebutton = document.createElement("input");
+	this.sizebutton.setAttribute("type", "BUTTON");
+	this.sizebutton.setAttribute("name", "button");
+	this.sizebutton.setAttribute("value", "Click");
+	this.sizebutton.classList.add("sizebutton");
+
+	this.sizechange.appendChild(this.h2sizew);
+	this.sizechange.appendChild(this.sizew);
+	this.sizechange.appendChild(this.h2sizeh);
+	this.sizechange.appendChild(this.sizeh);
+	this.sizechange.appendChild(this.sizebutton);
+	this.tolbox.appendChild(this.sizechange);
+
+	// <form class="shape" name="midify_shape" method="get">
+	// 	<h2>
+	// 		<input type="radio" class="square_radio" name="shape" value="square" checked> Square
+	// 		<input type="radio" class="circle_radio" name="shape" value="circle"> Circle
+	// 	</h2>
+	// </form>
 };
 
 // Desktop 생성자
@@ -149,10 +190,6 @@ Desktop.prototype._setDom = function() {
 	var dom = document.createElement('div');
 	dom.classList.add('desktop');
 	this.dom = dom;
-};
-
-Desktop.prototype._bindEvents = function(){
-	// tolbox와 연결
 };
 
 // Icon 생성자
