@@ -1,6 +1,5 @@
 // DesktopSystem 생성자
 var DesktopSystem = function() {
-	//this.dom = dom;
 	this._initialize();
 };
 
@@ -22,6 +21,7 @@ DesktopSystem.prototype._setDom = function() {
 	var that = this;
 	var iconarr = [];
 	var folderarr = [];
+	var windowarr = [];
 	createtolbox.iconbutton.addEventListener('click', function(){
 		for(var i = 0; i < createtolbox.addicon.value; i++){
 			var icon = new Icon();
@@ -32,9 +32,12 @@ DesktopSystem.prototype._setDom = function() {
 				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
 				Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
 			];
-
 			icon.dom.style.left = (icon.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_icon[0]) + 'px';
 			icon.dom.style.top = (icon.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_icon[1]) + 'px';
+
+			if(createtolbox.shapecircle.checked){
+				icon.dom.classList.add("circle");
+			}
 		}
 	});
 
@@ -45,21 +48,21 @@ DesktopSystem.prototype._setDom = function() {
 			desktop.dom.appendChild(folder.dom);
 
 			folder.dom.addEventListener('openWindow', function() {
-				var arr = document.querySelectorAll('.folder');
-				var brr = document.querySelectorAll('.windowa');
-				if(brr.length < arr.length){
+				var windows = desktop.dom.querySelectorAll(".windowa");
+				if(windows.length < folderarr.length){
 					var windowa = new Window();
 					desktop.dom.appendChild(windowa.dom);
-				}else {
+				} else {
 					return;
 				}
-				var coord_window = [
+
+				var coord_windowa = [
 					Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
 					Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
 				];
 
-				windowa.dom.style.left = (windowa.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_window[0]) + 'px';
-				windowa.dom.style.top = (windowa.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_window[1]) + 'px';
+				windowa.dom.style.left = (windowa.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_windowa[0] + 40) + 'px';
+				windowa.dom.style.top = (windowa.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_windowa[1]) + 'px';
 			});
 
 			var coord_folder = [
@@ -68,7 +71,12 @@ DesktopSystem.prototype._setDom = function() {
 			];
 
 			folder.dom.style.left = (folder.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_folder[0]) + 'px';
-			folder.dom.style.top = (folder.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_folder[1]) + 'px';
+			folder.dom.style.top = (folder.dom.getBoundingClientRect().top -
+			desktop.dom.getBoundingClientRect().top + coord_folder[1]) + 'px';
+
+			if(createtolbox.shapecircle.checked){
+				folder.dom.classList.add("circle");
+			}
 		}
 	});
 
@@ -84,15 +92,10 @@ DesktopSystem.prototype._setDom = function() {
 			folderarr[j].dom.style.height = icon_h;
 		}
 	});
-
 };
 
 // Tolbox 생성자
 var Tolbox = function() {
-	this._initialize();
-};
-
-Tolbox.prototype._initialize = function() {
 	this._setDom();
 };
 
@@ -138,25 +141,21 @@ Tolbox.prototype._setDom = function() {
 
 	/////size change form
 	this.sizechange = document.createElement("form");
-	this.sizechange.setAttribute("name", "size_change");
 	this.sizechange.classList.add("size");
 	this.h2sizew = document.createElement("H2");
 	this.h2sizew.innerHTML = "W: ";
 	this.sizew = document.createElement("input");
 	this.sizew.setAttribute("type", "text");
-	this.sizew.setAttribute("name", "iconwidth");
 	this.sizew.setAttribute("value", "35");
 	this.sizew.classList.add("sizeW");
 	this.h2sizeh = document.createElement("H2");
 	this.h2sizeh.innerHTML = "H: ";
 	this.sizeh = document.createElement("input");
 	this.sizeh.setAttribute("type", "text");
-	this.sizeh.setAttribute("name", "iconheight");
 	this.sizeh.setAttribute("value", "35");
 	this.sizeh.classList.add("sizeH");
 	this.sizebutton = document.createElement("input");
 	this.sizebutton.setAttribute("type", "BUTTON");
-	this.sizebutton.setAttribute("name", "button");
 	this.sizebutton.setAttribute("value", "Click");
 	this.sizebutton.classList.add("sizebutton");
 
@@ -167,22 +166,36 @@ Tolbox.prototype._setDom = function() {
 	this.sizechange.appendChild(this.sizebutton);
 	this.tolbox.appendChild(this.sizechange);
 
-	// <form class="shape" name="midify_shape" method="get">
-	// 	<h2>
-	// 		<input type="radio" class="square_radio" name="shape" value="square" checked> Square
-	// 		<input type="radio" class="circle_radio" name="shape" value="circle"> Circle
-	// 	</h2>
-	// </form>
+	/////shape change form
+	this.shapechange = document.createElement("form");
+	this.shapechange.classList.add("shape");
+	this.shapesquareh2 = document.createElement("H2");
+	this.shapesquare = document.createElement("input");  // square
+	this.shapesquareh2.innerHTML = "Square";
+	this.shapesquare.setAttribute("type", "radio");
+	this.shapesquare.setAttribute("checked", "checked");
+	this.shapesquare.setAttribute("value", "square");
+	this.shapesquare.setAttribute("name", "radioGroup");
+	this.shapesquare.classList.add("square_radio");
+	this.shapecircleh2 = document.createElement("H2");
+	this.shapecircleh2.innerHTML = "Circle";
+	this.shapecircle = document.createElement("input");  // circle
+	this.shapecircle.setAttribute("type", "radio");
+	this.shapecircle.setAttribute("value", "circle");
+	this.shapecircle.setAttribute("name", "radioGroup");
+	this.shapecircle.classList.add("circle_radio");
+
+	this.shapesquareh2.appendChild(this.shapesquare);
+	this.shapecircleh2.appendChild(this.shapecircle);
+	this.shapechange.appendChild(this.shapesquareh2);
+	this.shapechange.appendChild(this.shapecircleh2);
+	this.tolbox.appendChild(this.shapechange);
+
 };
 
 // Desktop 생성자
 var Desktop = function() {
 	this.dom = null;
-	this._initialize();
-};
-
-//초기화 함수(인스턴스가 생기면 메소드가 바로 실행되게 구현)
-Desktop.prototype._initialize = function() {
 	this._setDom();
 };
 
@@ -238,7 +251,6 @@ Icon.prototype._bindEvents = function() {
 	});
 };
 
-
 // Folder 생성자
 var Folder = function() {
 	this.dom = null;
@@ -260,7 +272,6 @@ Folder.prototype._setDom = function() {
 
 Folder.prototype._bindEvents = function() {
 	Icon.prototype._bindEvents.apply(this);
-
 	var that = this;
 	this.dom.addEventListener('dblclick', function(e) {
 		that.dom.dispatchEvent(new Event('openWindow'));
