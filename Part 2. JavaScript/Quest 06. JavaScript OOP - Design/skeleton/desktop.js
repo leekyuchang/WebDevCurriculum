@@ -13,7 +13,7 @@ DesktopSystem.prototype._setDom = function() {
 	document.body.appendChild(this.dom);
 
 	// Desktop, Tolbox setting //
-	var createtolbox = new Tolbox();
+	var createtolbox = new Tolbox(this);
 	this.dom.appendChild(createtolbox.tolbox);
 	var desktop = new Desktop();
 	this.dom.appendChild(desktop.dom);
@@ -96,9 +96,19 @@ DesktopSystem.prototype._setDom = function() {
 };
 
 // Tolbox 생성자
-var Tolbox = function() {
+var Tolbox = function(desktopSystem) {
+	this.desktopSystem = desktopSystem;
 	this._setDom();
+	this._bindEvents();
 };
+
+Tolbox.prototype._bindEvents = function() {
+	var that = this;
+
+	this.folderbutton.addEventListener('click', function(){
+		that.dom.fire('click-icon');
+	});
+}
 
 Tolbox.prototype._setDom = function() {
 	function setAttributes(el, attrs) {
