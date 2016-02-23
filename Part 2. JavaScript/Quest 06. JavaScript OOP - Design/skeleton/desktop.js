@@ -5,6 +5,15 @@ var DesktopSystem = function() {
 
 DesktopSystem.prototype._initialize = function() {
 	this._setDom();
+	this._bindEvents();
+};
+
+DesktopSystem.prototype._bindEvents = function() {
+	var that = this;
+
+	this.tolbox.dom.addEventListener('click-icon', function(e) {
+		e.detail
+	});
 };
 
 DesktopSystem.prototype._setDom = function() {
@@ -14,7 +23,7 @@ DesktopSystem.prototype._setDom = function() {
 
 	// Desktop, Tolbox setting //
 	var createtolbox = new Tolbox(this);
-	this.dom.appendChild(createtolbox.tolbox);
+	this.dom.appendChild(createtolbox.dom);
 	var desktop = new Desktop();
 	this.dom.appendChild(desktop.dom);
 
@@ -96,8 +105,7 @@ DesktopSystem.prototype._setDom = function() {
 };
 
 // Tolbox 생성자
-var Tolbox = function(desktopSystem) {
-	this.desktopSystem = desktopSystem;
+var Tolbox = function() {
 	this._setDom();
 	this._bindEvents();
 };
@@ -106,7 +114,7 @@ Tolbox.prototype._bindEvents = function() {
 	var that = this;
 
 	this.folderbutton.addEventListener('click', function(){
-		that.dom.fire('click-icon');
+		that.dom.fire('click-icon', 'circle');
 	});
 }
 
@@ -116,6 +124,10 @@ Tolbox.prototype._setDom = function() {
 	    el.setAttribute(key, attrs[key]);
 	  }
 	}
+
+	this.dom = document.querySelector('.templates .toolboxTemplate').cloneNode();
+
+
 	this.tolbox = document.createElement("div");
 	this.tolbox.classList.add("tolbox");
 
@@ -263,15 +275,15 @@ Folder.prototype._initialize = function() {
 
 Folder.prototype._setDom = function() {
 	Icon.prototype._setDom.apply(this);
-	this.dom.classList.add('folder');
+	this.dom.classList.add("folder");
 	// folder class가 생기지만 Icon_setDom에 있는것은 apply해서 icon class도 생성됨
 };
 
 Folder.prototype._bindEvents = function() {
 	Icon.prototype._bindEvents.apply(this);
 	var that = this;
-	this.dom.addEventListener('dblclick', function(e) {
-		that.dom.dispatchEvent(new Event('openWindow'));
+	this.dom.addEventListener("dblclick", function(e) {
+		that.dom.dispatchEvent(new Event("openWindow"));
 	});
 };
 
@@ -291,7 +303,7 @@ Window.prototype._initialize = function() {
 
 Window.prototype._setDom = function() {
 	Icon.prototype._setDom.apply(this);
-	this.dom.classList.add('windowa');
+	this.dom.classList.add("windowa");
 };
 
 Window.prototype._bindEvents = function() {
