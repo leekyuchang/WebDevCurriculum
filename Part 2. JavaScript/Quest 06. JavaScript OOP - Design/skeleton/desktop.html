@@ -6,44 +6,46 @@
 		<script src="./desktop.js"></script>
 	</head>
 	<body>
-		<!-- <section class="desktopsystem">
-			<section class="tolbox">
-				<div class="form_div">
-					<form name="create_icon" action="" method="get">
-						<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">
-						<input type="button" name="button" value="Click" class="iconbutton"></h2>
-					</form>
-					<form name="create_folder" method="get">
-						<h2>Folder:<input type="number" name="Foldernumber" value="1" class="Foldernumber">
-						<input type="button" name="button" value="Click" class="folderbutton"></h2>
-					</form>
-				</div>
-				<form class="size" name="midify_size" method="get">
-					<h2>
-						W:<input type="text" name="iconwidth" value="35" class="sizeW">
-						H:<input type="text" name="iconheight" value="35" class="sizeH">
-						<input type="button" name="button" value="Click" class="sizebutton">
-					</h2>
-				</form>
-				<form class="shape" name="midify_shape" method="get">
-					<h2>
-						<input type="radio" class="square_radio" name="shape" value="square" checked> Square
-						<input type="radio" class="circle_radio" name="shape" value="circle"> Circle
-					</h2>
-				</form>
-			</section>
-		</section> -->
 
-		<div class="templates" style="display: none">
+		<!-- <div class="templates" style="display: none">
 			<section class="toolboxTemplate">
 				....
 			</section>
-		</div>
+		</div> -->
+
+		<template class="templates">
+
+			<section class="tolbox">
+				<div class="form_div">
+					<form name="create_icon">
+						<h2>Icon:<input type="number" name="Iconnumber" value="1" class="Iconnumber">
+						<input type="BUTTON" name="button" value="Click" class="iconbutton"></h2>
+					</form>
+					<form name="create_folder">
+						<h2>Folder:<input type="number" name="Foldernumber" value="1" class="Foldernumber">
+						<input type="BUTTON" name="button" value="Click" class="folderbutton"></h2>
+					</form>
+				</div>
+				<form class="size" name="midify_size">
+					<h2>
+						W:<input type="text" name="iconwidth" value="35" class="sizeW">
+						H:<input type="text" name="iconheight" value="35" class="sizeH">
+						<input type="BUTTON" name="button" value="Click" class="sizebutton">
+					</h2>
+				</form>
+				<form class="shape">
+					<h2>
+						Square<input type="radio" class="square_radio" name="radioGroup" value="square" checked>
+						Circle<input type="radio" class="circle_radio" name="radioGroup" value="circle">
+					</h2>
+				</form>
+			</section>
+
+		</template>
 
 		<script>
 
-			// var myDesktop = new Desktop(document.querySelector('.desktop'));
-			//var myTolbox= new Tolbox();
+
 			var myDesktopSystem = new DesktopSystem();
 
 			var myDesktopSystem1 = new DesktopSystem();
