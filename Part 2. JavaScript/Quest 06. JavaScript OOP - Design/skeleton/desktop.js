@@ -119,86 +119,45 @@ Tolbox.prototype._bindEvents = function() {
 }
 
 Tolbox.prototype._setDom = function() {
-	function setAttributes(el, attrs) {
-	  for(var key in attrs) {
-	    el.setAttribute(key, attrs[key]);
-	  }
-	}
 
-	this.dom = document.querySelector('.templates .toolboxTemplate').cloneNode();
+	this.domquery = document.querySelector(".templates");
+	this.dom = this.domquery.content.cloneNode(true);
 
 
-	this.tolbox = document.createElement("div");
-	this.tolbox.classList.add("tolbox");
 
-	///// icon, folder form_div
-	this.form_div = document.createElement("div");
-	this.form_div.classList.add("form_div");
+	// this.a = this.domclone.querySelector(".iconbutton");
+ // 	this.b = this.domclone.querySelector(".Iconnumber");
+ //  	document.body.appendChild(this.domclone);
+	// var Goo = function(){
+	//   var foo = new Foo();
+	//   foo.a.addEventListener("click", function(){
+	// console.log(foo.b.value);
+	//   });
+	// };
 
-	///// icon form tag
-	this.addicon = document.createElement("input");
-	setAttributes(this.addicon, {"type":"number", "value": 1,"class":"Iconnumber"});
+	// var createtolbox = new Tolbox(this);
+	// this.dom.appendChild(createtolbox.dom);
+	// createtolbox.iconbutton.addEventListener('click', function(){
+	// 	for(var i = 0; i < createtolbox.addicon.value; i++){
+	// 		var icon = new Icon();
+	// 		iconarr.push(icon);
+	// 		desktop.dom.appendChild(icon.dom);
+	//
+	// 		if(createtolbox.shapecircle.checked){
+	// 			icon.dom.classList.add("circle");
+	//
+	// createtolbox.folderbutton.addEventListener('click', function(){
+	// 	for(var j = 0; j < createtolbox.addfolder.value; j++){
 
-	this.iconform = document.createElement("form");
-	this.iconform.innerHTML = "<h2>" + "Icon: " + "</h2>"
-	this.iconbutton = document.createElement("input");
-	setAttributes(this.iconbutton, {"type":"BUTTON", "value": "Click","class":"iconbutton"});
-	this.iconform.appendChild(this.addicon);
-	this.iconform.appendChild(this.iconbutton);
-	this.form_div.appendChild(this.iconform);
+	// 		if(createtolbox.shapecircle.checked){
+	// 			folder.dom.classList.add("circle");
 
-	///// folder form tag
-	this.folderform = document.createElement("form");
-	this.folderform.innerHTML = "<h2>" + "Folder: " + "</h2>"
-	this.addfolder = document.createElement("input");
-	setAttributes(this.addfolder, {"type":"number", "value": 1,"class":"Foldernumber"});
-	this.folderbutton = document.createElement("input");
-	setAttributes(this.folderbutton, {"type":"BUTTON", "value": "Click","class":"folderbutton"});
-	this.folderform.appendChild(this.addfolder);
-	this.folderform.appendChild(this.folderbutton);
-	this.form_div.appendChild(this.folderform);
-	this.tolbox.appendChild(this.form_div);
+	//
+	// createtolbox.sizebutton.addEventListener("click", function(){
+	// 	var icon_w = createtolbox.sizew.value + 'px';
+	// 	var icon_h = createtolbox.sizeh.value + 'px';
 
-	/////size change form
-	this.sizechange = document.createElement("form");
-	this.sizechange.classList.add("size");
-	this.h2sizew = document.createElement("H2");
-	this.h2sizew.innerHTML = "W: ";
-	this.sizew = document.createElement("input");
-	setAttributes(this.sizew, {"type":"text", "value": "35","class":"sizeW"});
-	this.h2sizeh = document.createElement("H2");
-	this.h2sizeh.innerHTML = "H: ";
-	this.sizeh = document.createElement("input");
-	setAttributes(this.sizeh, {"type":"text", "value": "35","class":"sizeH"});
-	this.sizebutton = document.createElement("input");
-	setAttributes(this.sizebutton, {"type":"BUTTON", "value": "Click","class":"sizebutton"});
 
-	this.sizechange.appendChild(this.h2sizew);
-	this.sizechange.appendChild(this.sizew);
-	this.sizechange.appendChild(this.h2sizeh);
-	this.sizechange.appendChild(this.sizeh);
-	this.sizechange.appendChild(this.sizebutton);
-	this.tolbox.appendChild(this.sizechange);
-
-	/////shape change form
-	this.shapechange = document.createElement("form");
-	this.shapechange.classList.add("shape");
-	this.shapesquareh2 = document.createElement("H2");
-	this.shapesquare = document.createElement("input");  // square
-	this.shapesquareh2.innerHTML = "Square";
-	setAttributes(this.shapesquare, {"type":"radio", "checked":"checked", "value":"square",
-									"name":"radioGroup", "class":"square_radio"});
-	this.shapecircleh2 = document.createElement("H2");
-	this.shapecircleh2.innerHTML = "Circle";
-	this.shapecircle = document.createElement("input");  // circle
-	setAttributes(this.shapecircle, {"type":"radio", "value":"circle",
-									"name":"radioGroup", "class":"circle_radio"});
-
-	this.shapesquareh2.appendChild(this.shapesquare);
-	this.shapecircleh2.appendChild(this.shapecircle);
-	this.shapechange.appendChild(this.shapesquareh2);
-	this.shapechange.appendChild(this.shapecircleh2);
-	this.tolbox.appendChild(this.shapechange);
 
 };
 
