@@ -7,10 +7,15 @@
 ## Topics
 * 서버와 클라이언트, 그리고 웹 브라우저
 * 인터넷을 구성하는 여러 가지 프로토콜
-  * IP
-  * TCP
+  * IP (Internet Protocol)
+    - 인터넷에서 사용되는 주소체계
+  * TCP (Transmission Control Protocol)
+    - 네트워크의 정보 전달을 통제하는 프로토콜
+    - 네트워크 상의 data는 많은 packet들로 나뉘게 되고 packet는 여러 router를 거쳐 목적지 IP에 전송된다.
   * HTTP
-* DNS
+    - HTTP는 클라이언트와 서버 사이에 이루어지는 요청/응답(request/response) 프로토콜
+* DNS (Domain Name System)
+    - 문자로 되어있는 주소를 해당 IP로 변환하는 방법, Domain name server에서 이루어진다.
 
 ## Resources
 * [OSI 모형](https://ko.wikipedia.org/wiki/OSI_%EB%AA%A8%ED%98%95)
@@ -25,8 +30,12 @@
 
 ## Checklist
 * 인터넷은 어떻게 동작하나요? OSI 7 Layer에 입각하여 설명해 보세요.
+    - 통신은 출발지에서 목적지까지 데이터의 흐름
+    - OSI 7 Layer은 물리 계층, 데이터 링크 계층, 네트워크 계층, 전송 계층, 세션 계층, 표현 계층(6계층), 응용 계층(7계층)으로 구성
 * 우리가 브라우저의 주소 창에 www.knowre.com 을 쳤을 때, 어떤 과정을 통해 노리의 서버 주소를 알게 되나요?
-
+    - 주소창에 주소를 치게 되면 Domain name server에 연결되어 해당 Domain의 IP주소를 얻게 된다.
+    - 브라우저는 HTTP를 통해서 IP주소에 접근하여 request한다.
+    - 해당 웹서버는 response하여 HTML, CSS, js등의 파일의 데이타들을 보내고(packet개념, OSI 7 Layer) 사이트는 브라우저 창에 렌더링된다.
 ## Quest
 * tracert(Windows가 아닌 경우 traceroute) 명령을 통해 www.google.com까지 가는 경로를 찾아 보세요.
   * 어떤 IP주소들이 있나요?
@@ -37,3 +46,8 @@
 * telnet 명령을 통해 http://www.google.com/ URL에 HTTP 요청을 날려 보세요.
   * 어떤 헤더들이 있나요?
   * 그 헤더들은 어떤 역할을 하나요?
+
+
+
+## OSI 7 Layer 사진
+  ![OSI 7 Layer](http://cfile7.uf.tistory.com/image/1366533650DFB0122B422F)
