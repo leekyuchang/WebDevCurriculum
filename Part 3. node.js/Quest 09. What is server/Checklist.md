@@ -100,18 +100,19 @@
     - Host: www.google.co.kr
 
   * 어떤 헤더들이 있나요? 그 헤더들은 어떤 역할을 하나요?
-    - Date
-    - Expires
-    - Cache-Control
-    - Content-Type
-    - P3P
-    - server
-    - X-XXS-Protection
-    - X-Frame-Options
-    - Set-Cookie
-    - Accept-Ranges
-    - Vary
-
+    - request/response/general/entity header가 있다.
+    - user-agent: 사용자의 브라우저
+    - Date: 현재 날짜
+    - Expires: 리소스의 만기날짜
+    - Cache-Control: 캐쉬 응답/요청 지시문
+    - Content-Type: 요청한 파일의 MiMe타입을 나타냄(text/html)
+    - P3P: 개인 정보 보호 정책과 관련된 헤더, 해당 사이트엫서 취급하는 개인정보의 레벨이나 성격 등을 알려줌
+    - server: web server
+    - X-Frame-Options: 브라우저가 <frame>, <iframe> 혹은 <object> 태그를 렌더링 해야하는지 막아야하는지를 알려준다.
+    - Set-Cookie: 클라이언트에 대해 유지하고자 하는 정보를 담고 있는 이름/값 으로 포함
+        - Cookie: 사용자가 처음으로 사이트나 페이지를 방문하면 쿠키가 생성, 서버가 클라이언트에서 지정한 정보를 저장할 수 있게 하기 위한 것, 서버는 클라이언트에 의해 다시 특정 페이지나 서버에 접근할 때 그 정보를 이용할 수 있다
+    - Accept-Ranges: URI를 위한 요청 범위의 승인을 나타냄, 받아들인 요청의 범위가 없을경우 none
+    - Vary: 엔티티가 다중 리소스를 가지고 있으므로 요청한 헤더를 지정한 목록이 상황에 따라 변할 수 있다는 것을 지정
 
 
 
