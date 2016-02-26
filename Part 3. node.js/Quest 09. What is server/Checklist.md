@@ -13,7 +13,7 @@
     - 네트워크의 정보 전달을 통제하는 프로토콜
     - 네트워크 상의 data는 많은 packet들로 나뉘게 되고 packet는 여러 router를 거쳐 목적지 IP에 전송된다.
   * HTTP
-    - HTTP는 클라이언트와 서버 사이에 이루어지는 요청/응답(request/response) 프로토콜
+    - HTTP는 클라이언트와 서버 사이에서 데이터를 주고 받기 위해 이루어지는 요청/응답(request/response) 프로토콜
 * DNS (Domain Name System)
     - 문자로 되어있는 주소를 해당 IP로 변환하는 방법, Domain name server에서 이루어진다.
 
@@ -69,11 +69,49 @@
     - 2단계: google에서 80포트로 접속 요청을 수락하는 SYN, ACK(acknowledgment) 패킷를 보낸다.
     - 3단계: 80포트에서 google로 ACK를 보낸다.
   * 각각의 패킷에 어떤 정보들이 담겨 있나요?
-    -
+    - Source/Destination port (송/수신지 포트)
+    - Sequence number (송신 일련번호)
+        - 송신자가 세그먼트를 보낼때 순서를 의미하는 일련번호를 붙인다.
+    - Acknowledgment number (수신 확인 일련번호)
+        - 수신자가 SYN을 받았다는 의미로 세그먼트에 다음에 올것을 기대하는 세그먼트의 송신 일련번호를 붙인다.
+    - Header length (헤더 길이)
+    - Flag
+        - URG(Urgent) 비트가 1일경우 세그먼트(tcp가 보내는 패킷의 기본단)의 데이터중 우선적으로 처리
+        - ACK 비트가 1일경우 수신 확인 필드가 유효하다는 의미
+        - PSH(push) 긴급데이터가 아닌 데이터를 빨리 처리하기를 요청
+        - RST(reset) TCP연결 종료 요청
+        - SYN 송신자, 수신자의 일련번호를 확인할때 사용. 이비트가 1이면 3handshake 단계중 SYN단계(1,2)
+        - FIN(finish) 프로세스가 완료, 데이터가 전송되었다는 의미
+    - Window Size (송신자 윈도우 크기)
+        - 흐름제어를 위해 송신자에게 수신자가 자신의 버퍼 여유용량크기를 지속적으로 보냄
+    - Checksum: 세그먼트의 내용이 유효한지 검증, 손상여부 검사
+    - Urgent pointer
+        - Flag의 URG가 1인경우 긴급데이터 크기를 8진수로 표현
+        - Flag의 URG가 0인경우 16진수로 0000이며, 긴급데이터 없음을 의미
+    - Options
+        - 여러 옵션들을 정의
+        - 최대 세그먼트 크기 MMS
+        - 윈도우 크기 지정
+    * [TCP 헤더 자세한 설명](http://stih.tistory.com/52)
 * telnet 명령을 통해 http://www.google.com/ URL에 HTTP 요청을 날려 보세요.
   * telnet란 인터넷이나 로컬 영역 네트워크 연결에 쓰이는 네트워크 프로토콜
-  * 어떤 헤더들이 있나요?
-  * 그 헤더들은 어떤 역할을 하나요?
+    - telnet www.google.co.kr 80
+    - GET / HTTP/1.0     (HEAD / HTTP/1.0)
+    - Host: www.google.co.kr
+
+  * 어떤 헤더들이 있나요? 그 헤더들은 어떤 역할을 하나요?
+    - Date
+    - Expires
+    - Cache-Control
+    - Content-Type
+    - P3P
+    - server
+    - X-XXS-Protection
+    - X-Frame-Options
+    - Set-Cookie
+    - Accept-Ranges
+    - Vary
+
 
 
 
