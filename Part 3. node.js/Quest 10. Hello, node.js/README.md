@@ -27,9 +27,19 @@
     - Node.js 방식 정리: (이벤트 기반의 비동기/Non blocking I/O방식) I/o 작업과 같이 오랜 시간을 필요로 하는 작업은 스레드 풀로 보내서 작업을 진행, 작업끝난 이벤트를 다시 싱글 스레드가 받아서 그 이벤트를 실행하는 방식
 
   * `require()` 함수는 어떻게 쓰는 것인가요?
+    - `require()`: 모듈을 로딩한다. (return은 module.exports의 객체)
+    - ex) `require(./foo.js)`: 파일의 같은 디렉토리에 있는 foo.js파일을 로딩한다.
+    - ex) `require(http)`: Node 코어에 있는 http모듈을 불러온다.
   * `module.exports`와 `exports` 변수는 어떻게 다른가요?
+    - module.exports와 exports는 어떠한 모듈을 선언할때 사용. call by reference로만 선언해야 한다. ex) module.exports.foo = "foo"
+    - module.exports와 exports는 같은 객체를 바라본다. 그러나 return은 module.exports의 객체.
+    - module.exports와 exports를 같이 사용하는 경우를 줄이고, 같이 사용한다면 call by reference 를 꼭 지키기. [module.exports와 exports](http://nodeqa.com/nodejs_ref/7)
 * npm이 무엇인가요?
+    - npm(Node Packaged Modules)의 약자로 node의 외부 모듈을 쉽게 관리(설치, 삭제) 할수 패키지 매니져.
   * npm 패키지를 `-g` 옵션을 통해 Global로 저장하는 것과 그렇지 않은 것은 어떻게 다른가요?
+    - Global: 터미널에서 모듈을 사용할 때 global로 설치
+    - Local: 현재 디렉토리에 모듈을 설치, 현재 프로젝트 내에서 require로 불러올 모듈들은 local로 설치
+
 
 ## Quest
 * node.js를 PC에 설치해 보세요. 버전은 5.x 버전이 적당합니다!
