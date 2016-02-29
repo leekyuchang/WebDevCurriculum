@@ -8,6 +8,7 @@
 * GET/POST
 * node.js `http` module
   * `req`와 `res` 객체
+    - HTTP요청을 핸들링하거나 응답을 보내는데 사용한다.
 
 ## Resources
 * [HTTP Node.js v5.3.0 Manual & Documentation](https://nodejs.org/api/http.html)
