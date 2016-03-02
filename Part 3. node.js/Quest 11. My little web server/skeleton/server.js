@@ -8,21 +8,21 @@
 // 	res.end();
 // }).listen(8080);
 
-//2. hello, 'string' using GET
+
 var http = require('http');
 var url = require('url');
 
 http.createServer(function(req, res) {
-	// TODO: 이 곳을 채워넣으세요..!
-	var pathname = url.parse(req.url, true).;
 	res.writeHead(200, {'Content-Type': 'text/plain'});
-	res.write('Hello ' + pathname);
+	var bar = '123';
+	var pathname = url.parse(req.url, true).pathname;
+	if(req.method == 'GET'){
+		res.write('Hello ' +  bar + 'GET');
+	} else if (req.method == 'POST'){
+		res.write('Hello ' +  bar + 'POST');
+	} else {
+		res.write('Hello World!');
+	}
+
 	res.end();
 }).listen(8080);
-
-
-
-
-
-
-//3. hello, 'string' using POST
