@@ -16,13 +16,22 @@
 	font-weight:bold;
 }
 
+textarea {
+	width: 500px;
+	height: 420px;
+	resize: none;
+	box-sizing: border-box;
+	border: none;
+}
+
+
 /*Layout*/
 .notepad {
 	position: relative;
 	/*left: 0;
 	top: 0;*/
 	width: 500px;
-	height: 600px;
+	height: 500px;
 	background-color: white;
 }
 
@@ -52,7 +61,7 @@
 	left: 0;
 	top: 80px;
 	width: 500px;
-	height: 520px;
+	height: 420px;
 	background-color: white;
 	border: 1px solid black;
 }
