@@ -10,11 +10,8 @@ Notepad.prototype._initialize = function(){
 	this._bindEvents();
 };
 
-
 Notepad.prototype._setDom = function(){
-	// this.dom = document.querySelector('.templates .toolboxTemplate').cloneNode(true);
-	// this.dom = dom.cloneNode(true);
-	// this.dom.style.display = 'block';
+
 };
 
 Notepad.prototype._bindEvents = function(){
@@ -38,7 +35,7 @@ NoteToolbox.prototype._setDom = function(){
 };
 
 NoteToolbox.prototype._bindEvents = function(){
-	///new func
+	///new func  //// new Note();
 	///load func
 	///save func
 	///close func(uncertain)
@@ -61,9 +58,9 @@ NoteTab.prototype._setDom = function(){
 };
 
 NoteTab.prototype._bindEvents = function(){
-	///close tab
-	///new tab
 	///click tab
+	///close tab
+	///new tab(uncertain)
 	///move tab(uncertain)
 };
 
@@ -80,7 +77,9 @@ Note.prototype._initialize = function(){
 };
 
 Note.prototype._setDom = function(){
-
+	this.dom = document.querySelector(".note").cloneNode(true);
+	this.dom.style.display = 'block';
+	document.querySelector(".notepad").appendChild(this.dom);
 };
 
 Note.prototype._bindEvents = function(){
