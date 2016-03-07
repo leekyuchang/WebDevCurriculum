@@ -2,13 +2,21 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="/style.css">
-		<script src="/notepad.js"></script>
+		<link rel="stylesheet" href="./style.css">
+		<script src="./notepad.js"></script>
 	</head>
 	<body>
 		<!-- TODO: 이 곳을 채워 클라이언트를 만들어 보세요 -->
+		<div class="notepad" style = "display: none">
+			<div class="notepadTool">
+
+			</div>
+			<div class="notpadContent">
+
+			</div>
+		</div>
 		<script>
-			var notepad = new Notepad();
+			var notepad = new Notepad(document.querySelector(".notepad"));
 		</script>
 	</body>
 </html>

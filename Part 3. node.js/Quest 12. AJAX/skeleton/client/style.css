@@ -1,3 +1,31 @@
 * {
 	/* TODO: 필요한 CSS를 채워넣어 보세요! */
 }
+
+.notepad {
+	position: relative;
+	/*left: 0;
+	top: 0;*/
+	width: 500px;
+	height: 500px;
+	border: 1px solid black;
+	background-color: white;
+}
+
+.notepadTool {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 500px;
+	height: 30px;
+	background-color: rgb(191, 187, 177);
+}
+
+.notepad .notpadContent {
+	position: absolute;
+	left: 0;
+	top: 30px;
+	width: 500px;
+	height: 470px;
+	background-color: white;
+}
