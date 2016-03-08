@@ -47,8 +47,11 @@ textarea {
 	/*background-color: rgb(170, 170, 170);*/
 }
 
-.noteTab {
+.noteTabbox {
 	position: absolute;
+	display: flex;
+	overflow: auto;
+	align-items : center;
 	left: 0px;
 	top: 50px;
 	width: 500px;
@@ -64,4 +67,11 @@ textarea {
 	height: 420px;
 	background-color: white;
 	border: 1px solid black;
+}
+
+.noteTab {
+	margin: 1px;
+	width: 80px;
+	height: 20px;
+	background-color: skyblue;
 }

@@ -17,22 +17,22 @@
 				<button type="button" class="btn btnClose">Close</button>
 
 			</div>
-			<div class="noteTab">
+			<div class="noteTabbox">
+				<!-- 탭도 template사용 -->
+				<div class="noteTab" style="display: none">
 
+				</div>
 			</div>
-			<div class="note" style = "display: none">
+			<div class="note" style="display: none">
 				<!-- Using templates -->
 				<form action="">
 					<textarea class="noteText"></textarea>
 				</form>
 
-
-
 			</div>
 		</div>
 		<script>
 			var notepad = new Notepad(document.querySelector(".notepad"));
-			// var note = new Note();
 		</script>
 	</body>
 </html>

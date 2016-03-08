@@ -11,10 +11,23 @@ Notepad.prototype._initialize = function(){
 };
 
 Notepad.prototype._setDom = function(){
+	this.notetoolbox = new NoteToolbox();
+
+	// create new note & new tab
+	this.notetoolbox.dom.addEventListener('newnote', function(){
+		console.log("Create new note & new tab");
+
+		this.note = new Note();
+		// thos.note.classList.add("");
+		this.noteTab = new NoteTab();
+		console.log(this.note);
+		console.log(this.noteTab);
+	});
 
 };
 
 Notepad.prototype._bindEvents = function(){
+
 
 };
 
@@ -23,6 +36,7 @@ Notepad.prototype._bindEvents = function(){
 //////////////NoteToolbox
 var NoteToolbox = function(){
 	this._initialize();
+
 };
 
 NoteToolbox.prototype._initialize = function(){
@@ -31,14 +45,36 @@ NoteToolbox.prototype._initialize = function(){
 };
 
 NoteToolbox.prototype._setDom = function(){
-
+	this.dom = document.querySelector(".notepadToolbox");
 };
 
 NoteToolbox.prototype._bindEvents = function(){
-	///new func  //// new Note();
+
+	this.btnNew = this.dom.querySelector(".btnNew");
+	this.btnLoad = this.dom.querySelector(".btnLoad");
+	this.btnSave = this.dom.querySelector(".btnSave");
+	this.btnClose = this.dom.querySelector(".btnClose");
+
+	var that = this;
+	//// new func
+	this.btnNew.addEventListener("click", function(e) {
+		that.dom.dispatchEvent(new Event("newnote"));
+	});
+
 	///load func
+	this.btnLoad.addEventListener("click", function(e) {
+		that.dom.dispatchEvent(new Event("loadnote"));
+	});
+
 	///save func
+	this.btnSave.addEventListener("click", function(e) {
+		that.dom.dispatchEvent(new Event("savenote"));
+	});
+
 	///close func(uncertain)
+	this.btnClose.addEventListener("click", function(e) {
+		that.dom.dispatchEvent(new Event("closenote"));
+	});
 };
 
 
@@ -54,7 +90,9 @@ NoteTab.prototype._initialize = function(){
 };
 
 NoteTab.prototype._setDom = function(){
-
+	this.dom = document.querySelector(".noteTab").cloneNode(true);
+	this.dom.style.display = 'block';
+	document.querySelector(".noteTabbox").appendChild(this.dom);
 };
 
 NoteTab.prototype._bindEvents = function(){
