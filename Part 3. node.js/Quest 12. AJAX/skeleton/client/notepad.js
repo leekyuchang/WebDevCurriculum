@@ -14,14 +14,18 @@ Notepad.prototype._setDom = function(){
 	this.notetoolbox = new NoteToolbox();
 
 	// create new note & new tab
+	var i = 0;
 	this.notetoolbox.dom.addEventListener('newnote', function(){
 		console.log("Create new note & new tab");
 
 		this.note = new Note();
-		// thos.note.classList.add("");
 		this.noteTab = new NoteTab();
-		console.log(this.note);
-		console.log(this.noteTab);
+		this.note.dom.classList.add("note" + i);
+		this.noteTab.dom.classList.add("note" + i);
+
+		console.log(this.note.dom);
+		console.log(this.noteTab.dom);
+		i++;
 	});
 
 };
@@ -123,3 +127,9 @@ Note.prototype._setDom = function(){
 Note.prototype._bindEvents = function(){
 
 };
+
+
+// module.exports = Notepad;
+// module.exports = NoteToolbox;
+// module.exports = NoteTab;
+// module.exports = Note;

@@ -70,8 +70,8 @@ textarea {
 }
 
 .noteTab {
-	margin: 1px;
+	margin: 1.5px;
 	width: 80px;
 	height: 20px;
-	background-color: skyblue;
+	background-color: rgb(226, 228, 231);
 }
