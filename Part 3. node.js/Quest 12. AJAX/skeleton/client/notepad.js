@@ -12,8 +12,8 @@ Notepad.prototype._initialize = function(){
 
 Notepad.prototype._setDom = function(){
 	this.notetoolbox = new NoteToolbox();
-
-	// create new note & new tab
+	var that = this;
+	// create new note & new tab event
 	var i = 0;
 	this.notetoolbox.dom.addEventListener('newnote', function(){
 		console.log("Create new note & new tab");
@@ -28,10 +28,28 @@ Notepad.prototype._setDom = function(){
 		i++;
 	});
 
-	// this.notetoolbox.dom.addEventListener('loadnote', function(){
-	// 	console.log("note list");
-	// });
+	// loadnote event
+	this.notetoolbox.dom.addEventListener('loadnote', function(){
+		if(document.querySelector(".notelist")){
+			// consoel.log("already exist notelist class");
+			return "already exist notelist class";
+		} else {
+			// var toolbaxclass = notepadToolbox
+			var notelist = document.createElement('div');
+			notelist.classList.add('notelist');
+			that.dom.appendChild(notelist);
+			var notelistclosebtn = document.createElement('div');
+			notelistclosebtn.classList.add('notelistclosebtn');
+			notelist.appendChild(notelistclosebtn);
 
+			//make notelist div's close btn
+			notelistclosebtn.addEventListener('click', function(){
+				console.log('close');
+				console.log(that.dom);
+				notelist.remove();
+			});
+		}
+	});
 };
 
 Notepad.prototype._bindEvents = function(){
@@ -69,10 +87,10 @@ NoteToolbox.prototype._bindEvents = function(){
 		that.dom.dispatchEvent(new Event("newnote"));
 	});
 
-	// ///load func
-	// this.btnLoad.addEventListener("click", function(e) {
-	// 	that.dom.dispatchEvent(new Event("loadnote"));
-	// });
+	///load func
+	this.btnLoad.addEventListener("click", function(e) {
+		that.dom.dispatchEvent(new Event("loadnote"));
+	});
 
 	///save func
 	this.btnSave.addEventListener("click", function(e) {

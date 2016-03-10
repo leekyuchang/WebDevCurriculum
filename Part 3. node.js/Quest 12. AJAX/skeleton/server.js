@@ -12,22 +12,13 @@ app.use(express.static('client'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// function notename(name, path){
-// 	if(){
-//
-// 	}
-// }
-
-
 //  index.html
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-
 // load note
 app.get('/notelist', function (req, res) {
-
 	//show textfolder files list (array)
 	fs.readdir('./textfolder', function(err, files){
 		if(err){
@@ -36,7 +27,9 @@ app.get('/notelist', function (req, res) {
 			console.log(files);
 		}
 	});
+});
 
+app.get('/notelist/note', function(req, res){
 	// show text content.
 	// fs.readFile('./textfolder/test1.txt', 'utf8', function(error, data){
 	// 	if(error) {
@@ -70,12 +63,6 @@ var server = app.listen(8080, function () {
 });
 
 
-// load
-// save
-// close
-
-
-
 /////  create & using custom event
 //
 // var eventEmitter = new events.EventEmitter();
@@ -87,11 +74,3 @@ var server = app.listen(8080, function () {
 // eventEmitter.on('doorOpen', ringBell);
 //
 // eventEmitter.emit('doorOpen');
-
-// var loadevent = new events.EventEmitter();
-// var loadfunc = function loadfunc(){
-// 	console.log('Hi I"m loadfunc');
-// }
-// loadevent.on('clickloadbtn', loadfunc);
-//
-// loadevent.emit('clickloadbtn');
