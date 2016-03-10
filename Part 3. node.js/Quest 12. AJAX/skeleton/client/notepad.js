@@ -28,6 +28,10 @@ Notepad.prototype._setDom = function(){
 		i++;
 	});
 
+	// this.notetoolbox.dom.addEventListener('loadnote', function(){
+	// 	console.log("note list");
+	// });
+
 };
 
 Notepad.prototype._bindEvents = function(){
@@ -65,10 +69,10 @@ NoteToolbox.prototype._bindEvents = function(){
 		that.dom.dispatchEvent(new Event("newnote"));
 	});
 
-	///load func
-	this.btnLoad.addEventListener("click", function(e) {
-		that.dom.dispatchEvent(new Event("loadnote"));
-	});
+	// ///load func
+	// this.btnLoad.addEventListener("click", function(e) {
+	// 	that.dom.dispatchEvent(new Event("loadnote"));
+	// });
 
 	///save func
 	this.btnSave.addEventListener("click", function(e) {
