@@ -25,12 +25,18 @@
 			</div>
 			<div class="note" style="display: none">
 				<!-- Using templates -->
-				<form action="">
-					<textarea class="noteText"></textarea>
+				<form action="/" method="post">
+					<textarea name="notetextarea" class="noteText"></textarea>
+					<input type="submit" value="Submit" class="notesubmit">
 				</form>
-
 			</div>
 		</div>
+		<!-- <div class="test">
+			<form action="/" method="post" class="testform">
+				<input type="text" name="test">
+				<input type="submit">
+			</form>
+		</div> -->
 		<script>
 			var notepad = new Notepad(document.querySelector(".notepad"));
 		</script>
