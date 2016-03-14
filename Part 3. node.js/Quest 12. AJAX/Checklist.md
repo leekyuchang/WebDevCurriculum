@@ -21,7 +21,6 @@
     - AJAX란 비동기 JavaScript와 XML을 말하며, AJAX를 통해 서버측으로 다양한 형식(JSON, XML, HTML 및 일반 텍스트 등)의 정보를 주고 받을 수 있다.
     - 브라우저는 XMLHttpRequest 객체를 이용하여 Ajax 요청을 생성하고, 서버가 브라우저의 요청청에 대한 응답을을 전달하면 같은 XMLHttpRequest 객체가 그결과를 처리한다.
     - XMLHttpRequest클래스는 HTTP를 통해 쉽게 데이터를 받기 위해 만들어진 JavaScript객체(IE외의 브라우져가 Microsoft의 ActiveX객체의 method와 property를 지원하기 위해 만들어짐)
-    -
 
 ## Quest
 * 자바스크립트를 이용하여 간단한 웹브라우저 기반의 텍스트 파일 메모장을 만들어 보겠습니다.

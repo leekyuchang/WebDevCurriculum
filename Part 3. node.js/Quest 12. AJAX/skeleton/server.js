@@ -16,7 +16,13 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// load note (notelist)
+// GET /notes  <--list
+// POST /notes/  <--create
+// GET /notes/:id <--read
+// PUT /notes/:id  <--update
+
+
+//load note (notelist get)             /// LIST
 app.get('/notes', function (req, res) {
 	//show textfolder files list (array)
 	fs.readdir('./textfolder', function(err, files){
@@ -28,22 +34,38 @@ app.get('/notes', function (req, res) {
 	});
 });
 
-//note get
-app.get('/notes/:notenumber', function(req, res){
+//create note (note post)
+app.post('/notes', function(req, res){
 
 });
 
-//new note post(create & update)
-app.post('/notes/:notenumber', function(req, res){
-
-	var testnote = req.body.notetextarea;
-	// new버튼을 클릭하면 파일이 생성???
-	fs.writeFile('./textfolder/test2.txt', testnote, function (err,data) {
-		if (err) {
-			return console.log(err);
+//? note content get(load)                       /// READ
+app.get('/notes/:notenumber', function(req, res){
+	var notepath = path.join(__dirname, './textfolder', req.params.notenumber + '.txt');
+	res.end("note number: " + req.params.notenumber);
+	fs.readFile(notepath, 'utf8', function(err, data){
+		if(err) {
+			console.log(err);
+		} else {
+			console.log(data);
 		}
 	});
 });
+
+//? new note post(create & update)                /// CREATE
+app.post('/notes/:notenumber', function(req, res){
+	var notepath = path.join(__dirname, './textfolder', req.params.notenumber + '.txt');
+	var testnote = req.body.notetextarea;
+	// new버튼을 클릭하면 파일이 생성???
+	fs.writeFile(notepath, testnote, function (err,data) {
+		if (err) {
+			return console.log(err);
+		} else {
+			console.log(data);
+		}
+	});
+});
+
 
 /* TODO: 여기에 처리해야 할 요청의 주소별로 동작을 채워넣어 보세요..! */
 
@@ -63,3 +85,7 @@ var server = app.listen(8080, function () {
 // eventEmitter.on('doorOpen', ringBell);
 //
 // eventEmitter.emit('doorOpen');
+
+
+// var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+// var xhr = new XMLHttpRequest();
