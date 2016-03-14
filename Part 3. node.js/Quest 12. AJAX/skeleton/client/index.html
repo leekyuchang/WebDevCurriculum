@@ -30,10 +30,14 @@
 
 				</div>
 			</div>
+			<div class="notebox">
+
+			</div>
 			<div class="note" style="display: none">
 				<!-- Using templates -->
 				<form action="/" method="post">
-					<textarea name="notetextarea" class="noteText"></textarea>
+					Note Name: <input type="text" name="note-name" class="noteName"><br />
+					Note Content :<br /><textarea name="notetextarea" class="noteText"></textarea>
 					<input type="submit" value="Submit" class="notesubmit">
 				</form>
 
@@ -41,7 +45,32 @@
 			</div>
 		</div>
 		<script>
+			var httpRequest;
+			document.querySelector('.btnLoad').onclick = function(){ 
+				golink('/notes');
+				console.log('hi'); };
+
+			function golink(url) {
+				httpRequest = new XMLHttpRequest();
+
+				if (!httpRequest) {
+			    	alert('Cannot create an XMLHTTP instance');
+					return false;
+			    } else {
+					console.log();
+				}
+				httpRequest.onreadystatechange = showcontent;
+				httpRequest.open('GET', url, true);
+				httpRequest.send(null);
+			}
+			function showcontent(){
+				if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+					document.querySelector('.notebox').innerHTML = httpRequest.responseText;
+				}
+			}
+
 			var notepad = new Notepad(document.querySelector(".notepad"));
+
 		</script>
 	</body>
 </html>

@@ -25,34 +25,36 @@ Notepad.prototype._setDom = function(){
 
 		//input note name
 
-		 
+
 		console.log(this.note.dom);
 		console.log(this.noteTab.dom);
 		i++;
 	});
 
 	// loadnote event
-	this.notetoolbox.dom.addEventListener('loadnote', function(){
-		if(document.querySelector(".notelist")){
-			// consoel.log("already exist notelist class");
-			return "already exist notelist class";
-		} else {
-			// var toolbaxclass = notepadToolbox
-			var notelist = document.createElement('div');
-			notelist.classList.add('notelist');
-			that.dom.appendChild(notelist);
-			var notelistclosebtn = document.createElement('div');
-			notelistclosebtn.classList.add('notelistclosebtn');
-			notelist.appendChild(notelistclosebtn);
+	// this.notetoolbox.dom.addEventListener('loadnote', function(){
 
-			//make notelist div's close btn
-			notelistclosebtn.addEventListener('click', function(){
-				console.log('close');
-				console.log(that.dom);
-				notelist.remove();
-			});
-		}
-	});
+		// LOAD WINDOW OPEN
+		// if(document.querySelector(".notelist")){
+		// 	// consoel.log("already exist notelist class");
+		// 	return "already exist notelist class";
+		// } else {
+		// 	// var toolbaxclass = notepadToolbox
+		// 	var notelist = document.createElement('div');
+		// 	notelist.classList.add('notelist');
+		// 	that.dom.appendChild(notelist);
+		// 	var notelistclosebtn = document.createElement('div');
+		// 	notelistclosebtn.classList.add('notelistclosebtn');
+		// 	notelist.appendChild(notelistclosebtn);
+		//
+		// 	//make notelist div's close btn
+		// 	notelistclosebtn.addEventListener('click', function(){
+		// 		console.log('close');
+		// 		console.log(that.dom);
+		// 		notelist.remove();
+		// 	});
+		// }
+	// });
 };
 
 Notepad.prototype._bindEvents = function(){

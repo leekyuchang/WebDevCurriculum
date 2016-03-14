@@ -1,9 +1,7 @@
 * {
 	/* TODO: 필요한 CSS를 채워넣어 보세요! */
 }
-a {
 
-}
 .btn {
 	width: 120px;
 	height: 40px;
@@ -18,12 +16,16 @@ a {
 	font-weight:bold;
 }
 
+input[type="text"] {
+	border: 1px solid rgb(170, 170, 170);
+}
+
 textarea {
-	width: 500px;
-	height: 420px;
+	width: 490px;
+	height: 380px;
 	resize: none;
 	box-sizing: border-box;
-	border: none;
+	border-color: rgb(170, 170, 170);
 }
 
 
@@ -77,6 +79,14 @@ textarea {
 	background-color: rgb(191, 187, 177);
 }
 
+.notebox {
+	position: absolute;
+	left: 0;
+	top: 80px;
+	width: 500px;
+	height: 420px;
+}
+
 .note {
 	position: absolute;
 	left: 0;
@@ -84,7 +94,7 @@ textarea {
 	width: 500px;
 	height: 420px;
 	background-color: white;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 }
 
 .noteTab {
