@@ -23,6 +23,9 @@ Notepad.prototype._setDom = function(){
 		this.note.dom.classList.add("note" + i);
 		this.noteTab.dom.classList.add("note" + i);
 
+		//input note name
+
+		 
 		console.log(this.note.dom);
 		console.log(this.noteTab.dom);
 		i++;

@@ -30,24 +30,27 @@ app.get('/notes', function (req, res) {
 			console.log(err);
 		} else {
 			console.log(files);
+			files.forEach(function(file){
+        		res.write('<a href=' + '/notes/' + file + '>' + file + '<br>');
+    		});
 		}
 	});
 });
 
 //create note (note post)
-app.post('/notes', function(req, res){
-
-});
+// app.post('/notes', function(req, res){
+// 	res.
+// });
 
 //? note content get(load)                       /// READ
 app.get('/notes/:notenumber', function(req, res){
-	var notepath = path.join(__dirname, './textfolder', req.params.notenumber + '.txt');
-	res.end("note number: " + req.params.notenumber);
+	var notepath = path.join(__dirname, './textfolder', req.params.notenumber);
 	fs.readFile(notepath, 'utf8', function(err, data){
 		if(err) {
 			console.log(err);
 		} else {
 			console.log(data);
+			res.end('note number '+ req.params.notenumber + ': ' + data);
 		}
 	});
 });
@@ -62,6 +65,7 @@ app.post('/notes/:notenumber', function(req, res){
 			return console.log(err);
 		} else {
 			console.log(data);
+
 		}
 	});
 });
@@ -72,6 +76,12 @@ app.post('/notes/:notenumber', function(req, res){
 var server = app.listen(8080, function () {
 	console.log('Server started!');
 });
+
+
+//req.params.
+//req.query.
+//req.body.
+
 
 
 /////  create & using custom event
@@ -85,7 +95,3 @@ var server = app.listen(8080, function () {
 // eventEmitter.on('doorOpen', ringBell);
 //
 // eventEmitter.emit('doorOpen');
-
-
-// var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-// var xhr = new XMLHttpRequest();
