@@ -82,7 +82,7 @@ NoteToolbox.prototype._setDom = function(){
 NoteToolbox.prototype._bindEvents = function(){
 
 	this.btnNew = this.dom.querySelector(".btnNew");
-	this.btnLoad = this.dom.querySelector(".btnLoad");
+	// this.btnLoad = this.dom.querySelector(".btnLoad");
 	this.btnSave = this.dom.querySelector(".btnSave");
 	this.btnClose = this.dom.querySelector(".btnClose");
 
@@ -93,9 +93,9 @@ NoteToolbox.prototype._bindEvents = function(){
 	});
 
 	///load func
-	this.btnLoad.addEventListener("click", function(e) {
-		that.dom.dispatchEvent(new Event("loadnote"));
-	});
+	// this.btnLoad.addEventListener("click", function(e) {
+	// 	that.dom.dispatchEvent(new Event("loadnote"));
+	// });
 
 	///save func
 	this.btnSave.addEventListener("click", function(e) {

@@ -46,26 +46,35 @@
 		</div>
 		<script>
 			var httpRequest;
-			document.querySelector('.btnLoad').onclick = function(){ 
-				golink('/notes');
-				console.log('hi'); };
+			var notebox = document.querySelector('.notebox');
+			document.querySelector('.btnLoad').onclick = function(){
+				golink('https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/Bio.txt');
+				};
 
 			function golink(url) {
+
 				httpRequest = new XMLHttpRequest();
 
 				if (!httpRequest) {
 			    	alert('Cannot create an XMLHTTP instance');
 					return false;
 			    } else {
-					console.log();
+					console.log("httpRequest is exist");
+					var path = document.location.pathname;
+					console.log(path);
 				}
 				httpRequest.onreadystatechange = showcontent;
 				httpRequest.open('GET', url, true);
-				httpRequest.send(null);
+				httpRequest.send();
 			}
 			function showcontent(){
-				if (httpRequest.readyState === 4 && httpRequest.status === 200) {
-					document.querySelector('.notebox').innerHTML = httpRequest.responseText;
+				if (httpRequest.readyState === 4) {
+					// notebox.style.border = '1px solid #e8e8e8';
+					if (httpRequest.status === 200) {
+						notebox.innerHTML = httpRequest.responseText;
+					} else {
+						console.log(httpRequest.status);
+					}
 				}
 			}
 

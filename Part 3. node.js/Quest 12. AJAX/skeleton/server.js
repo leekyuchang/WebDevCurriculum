@@ -21,7 +21,6 @@ app.get('/', function (req, res) {
 // GET /notes/:id <--read
 // PUT /notes/:id  <--update
 
-
 //load note (notelist get)             /// LIST
 app.get('/notes', function (req, res) {
 	//show textfolder files list (array)
