@@ -21,14 +21,6 @@ app.get('/main', function(req, res) {
 			obj = JSON.parse(data);
 			console.log(data);
 			// 사용자의 ID, 노트의 개수, 리스트
-			// var mainRes = '<a href=/notes/' + obj[0].name + '>'+ obj[0].name + '<br>';
-			// function resfor() {
-            //     for(var i = 1; i < obj.length; i += 1){
-            //         mainRes += '<a href=/notes/' + obj[i].name + '>'+ obj[i].name + '<br>';
-            //     }
-            // }
-            // resfor();
-            // res.send(mainRes);
 			res.send(data);
 		}
 	});
