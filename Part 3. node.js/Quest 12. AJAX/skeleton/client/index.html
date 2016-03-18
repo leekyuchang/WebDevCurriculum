@@ -21,13 +21,75 @@
 				<div class="noteTab" style="display: none"></div>
 			</div>
 
-			<div name="content" class="content">
+			<div name="maincontent" class="maincontent">
 				<!-- note의 내용과 메인내용들이 나올 부분 -->
+				<!-- 사용자의 ID, 노트의 개수, 리스트 -->
+
+
 			</div>
 
 		</div>
 		<script>
 			var notepad = new Notepad();
+
+			function ajaxfunc(method, url, callback) {
+				xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					callback();
+				}
+
+				xhr.open(method, url, true);
+				if(method == 'POST') {
+					xhr.send();
+				} else if (method == 'GET'){
+					xhr.send(null);
+				} else {
+					console.log('error method get, post');
+				}
+			}
+
+
+			// Ajax
+
+			// var xhrFunction = function(method, url, type, callback) {
+			// 	var xhr = new XMLHttpRequest();
+			// 	xhr.onreadystatechange = function() {
+			// 		if (xhr.readyState === 4 && xhr.status === 200) {
+			// 			callback();
+			// 		}
+			// 	}
+			//
+			// 	xhr.open(method, url, true);
+			// 	if(type == 'formdata') {
+			// 		// create &
+			// 		var postnameval = document.querySelector('.postname').value;
+			// 		var postcontentsval = document.querySelector('.postcontents').value;
+			// 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			// 	} else if (type == 'loaddata') {
+			//
+			// 	}
+			//
+			// 	if(method == 'GET') {
+			// 		xhr.send(null);
+			// 	} else if (method == 'POST') {  // method == 'POST'
+			// 		xhr.send('name=' + postnameval + '&' + 'contents=' + postcontentsval);
+			// 	} else {
+			// 		console.log('error method get, post');
+			// 	}
+			//
+			// }
+
+			// load note
+			// document.querySelector('.loadbtn').addEventListener('click', function() {
+			// 	xhrFunction('GET', '/notes', 'loaddata', callback1);
+			// });
+
+			// create & save notes
+			// document.querySelector('.savebtn').addEventListener('click', function(){
+			// 	xhrFunction('POST', '/json', 'formdata', callback1);
+			// });
+			//
+
 		</script>
 	</body>
 </html>

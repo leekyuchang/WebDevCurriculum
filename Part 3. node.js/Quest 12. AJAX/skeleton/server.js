@@ -10,15 +10,43 @@ app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
-	// 사용자의 ID, 노트의 개수, 리스트
+});
+
+app.get('/main', function(req, res) {
+	var obj;
+	fs.readFile(__dirname + '/client/test.json', 'utf8', function(err, data) {
+		if(err) {
+			console.log(err);
+		} else {
+			obj = JSON.parse(data);
+			console.log(data);
+			// 사용자의 ID, 노트의 개수, 리스트
+			// var mainRes = '<a href=/notes/' + obj[0].name + '>'+ obj[0].name + '<br>';
+			// function resfor() {
+            //     for(var i = 1; i < obj.length; i += 1){
+            //         mainRes += '<a href=/notes/' + obj[i].name + '>'+ obj[i].name + '<br>';
+            //     }
+            // }
+            // resfor();
+            // res.send(mainRes);
+			res.send(data);
+		}
+	});
 });
 
 app.get('/notes/:notename', function(req, res) {
-
+	// 이름, 내용, Edit Button
 });
 
+// edit버튼 클릭 get ajax사용하여 서버에서 json form내용 가져오기
+app.get('/notes/edit/:notename', function(req, res) {
+	// Html의 Form형태 - 이름, 내용, Save Button
+});
 
+// save버튼 클릭 post ajax사용하여 서버에서 json에 form 내용 저장, (redirect /notes/:notename)
+app.post('/notes/edit/:notename', function(req, res) {
 
+});
 
 
 

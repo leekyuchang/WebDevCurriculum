@@ -59,7 +59,7 @@ textarea {
 	background-color: rgb(191, 187, 177);
 }
 
-.content {
+.maincontent {
 	position: absolute;
 	left: 0;
 	top: 80px;
