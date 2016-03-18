@@ -2,88 +2,13 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="./style.css">
-		<script src="./notepad.js"></script>
+		<link rel="stylesheet" href="/style.css">
+		<script src="/notepad.js"></script>
 	</head>
 	<body>
 		<!-- TODO: 이 곳을 채워 클라이언트를 만들어 보세요 -->
-
-		<!-- template 사용해서 여러 노트패드를 보여주기 -->
-		<div class="notepad">
-			<div class="notepadToolbox">
-				<button type="button" class="btn btnNew">New</button>
-
-				<!-- <form action="/notelist">
-	    			<button type="button" name="btnLoad" class="btn btnLoad">Load</button>
-				</form> -->
-
-				<!-- <button type="button" name="btnLoad" class="btn btnLoad" onClick="location.href='/notelist'">Load</button> -->
-
-				<button type="button" name="btnLoad" class="btn btnLoad">Load</button>
-				<button type="button" class="btn btnSave">Save</button>
-				<button type="button" class="btn btnClose">Close</button>
-
-			</div>
-			<div class="noteTabbox">
-				<!-- 탭도 template사용 -->
-				<div class="noteTab" style="display: none">
-
-				</div>
-			</div>
-			<div class="notebox">
-
-			</div>
-			<div class="note" style="display: none">
-				<!-- Using templates -->
-				<form action="/" method="post">
-					Note Name: <input type="text" name="note-name" class="noteName"><br />
-					Note Content :<br /><textarea name="notetextarea" class="noteText"></textarea>
-					<input type="submit" value="Submit" class="notesubmit">
-				</form>
-
-
-			</div>
-		</div>
 		<script>
-			var httpRequest;
-			var notebox = document.querySelector('.notebox');
-			document.querySelector('.btnLoad').onclick = function(){
-				golink('https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/Bio.txt');
-				};
-
-			function golink(url) {
-
-				httpRequest = new XMLHttpRequest();
-
-				if (!httpRequest) {
-			    	alert('Cannot create an XMLHTTP instance');
-					return false;
-			    } else {
-					console.log("httpRequest is exist");
-					var path = document.location.pathname;
-					console.log(path);
-				}
-				httpRequest.onreadystatechange = showcontent;
-				httpRequest.open('GET', url, true);
-				httpRequest.send();
-			}
-			function showcontent(){
-				if (httpRequest.readyState === 4) {
-					// notebox.style.border = '1px solid #e8e8e8';
-					if (httpRequest.status === 200) {
-						notebox.innerHTML = httpRequest.responseText;
-					} else {
-						console.log(httpRequest.status);
-					}
-				}
-			}
-
-			var notepad = new Notepad(document.querySelector(".notepad"));
-
+			var notepad = new Notepad();
 		</script>
 	</body>
 </html>
-
-
-
-<!-- <input type=button onClick="location='http://www.naver.com/'" value='Make the current  window change'> -->
