@@ -1,8 +1,12 @@
 var express = require('express'),
 	path = require('path'),
+	fs = require('fs'),
+	bodyParser = require('body-parser'),
 	app = express();
 
 app.use(express.static('client'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
