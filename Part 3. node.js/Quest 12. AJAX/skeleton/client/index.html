@@ -7,6 +7,25 @@
 	</head>
 	<body>
 		<!-- TODO: 이 곳을 채워 클라이언트를 만들어 보세요 -->
+		<div class="notepad">
+
+			<div name="btnbox" class="btnbox">
+				<!-- New버튼과 Main버튼 -->
+				<button type="button" name="btnNew" class="btn btnNew">New</button>
+				<button type="button" name="btnMain" class="btn btnMain">Main</button>
+			</div>
+
+			<div name="tabbox" class="tabbox">
+				<!-- 탭들이 생기는 부분 -->
+				<!-- 탭도 template사용 -->
+				<div class="noteTab" style="display: none"></div>
+			</div>
+
+			<div name="content" class="content">
+				<!-- note의 내용과 메인내용들이 나올 부분 -->
+			</div>
+
+		</div>
 		<script>
 			var notepad = new Notepad();
 		</script>

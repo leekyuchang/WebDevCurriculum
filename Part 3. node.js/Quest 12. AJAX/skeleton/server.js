@@ -10,9 +10,17 @@ app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
+	// 사용자의 ID, 노트의 개수, 리스트
 });
 
-/* TODO: 여기에 처리해야 할 요청의 주소별로 동작을 채워넣어 보세요..! */
+app.get('/notes/:notename', function(req, res) {
+
+});
+
+
+
+
+
 
 var server = app.listen(8080, function () {
 	console.log('Server started!');
