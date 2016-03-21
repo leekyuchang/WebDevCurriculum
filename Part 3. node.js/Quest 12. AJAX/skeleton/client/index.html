@@ -24,6 +24,13 @@
 			<div name="maincontent" class="maincontent">
 				<!-- note의 내용과 메인내용들이 나올 부분 -->
 				<!-- 사용자의 ID, 노트의 개수, 리스트 -->
+				<div class="note" style="display: none">
+					<form action="/" method="post">
+						Note Name: <input type="text" name="note-name" class="noteName"><br />
+						Note Content :<br /><textarea name="notetextarea" class="noteText"></textarea>
+						<input type="button" value="Save" class="notesubmit">
+					</form>
+				</div>
 
 
 			</div>
@@ -33,22 +40,30 @@
 			var notepad = new Notepad();
 
 			// Ajax function
-			function ajaxfunc(method, url, callback) {
+			function ajaxfunc(method, url, type, callback) {
 				xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function() {
-					callback();
-				}
+					if (this.readyState === 4 && this.status === 200){
+						callback();
+					}
+				};
+				postnameval = document.querySelector('.noteName').value;
+				postcontentsval = document.querySelector('.noteText').value;
 
 				xhr.open(method, url, true);
+				if(type == 'formdata') {
+					// create & save
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				};
+
 				if(method == 'POST') {
-					xhr.send();
+					xhr.send('name=' + postnameval + '&' + 'contents=' + postcontentsval);
 				} else if (method == 'GET'){
 					xhr.send(null);
 				} else {
 					console.log('error method get, post');
-				}
-			};
-
+				};
+			}
 
 			// Ajax
 
@@ -84,12 +99,6 @@
 			// document.querySelector('.loadbtn').addEventListener('click', function() {
 			// 	xhrFunction('GET', '/notes', 'loaddata', callback1);
 			// });
-
-			// create & save notes
-			// document.querySelector('.savebtn').addEventListener('click', function(){
-			// 	xhrFunction('POST', '/json', 'formdata', callback1);
-			// });
-			//
 
 		</script>
 	</body>

@@ -59,10 +59,26 @@ textarea {
 	background-color: rgb(191, 187, 177);
 }
 
+.noteTab {
+	margin: 1.5px;
+	width: 80px;
+	height: 20px;
+	background-color: rgb(226, 228, 231);
+}
+
 .maincontent {
 	position: absolute;
 	left: 0;
 	top: 80px;
 	width: 500px;
 	height: 420px;
+}
+
+.note {
+	position: absolute;
+	left: 0;
+	width: 500px;
+	height: 520px;
+	background-color: white;
+	/*border: 1px solid black;*/
 }

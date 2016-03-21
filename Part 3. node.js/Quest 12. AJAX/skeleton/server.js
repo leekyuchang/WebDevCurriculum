@@ -18,16 +18,26 @@ app.get('/main', function(req, res) {
 		if(err) {
 			console.log(err);
 		} else {
-			obj = JSON.parse(data);
-			// console.log(obj);
 			// 사용자의 ID, 노트의 개수, 리스트
-			res.send(data);
-		};
+			var str = JSON.parse(data);
+			res.send(str); // data는 json but ajax의 xhr.responseText가 string으로 만든다.
+		}
 	});
 });
 
 app.get('/notes/:notename', function(req, res) {
-	// 이름, 내용, Edit Button
+	// 이름, 내용
+	// Edit Button  -- 미정
+	console.log('This is ' + req.params.notename + 'note');
+	fs.readFile(__dirname + '/client/test.json', 'utf8', function(err, data) {
+		if(err) {
+			console.log(err);
+		} else {
+			// 이름, 내용
+			var str = JSON.parse(data);
+			res.send(str); // data는 json but ajax의 xhr.responseText가 string으로 만든다.
+		}
+	});
 });
 
 // edit버튼 클릭 get ajax사용하여 서버에서 json form내용 가져오기
@@ -38,6 +48,46 @@ app.get('/notes/edit/:notename', function(req, res) {
 // save버튼 클릭 post ajax사용하여 서버에서 json에 form 내용 저장, (redirect /notes/:notename)
 app.post('/notes/edit/:notename', function(req, res) {
 
+});
+
+app.post('/json', function(req, res) {
+	var a = 0;
+	    var i;
+	    var obj;
+	    /////find same name in json & form function
+	    function checkExistName(array, name) {
+	        for(i = 0; i < array.length; i += 1) {
+	            if(array[i].name == name) {
+	                a = 1;
+	                return i;
+	            }
+	        }
+	    }
+
+	    // form to json save or modify
+	    console.log(req.body);
+	    fs.readFile(__dirname + '/client/test.json', 'utf8', function(err, data) {
+	        if(err) {
+	            console.log(err);
+	        } else {
+	            obj = JSON.parse(data); //objects in array
+	            // check exist name in object array (JSON -> object)
+	            checkExistName(obj, req.body.name)
+	            if(a === 1) {  // 수정
+	                console.log('exist name');
+	                obj[i].contents = req.body.contents;
+	            } else {      // 추가
+	                console.log('no exist name');
+	                obj.push(req.body);
+	            }
+	            var jsonobj = JSON.stringify(obj, null, 4);
+	            fs.writeFile(__dirname + '/client/test.json', jsonobj, function(err) {
+	                if (err) {
+	                    console.log(err);
+	                }
+	            });
+	        }
+	    });
 });
 
 
