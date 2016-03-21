@@ -40,66 +40,32 @@
 			var notepad = new Notepad();
 
 			// Ajax function
-			function ajaxfunc(method, url, type, callback) {
-				xhr = new XMLHttpRequest();
+			function ajaxfunc(method, url, input, callback) {
+				var xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function() {
 					if (this.readyState === 4 && this.status === 200){
-						callback();
+						callback(xhr.responseText);
 					}
 				};
-				postnameval = document.querySelector('.noteName').value;
-				postcontentsval = document.querySelector('.noteText').value;
-
 				xhr.open(method, url, true);
-				if(type == 'formdata') {
-					// create & save
-					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				};
-
 				if(method == 'POST') {
-					xhr.send('name=' + postnameval + '&' + 'contents=' + postcontentsval);
+					xhr.body = '';
+					var bodyContent = [];
+					for(var key in input) { // input = { name: 'name', content: 'content' }
+						var append = '';
+						append += key + '=';
+						append += input[key];
+						bodyContent.push(append);
+					}
+					xhr.body = bodyContent.join('&');
+
+					xhr.send();
 				} else if (method == 'GET'){
 					xhr.send(null);
 				} else {
 					console.log('error method get, post');
 				};
 			}
-
-			// Ajax
-
-			// var xhrFunction = function(method, url, type, callback) {
-			// 	var xhr = new XMLHttpRequest();
-			// 	xhr.onreadystatechange = function() {
-			// 		if (xhr.readyState === 4 && xhr.status === 200) {
-			// 			callback();
-			// 		}
-			// 	}
-			//
-			// 	xhr.open(method, url, true);
-			// 	if(type == 'formdata') {
-			// 		// create &
-			// 		var postnameval = document.querySelector('.postname').value;
-			// 		var postcontentsval = document.querySelector('.postcontents').value;
-			// 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			// 	} else if (type == 'loaddata') {
-			//
-			// 	}
-			//
-			// 	if(method == 'GET') {
-			// 		xhr.send(null);
-			// 	} else if (method == 'POST') {  // method == 'POST'
-			// 		xhr.send('name=' + postnameval + '&' + 'contents=' + postcontentsval);
-			// 	} else {
-			// 		console.log('error method get, post');
-			// 	}
-			//
-			// }
-
-			// load note
-			// document.querySelector('.loadbtn').addEventListener('click', function() {
-			// 	xhrFunction('GET', '/notes', 'loaddata', callback1);
-			// });
-
 		</script>
 	</body>
 </html>

@@ -34,9 +34,8 @@ Notepad.prototype._bindEvents = function() {
 
 		var that = this;
 		this.noteAndTab.submitBtn.addEventListener('click', function() {
-			console.log(that.noteAndTab.submitBtn);
 			// AJAX
-			xhr = new XMLHttpRequest();
+			var xhr = new XMLHttpRequest();
 			var ttat = this;
 			xhr.onreadystatechange = function() {
 				if (ttat.readyState === 4 && ttat.status === 200){
@@ -49,29 +48,42 @@ Notepad.prototype._bindEvents = function() {
 			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			xhr.send('name=' + postnameval + '&' + 'contents=' + postcontentsval);
 
+			ajaxFunc('GET', '/new', { name: postnameval, content: postcontentsval }, function(responseText) {
+				;
+			});
+
+			setTimeout(function() {
+				var responseText = ['success'];
+
+			}, 10);
+
 		});
 	});
-
 
 	// main btn 클릭 하면 리스트 보이게!!!
 	this.mainbtn.addEventListener('click', function() {
 		// ajax main 사이트로 go ('/main')
-		ajaxfunc('GET', '/main', 'loaddata', function() {
-			// xhr.responseText를 분리해서 노트 리스트 보이기, 클래스 추가
-			var jsnobj = eval(xhr.responseText);
-			var linkList = '<a href=/notes/' + jsnobj[0].name + ' class="notelist ' + jsnobj[0].name + '"' + '>'+ jsnobj[0].name + '<br>';
-			var n = 0;
-			(function() {
-				for(var i = 1; i < jsnobj.length; i += 1) {
-					linkList += '<a href=/notes/' + jsnobj[i].name + ' class="notelist ' + jsnobj[i].name + '"' + '>'+ jsnobj[i].name + '<br>';
-					n += 1;
-				}
-			})();
-			document.querySelector('.maincontent').innerHTML = linkList;
+
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === 4 && this.status === 200){
+				var jsnobj = eval(xhr.responseText);
+				var linkList = '<a href=/notes/' + jsnobj[0].name + ' class="notelist ' + jsnobj[0].name + '"' + '>'+ jsnobj[0].name + '<br>';
+				var n = 0;
+				(function() {
+					for(var i = 1; i < jsnobj.length; i += 1) {
+						linkList += '<a href=/notes/' + jsnobj[i].name + ' class="notelist ' + jsnobj[i].name + '"' + '>'+ jsnobj[i].name + '<br>';
+						n += 1;
+					}
+				})();
+				document.querySelector('.maincontent').innerHTML = linkList;
+			}
+		};
+		xhr.open('GET', '/main', true);
+		xhr.send(null);
 
 
-
-		});
+	////////// new ?
 		// ajaxfunc('GET', '/main', function() {
 		// 	var jsnobj = eval(xhr.responseText);
 		// 	var linkList = document.createElement('div');
@@ -123,21 +135,8 @@ Note.prototype._setDom = function() {
 	this.notename = this.notedom.childNodes[1][0];
 	this.notecontents = this.notedom.childNodes[1][1];
 	this.submitBtn = this.notedom.childNodes[1][2];
-	// document.querySelector('.notesubmit');
-	// tab
-	// this.tabdom = document.querySelector(".noteTab").cloneNode(true);
-	// this.tabdom.style.display = 'block';
-	// document.querySelector(".tabbox").appendChild(this.tabdom);
 };
 
 Note.prototype._bindEvents = function() {
-
-	// submit to server (AJAX JAON)
-	// create submit function
-	// var that = this;
-	// this.submitBtn.addEventListener("click", function(e) {
-	// 	that.notedom.dispatchEvent(new Event("submitnote"));
-	// });
-
 
 };

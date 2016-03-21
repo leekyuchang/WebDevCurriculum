@@ -12,6 +12,12 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// app.get('/new', function(req, res) {
+// 	////// /new form
+//
+// });
+
+// NOTES LIST
 app.get('/main', function(req, res) {
 	var obj;
 	fs.readFile(__dirname + '/client/test.json', 'utf8', function(err, data) {
@@ -25,6 +31,7 @@ app.get('/main', function(req, res) {
 	});
 });
 
+// NOTES LOAD
 app.get('/notes/:notename', function(req, res) {
 	// 이름, 내용
 	// Edit Button  -- 미정
@@ -50,6 +57,7 @@ app.post('/notes/edit/:notename', function(req, res) {
 
 });
 
+// FORM SEND
 app.post('/json', function(req, res) {
 	var a = 0;
 	    var i;
