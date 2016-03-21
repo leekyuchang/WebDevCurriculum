@@ -34,7 +34,9 @@ Notepad.prototype._bindEvents = function() {
 		ajaxfunc('GET', '/main', function() {
 			// document.querySelector('.maincontent').innerHTML = xhr.responseText;
 			// xhr.responseText를 분리해서 노트 리스트 보이기, 클래스도 추가하고, 등등
-			console.log(xhr.responseText);
+			// console.log(xhr.responseText);
+			var asdf = JSON.parse(xhr.responseText);
+			console.log(typeof xhr.responseText);
 
 		});
 	});

@@ -19,10 +19,10 @@ app.get('/main', function(req, res) {
 			console.log(err);
 		} else {
 			obj = JSON.parse(data);
-			console.log(data);
+			// console.log(obj);
 			// 사용자의 ID, 노트의 개수, 리스트
 			res.send(data);
-		}
+		};
 	});
 });
 
