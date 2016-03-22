@@ -18,21 +18,19 @@
 			<div name="tabbox" class="tabbox">
 				<!-- 탭들이 생기는 부분 -->
 				<!-- 탭도 template사용 -->
-				<div class="noteTab" style="display: none"></div>
 			</div>
+			<div class="noteTab" style="display: none"></div>
 
 			<div name="maincontent" class="maincontent">
 				<!-- note의 내용과 메인내용들이 나올 부분 -->
 				<!-- 사용자의 ID, 노트의 개수, 리스트 -->
-				<div class="note" style="display: none">
-					<form action="/" method="post">
-						Note Name: <input type="text" name="note-name" class="noteName"><br />
-						Note Content :<br /><textarea name="notetextarea" class="noteText"></textarea>
-						<input type="button" value="Save" class="notesubmit">
-					</form>
-				</div>
-
-
+			</div>
+			<div class="note" style="display: none">
+				<form action="/" method="post">
+					Note Name: <input type="text" name="note-name" class="noteName"><br />
+					Note Content :<br /><textarea name="notetextarea" class="noteText"></textarea>
+					<input type="button" value="Save" class="notesubmit">
+				</form>
 			</div>
 
 		</div>
@@ -49,16 +47,6 @@
 				};
 				xhr.open(method, url, true);
 				if(method == 'POST') {
-					xhr.body = '';
-					var bodyContent = [];
-					for(var key in input) { // input = { name: 'name', content: 'content' }
-						var append = '';
-						append += key + '=';
-						append += input[key];
-						bodyContent.push(append);
-					}
-					xhr.body = bodyContent.join('&');
-
 					xhr.send();
 				} else if (method == 'GET'){
 					xhr.send(null);

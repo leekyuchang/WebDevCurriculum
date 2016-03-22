@@ -1,12 +1,5 @@
 var Notepad = function(xhr) {
 	/* TODO: 그 외에 또 어떤 클래스와 메소드가 정의되어야 할까요? */
-
-	// New Button, Main Button
-	// Tabbox
-		//Tab
-	// Content
-		// Note
-		// 사용자의 ID, 노트의 개수, 리스트
 	this._initialize();
 };
 
@@ -23,17 +16,19 @@ Notepad.prototype._setDom = function() {
 };
 
 Notepad.prototype._bindEvents = function() {
-	//newbtn 클릭하면 new Note();
-	//mainbtn 클릭하면 메인 화면으로 가지게....
+
+	// NEW BUTTON
 	var i = 0;
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
 
 		this.noteAndTab = new Note();
+		this.noteTab = new Tab();
 		console.log(this.noteAndTab.notedom);
 
 		var that = this;
 		this.noteAndTab.submitBtn.addEventListener('click', function() {
+			console.log(that.noteAndTab.submitBtn);
 			// AJAX
 			var xhr = new XMLHttpRequest();
 			var ttat = this;
@@ -48,22 +43,12 @@ Notepad.prototype._bindEvents = function() {
 			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			xhr.send('name=' + postnameval + '&' + 'contents=' + postcontentsval);
 
-			ajaxFunc('GET', '/new', { name: postnameval, content: postcontentsval }, function(responseText) {
-				;
-			});
-
-			setTimeout(function() {
-				var responseText = ['success'];
-
-			}, 10);
-
 		});
 	});
 
-	// main btn 클릭 하면 리스트 보이게!!!
+	// MAiN BUTTON
 	this.mainbtn.addEventListener('click', function() {
 		// ajax main 사이트로 go ('/main')
-
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (this.readyState === 4 && this.status === 200){
@@ -81,40 +66,9 @@ Notepad.prototype._bindEvents = function() {
 		};
 		xhr.open('GET', '/main', true);
 		xhr.send(null);
-
-
-	////////// new ?
-		// ajaxfunc('GET', '/main', function() {
-		// 	var jsnobj = eval(xhr.responseText);
-		// 	var linkList = document.createElement('div');
-		// 	linkList.classList.add('notelistDiv');
-		// 	var n = 0;
-		// 	(function() {
-		// 		for(var i = 1; i < jsnobj.length; i += 1) {
-		// 			var notelistA = document.createElement('a');
-		// 			notelistA.classList.add('notelist', jsnobj[i].name);
-		// 			notelistA.setAttribute('href', '/notes/' + jsnobj[i].name);
-        // 			linkList.appendChild(notelistA);
-		// 			n += 1;
-		// 		}
-		// 	})();
-		// 	var maincontentTag = document.querySelector('.maincontent');
-		// 	maincontentTag.appendChild(linkList);
-		// });
-
 	});
-
-	// this.noteListOne = document.querySelector('notelist');
-	// console.log(this.noteListOne);
-	// this.noteListOne.addEventListener('click', function() {
-	// 	// ajaxfunc('GET', '/notes' + , function() {
-	// 	// 	// 이름, 내용 나오게
-	// 	// });
-	// 	console.log('Hi');
-	// });
-
-
 };
+
 
 var Note = function() {
 	this._initialize();
@@ -135,8 +89,33 @@ Note.prototype._setDom = function() {
 	this.notename = this.notedom.childNodes[1][0];
 	this.notecontents = this.notedom.childNodes[1][1];
 	this.submitBtn = this.notedom.childNodes[1][2];
+
+	/// clone말고 createElement로 해보자
 };
 
 Note.prototype._bindEvents = function() {
+	// tab과 note연결은 어디서?
+};
 
+
+var Tab = function() {
+	this._initialize();
+};
+
+Tab.prototype._initialize = function() {
+	this._setDom();
+	this._bindEvents();
+};
+
+Tab.prototype._setDom = function() {
+
+	// Tab
+	// this.tabdom =
+};
+
+Tab.prototype._bindEvents = function() {
+	// create event
+		// tab에 노트 네임 표시
+		// 저장버튼 누르면 노트 이름 탭에 가지게
+	// tab과 note연결은 어디서?
 };

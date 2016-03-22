@@ -12,10 +12,12 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// app.get('/new', function(req, res) {
-// 	////// /new form
-//
-// });
+app.get('/new', function(req, res) {
+	////// read form ?????
+	// form은 clone인데
+	// 이것을 바꾸어야 하는지
+	
+});
 
 // NOTES LIST
 app.get('/main', function(req, res) {
