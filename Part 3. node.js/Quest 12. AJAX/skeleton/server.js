@@ -59,8 +59,51 @@ app.post('/notes/edit/:notename', function(req, res) {
 
 });
 
-// FORM SEND
-app.post('/json', function(req, res) {
+// NEW Note FORM SEND
+app.post('/new', function(req, res) {
+	var a = 0;
+	    var i;
+	    var obj;
+	    /////find same name in json & form function
+	    function checkExistName(array, name) {
+	        for(i = 0; i < array.length; i += 1) {
+	            if(array[i].name == name) {
+	                a = 1;
+	                return i;
+	            }
+	        }
+	    }
+
+	    // form to json save or modify
+	    console.log(req.body);
+	    fs.readFile(__dirname + '/client/test.json', 'utf8', function(err, data) {
+	        if(err) {
+	            console.log(err);
+	        } else {
+	            obj = JSON.parse(data); //objects in array
+	            // check exist name in object array (JSON -> object)
+	            checkExistName(obj, req.body.name);
+	            if(a === 1) {  // 'Already existed notename'
+	                console.log('exist name');
+	                // obj[i].contents = req.body.contents;
+					res.send('Already existed notename');
+	            } else {      // 추가
+	                console.log('no exist name');
+	                obj.push(req.body);
+					var jsonobj = JSON.stringify(obj, null, 4);
+		            fs.writeFile(__dirname + '/client/test.json', jsonobj, function(err) {
+		                if (err) {
+		                    console.log(err);
+		                }
+		            });
+					res.send('Good');
+	            }
+	        }
+	    });
+});
+
+// Edit note form send
+app.post('/edit', function(req, res) {
 	var a = 0;
 	    var i;
 	    var obj;
@@ -99,7 +142,6 @@ app.post('/json', function(req, res) {
 	        }
 	    });
 });
-
 
 
 var server = app.listen(8080, function () {

@@ -22,66 +22,60 @@ Notepad.prototype._bindEvents = function() {
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
 
-		this.noteAndTab = new Note();
-		console.log(this.noteAndTab.notedom);
+		this.note = new Note();
+		this.noteTab = new Tab();
 
 		var that = this;
-		this.noteAndTab.submitBtn.addEventListener('submitBtn', function() {
-			console.log(that.noteAndTab.submitBtn);
-			// AJAX
-			// var xhr = new XMLHttpRequest();
-			// var ttat = this;
-			// xhr.onreadystatechange = function() {
-			// 	if (ttat.readyState === 4 && ttat.status === 200){
-			// 		console.log('Anything');
-			// 	}
-			// };
-			// var postnameval = that.noteAndTab.notename.value;
-			// var postcontentsval = that.noteAndTab.notecontents.value;
-			// xhr.open('POST', '/json', true);
-			// xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			// xhr.send('name=' + postnameval + '&' + 'contents=' + postcontentsval);
-			setTimeout(function() {
-				var responseText = ['success'];
-				console.log('Submit Btn');
-			}, 10);
+		this.note.submitBtn.addEventListener('submitBtn', function() {
+			// console.log(this);  -> save btn
+			// console.log(that);  -> new btn
 
-			////// submit click
-			// if exist name on tab
-				// just json req, res
-			// else no exist name on tab
-				// write name on tab
+////////// new에서 submit누르면 server에서 notename.value로(/notes/:notename) redirect???????????????
 
+			var postnameval = that.note.notename.value;
+			var postcontentsval = that.note.notecontents.value;
+			// that.noteTab.tabname
+			ajaxfunc('POST', '/new', { name: postnameval, contents: postcontentsval }, function(responseText) {
+				if(responseText === 'Already existed notename') {
+					// alert('Already existed notename');// exist name on tab or exist name in json
+					console.log(that.noteTab.tabclone);
+					console.log(that.note.notename.value);
+				} else {
+					that.noteTab.tabclone.innerHTML = that.note.notename.value; // show tap name
+				}
+			});
 		});
-		this.noteAndTab.tabclone.addEventListener('tabClick', function() {
+		this.noteTab.tabclone.addEventListener('tabClick', function() {
 			console.log('This is tab');
+			// link  /notes/:notename
+			// Ajax get form
 		});
 	});
 
 	// MAiN BUTTON
 	this.mainbtn.addEventListener('click', function() {
 		// ajax main 사이트로 go ('/main')
-		// var xhr = new XMLHttpRequest();
-		// xhr.onreadystatechange = function() {
-		// 	if (this.readyState === 4 && this.status === 200){
-		// 		var jsnobj = eval(xhr.responseText);
-		// 		var linkList = '<a href=/notes/' + jsnobj[0].name + ' class="notelist ' + jsnobj[0].name + '"' + '>'+ jsnobj[0].name + '<br>';
-		// 		var n = 0;
-		// 		(function() {
-		// 			for(var i = 1; i < jsnobj.length; i += 1) {
-		// 				linkList += '<a href=/notes/' + jsnobj[i].name + ' class="notelist ' + jsnobj[i].name + '"' + '>'+ jsnobj[i].name + '<br>';
-		// 				n += 1;
-		// 			}
-		// 		})();
-		// 		document.querySelector('.maincontent').innerHTML = linkList;
-		// 	}
-		// };
-		// xhr.open('GET', '/main', true);
-		// xhr.send(null);
-		setTimeout(function() {
-			var responseText = ['success'];
-			console.log('Main Btn');
-		}, 10);
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === 4 && this.status === 200){
+				var jsnobj = eval(xhr.responseText);
+				var linkList = '<a href=/notes/' + jsnobj[0].name + ' class="notelist ' + jsnobj[0].name + '"' + '>'+ jsnobj[0].name + '<br>';
+				var n = 0;
+				(function() {
+					for(var i = 1; i < jsnobj.length; i += 1) {
+						linkList += '<a href=/notes/' + jsnobj[i].name + ' class="notelist ' + jsnobj[i].name + '"' + '>'+ jsnobj[i].name + '<br>';
+						n += 1;
+					}
+				})();
+				document.querySelector('.maincontent').innerHTML = linkList;
+			}
+		};
+		xhr.open('GET', '/main', true);
+		xhr.send(null);
+		// setTimeout(function() {
+		// 	var responseText = ['success'];
+		// 	console.log('Main Btn');
+		// }, 10);
 	});
 };
 
@@ -105,12 +99,6 @@ Note.prototype._setDom = function() {
 	this.notename = this.notedom.childNodes[1][0];
 	this.notecontents = this.notedom.childNodes[1][1];
 	this.submitBtn = this.notedom.childNodes[1][2];
-
-	// Tab
-	this.tabdom = document.querySelector('.noteTab');
-	this.tabclone = this.tabdom.cloneNode(true);
-	this.tabclone.style.display = 'block';
-	document.querySelector('.tabbox').appendChild(this.tabclone);
 };
 
 Note.prototype._bindEvents = function() {
@@ -119,45 +107,29 @@ Note.prototype._bindEvents = function() {
 	this.submitBtn.addEventListener('click', function(e) {
 		that.submitBtn.dispatchEvent(new Event('submitBtn'));
 	});
+};
+
+var Tab = function() {
+	this._initialize();
+};
+
+Tab.prototype._initialize = function() {
+	this._setDom();
+	this._bindEvents();
+};
+
+Tab.prototype._setDom = function() {
+	// Tab
+	this.tabdom = document.querySelector('.noteTab');
+	this.tabclone = this.tabdom.cloneNode(true);
+	this.tabclone.style.display = 'block';
+	document.querySelector('.tabbox').appendChild(this.tabclone);
+	this.tabname = '';
+};
+
+Tab.prototype._bindEvents = function() {
+	var that = this;
 	this.tabclone.addEventListener('click', function(e) {
 		that.tabclone.dispatchEvent(new Event('tabClick'));
 	});
-
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var Tab = function() {
-// 	this._initialize();
-// };
-//
-// Tab.prototype._initialize = function() {
-// 	this._setDom();
-// 	this._bindEvents();
-// };
-//
-// Tab.prototype._setDom = function() {
-//
-// 	// Tab
-// 	// this.tabdom =
-// };
-//
-// Tab.prototype._bindEvents = function() {
-// 	// create event
-// 		// tab에 노트 네임 표시
-// 		// 저장버튼 누르면 노트 이름 탭에 가지게
-// 	// tab과 note연결은 어디서?
-// };

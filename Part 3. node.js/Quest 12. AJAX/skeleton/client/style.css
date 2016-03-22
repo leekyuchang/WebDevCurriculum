@@ -64,6 +64,7 @@ textarea {
 	width: 80px;
 	height: 20px;
 	background-color: rgb(226, 228, 231);
+	text-align: center;
 }
 
 .maincontent {
