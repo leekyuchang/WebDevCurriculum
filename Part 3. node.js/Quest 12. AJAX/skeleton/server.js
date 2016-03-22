@@ -16,7 +16,7 @@ app.get('/new', function(req, res) {
 	////// read form ?????
 	// form은 clone인데
 	// 이것을 바꾸어야 하는지
-	
+
 });
 
 // NOTES LIST
