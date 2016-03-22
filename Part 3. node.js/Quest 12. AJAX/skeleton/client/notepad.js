@@ -30,7 +30,6 @@ Notepad.prototype._bindEvents = function() {
 			// console.log(this);  -> save btn
 			// console.log(that);  -> new btn
 
-
 ////////// new에서 submit누르면 server에서 notename.value로(/notes/:notename) redirect???????????????
 
 			var postnameval = that.note.notename.value;
