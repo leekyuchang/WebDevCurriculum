@@ -50,11 +50,11 @@
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					xhr.body = '';
 					var bodyContent = [];
-					for(var key in input) { // input = { name: 'name', content: 'content' }
-					var append = '';
-					append += key + '=';
-					append += input[key];
-					bodyContent.push(append);
+					for(var key in input) {
+						var append = '';
+						append += key + '=';
+						append += input[key];
+						bodyContent.push(append);
 					}
 					xhr.body = bodyContent.join('&');
 					xhr.send(xhr.body);
