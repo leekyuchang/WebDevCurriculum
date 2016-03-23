@@ -20,7 +20,7 @@ Notepad.prototype._bindEvents = function() {
 
 	// NEW BUTTON
 	var i = 0;
-
+	var ttat = this;
 	function showForm(btn) {
 		this.note = new Note();
 		this.noteTab = new Tab();
@@ -33,7 +33,6 @@ Notepad.prototype._bindEvents = function() {
 
 			var postnameval = that.note.notename.value;
 			var postcontentsval = that.note.notecontents.value;
-			// that.noteTab.tabname
 			if(btn == "newbutton") {
 				ajaxfunc('POST', '/new', { name: postnameval, contents: postcontentsval }, function(responseText) {
 					if(responseText === 'Already existed notename') {
@@ -62,11 +61,11 @@ Notepad.prototype._bindEvents = function() {
 			var parentT = this.parentNode;
 			parentT.parentNode.removeChild(parentT);
 			///////////////////////////
-			// that.note.notedom.remove();     ------ 보류
+			that.note.notedom.remove();    // ------ 보류
 		});
 
 	}
-	
+
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
 		showForm("newbutton");
@@ -76,16 +75,24 @@ Notepad.prototype._bindEvents = function() {
 	this.mainbtn.addEventListener('click', function() {
 		// ajax main 사이트로 go ('/main')
 		ajaxfunc('GET', '/main', null, function(responseText) {
-			var jsnobj = eval(responseText);
-			var linkList = '<a href=/notes/' + jsnobj[0].name + ' class="notelist ' + jsnobj[0].name + '"' + '>'+ jsnobj[0].name + '<br>';
-			var n = 0;
-			(function() {
-				for(var i = 1; i < jsnobj.length; i += 1) {
-					linkList += '<a href=/notes/' + jsnobj[i].name + ' class="notelist ' + jsnobj[i].name + '"' + '>'+ jsnobj[i].name + '<br>';
-					n += 1;
-				}
-			})();
-			document.querySelector('.maincontent').innerHTML = linkList;
+			var jsnListObj = eval(responseText);
+
+			for(var i = 0; i < jsnListObj.length; i++) {
+				var newDiv = document.createElement('div');
+				newDiv.classList.add("notelist", jsnListObj[i].name);
+				newDiv.innerHTML = jsnListObj[i].name;
+				(function(m) {
+					newDiv.addEventListener('click', function() {
+						ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
+							var jsnobj = JSON.parse(resp);
+
+							///// form안에 넣기  function showForm
+							showForm("listbutton");
+						});
+					});
+					ttat.maincontent.appendChild(newDiv);
+				})(i);
+			}
 		});
 	});
 
@@ -140,7 +147,6 @@ Tab.prototype._setDom = function() {
 	this.tabclosebtn = this.tabclone.childNodes[3];
 	this.tabclone.style.display = 'block';
 	document.querySelector('.tabbox').appendChild(this.tabclone);
-	this.tabname = '';
 };
 
 Tab.prototype._bindEvents = function() {
