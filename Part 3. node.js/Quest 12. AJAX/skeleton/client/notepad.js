@@ -13,71 +13,84 @@ Notepad.prototype._setDom = function() {
 	this.mainbtn = document.querySelector('.btnMain');
 	this.tabbox = document.querySelector('.tabbox');
 	this.maincontent = document.querySelector('.maincontent');
+
 };
 
 Notepad.prototype._bindEvents = function() {
 
 	// NEW BUTTON
 	var i = 0;
-	this.newbtn.addEventListener('click', function() {
-		console.log("Create new note & new tab");
 
+	function showForm(btn) {
 		this.note = new Note();
 		this.noteTab = new Tab();
 
 		var that = this;
 		this.note.submitBtn.addEventListener('submitBtn', function() {
-			// console.log(this);  -> save btn
-			// console.log(that);  -> new btn
-
 
 ////////// new에서 submit누르면 server에서 notename.value로(/notes/:notename) redirect???????????????
+//////   new의 save와 기존 노트의 save를 누를때 다르게 하기
 
 			var postnameval = that.note.notename.value;
 			var postcontentsval = that.note.notecontents.value;
 			// that.noteTab.tabname
-			ajaxfunc('POST', '/new', { name: postnameval, contents: postcontentsval }, function(responseText) {
-				if(responseText === 'Already existed notename') {
-					// alert('Already existed notename');// exist name on tab or exist name in json
-					console.log(that.noteTab.tabclone);
-					console.log(that.note.notename.value);
-				} else {
-					that.noteTab.tabclone.innerHTML = that.note.notename.value; // show tap name
-				}
-			});
+			if(btn == "newbutton") {
+				ajaxfunc('POST', '/new', { name: postnameval, contents: postcontentsval }, function(responseText) {
+					if(responseText === 'Already existed notename') {
+						alert('Already existed notename');// exist name on tab or exist name in json
+					} else {
+						that.noteTab.tabnotename.innerHTML = that.note.notename.value; // show tap name
+					}
+				});
+			} else if (btn == "listbutton") {
+
+			} else {
+				return;
+			}
+
 		});
+		// Tab Click
 		this.noteTab.tabclone.addEventListener('tabClick', function() {
 			console.log('This is tab');
 			// link  /notes/:notename
 			// Ajax get form
 		});
+
+		// Tab Close Btn Click
+		this.noteTab.tabclosebtn.addEventListener('closeBtnClick', function() {
+			console.log('This is closeBtn');
+			var parentT = this.parentNode;
+			parentT.parentNode.removeChild(parentT);
+			///////////////////////////
+			// that.note.notedom.remove();     ------ 보류
+		});
+
+	}
+	
+	this.newbtn.addEventListener('click', function() {
+		console.log("Create new note & new tab");
+		showForm("newbutton");
 	});
 
 	// MAiN BUTTON
 	this.mainbtn.addEventListener('click', function() {
 		// ajax main 사이트로 go ('/main')
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (this.readyState === 4 && this.status === 200){
-				var jsnobj = eval(xhr.responseText);
-				var linkList = '<a href=/notes/' + jsnobj[0].name + ' class="notelist ' + jsnobj[0].name + '"' + '>'+ jsnobj[0].name + '<br>';
-				var n = 0;
-				(function() {
-					for(var i = 1; i < jsnobj.length; i += 1) {
-						linkList += '<a href=/notes/' + jsnobj[i].name + ' class="notelist ' + jsnobj[i].name + '"' + '>'+ jsnobj[i].name + '<br>';
-						n += 1;
-					}
-				})();
-				document.querySelector('.maincontent').innerHTML = linkList;
-			}
-		};
-		xhr.open('GET', '/main', true);
-		xhr.send(null);
-		// setTimeout(function() {
-		// 	var responseText = ['success'];
-		// 	console.log('Main Btn');
-		// }, 10);
+		ajaxfunc('GET', '/main', null, function(responseText) {
+			var jsnobj = eval(responseText);
+			var linkList = '<a href=/notes/' + jsnobj[0].name + ' class="notelist ' + jsnobj[0].name + '"' + '>'+ jsnobj[0].name + '<br>';
+			var n = 0;
+			(function() {
+				for(var i = 1; i < jsnobj.length; i += 1) {
+					linkList += '<a href=/notes/' + jsnobj[i].name + ' class="notelist ' + jsnobj[i].name + '"' + '>'+ jsnobj[i].name + '<br>';
+					n += 1;
+				}
+			})();
+			document.querySelector('.maincontent').innerHTML = linkList;
+		});
 	});
+
+
+
 };
 
 
@@ -123,6 +136,8 @@ Tab.prototype._setDom = function() {
 	// Tab
 	this.tabdom = document.querySelector('.noteTab');
 	this.tabclone = this.tabdom.cloneNode(true);
+	this.tabnotename = this.tabclone.childNodes[1];
+	this.tabclosebtn = this.tabclone.childNodes[3];
 	this.tabclone.style.display = 'block';
 	document.querySelector('.tabbox').appendChild(this.tabclone);
 	this.tabname = '';
@@ -132,5 +147,10 @@ Tab.prototype._bindEvents = function() {
 	var that = this;
 	this.tabclone.addEventListener('click', function(e) {
 		that.tabclone.dispatchEvent(new Event('tabClick'));
+	});
+
+	this.tabclosebtn.addEventListener('click', function(e) {
+		that.tabclosebtn.dispatchEvent(new Event('closeBtnClick'));
+		e.stopPropagation();
 	});
 };

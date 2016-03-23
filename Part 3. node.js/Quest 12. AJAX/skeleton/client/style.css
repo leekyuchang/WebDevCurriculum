@@ -60,11 +60,24 @@ textarea {
 }
 
 .noteTab {
+	position: relative;
 	margin: 1.5px;
 	width: 80px;
 	height: 20px;
 	background-color: rgb(226, 228, 231);
 	text-align: center;
+}
+
+.tabinner {
+	position: absolute;
+}
+
+.tabNotename {
+}
+
+.octicon-x {
+	top: 3px;
+	right: 3px;
 }
 
 .maincontent {

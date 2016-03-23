@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="/style.css">
+		<link rel="stylesheet" href="./octicons.css">
 		<script src="/notepad.js"></script>
 	</head>
 	<body>
@@ -19,7 +20,10 @@
 				<!-- 탭들이 생기는 부분 -->
 				<!-- 탭도 template사용 -->
 			</div>
-			<div class="noteTab" style="display: none"></div>
+			<div class="noteTab" style="display: none">
+				<div class="tabinner tabNotename"></div>
+				<span class="octicon octicon-x tabinner"></span>
+			</div>
 
 			<div name="maincontent" class="maincontent">
 				<!-- note의 내용과 메인내용들이 나올 부분 -->

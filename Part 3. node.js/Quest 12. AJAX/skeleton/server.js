@@ -44,19 +44,14 @@ app.get('/notes/:notename', function(req, res) {
 		} else {
 			// 이름, 내용
 			var str = JSON.parse(data);
-			res.send(str); // data는 json but ajax의 xhr.responseText가 string으로 만든다.
+			// notename의 data만 send하기.
+			for(var i = 0; i < str.length; i += 1) {
+				if(str[i].name == req.params.notename) {
+					res.send(str[i]);
+				}
+			}
 		}
 	});
-});
-
-// edit버튼 클릭 get ajax사용하여 서버에서 json form내용 가져오기
-app.get('/notes/edit/:notename', function(req, res) {
-	// Html의 Form형태 - 이름, 내용, Save Button
-});
-
-// save버튼 클릭 post ajax사용하여 서버에서 json에 form 내용 저장, (redirect /notes/:notename)
-app.post('/notes/edit/:notename', function(req, res) {
-
 });
 
 // NEW Note FORM SEND
