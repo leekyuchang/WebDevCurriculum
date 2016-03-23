@@ -56,12 +56,13 @@ Notepad.prototype._bindEvents = function() {
 		});
 
 		// Tab Close Btn Click
-		this.noteTab.tabclosebtn.addEventListener('closeBtnClick', function() {
+		this.noteTab.tabclosebtn.addEventListener('closeBtnClick', function(e) {
 			console.log('This is closeBtn');
 			var parentT = this.parentNode;
 			parentT.parentNode.removeChild(parentT);
 			///////////////////////////
-			that.note.notedom.remove();    // ------ 보류
+			// that.note.notedom.parentNode.removeChild();    // ------ 보류
+			console.log(that.note.notedom.parentNode);
 		});
 
 	}
@@ -73,7 +74,6 @@ Notepad.prototype._bindEvents = function() {
 
 	// MAiN BUTTON
 	this.mainbtn.addEventListener('click', function() {
-		// ajax main 사이트로 go ('/main')
 		ajaxfunc('GET', '/main', null, function(responseText) {
 			var jsnListObj = eval(responseText);
 
@@ -90,8 +90,9 @@ Notepad.prototype._bindEvents = function() {
 							showForm("listbutton");
 						});
 					});
-					ttat.maincontent.appendChild(newDiv);
 				})(i);
+				ttat.maincontent.appendChild(newDiv);
+				///// click할때마다 계속 생성되서 inner되는거 막기
 			}
 		});
 	});
