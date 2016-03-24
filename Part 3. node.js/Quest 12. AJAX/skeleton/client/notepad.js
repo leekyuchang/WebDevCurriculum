@@ -17,15 +17,20 @@ Notepad.prototype._setDom = function() {
 };
 
 Notepad.prototype._bindEvents = function() {
-
-	// NEW BUTTON
 	var i = 0;
 	var ttat = this;
-	function showForm(btn) {
+	function showForm(btn) {     // use in newbtn, mainbtn
 		this.note = new Note();
 		this.noteTab = new Tab();
 
 		var that = this;
+		// var postnameval = this.note.notename.value;
+		// var postcontentsval = this.note.notecontents.value;
+		// if(btn == 'mainbutton') {
+		//
+		// }
+
+
 		this.note.submitBtn.addEventListener('submitBtn', function() {
 
 ////////// new에서 submit누르면 server에서 notename.value로(/notes/:notename) redirect???????????????
@@ -41,13 +46,17 @@ Notepad.prototype._bindEvents = function() {
 						that.noteTab.tabnotename.innerHTML = that.note.notename.value; // show tap name
 					}
 				});
-			} else if (btn == "listbutton") {
-
+			} else if (btn == "mainbutton") {
+				/// edit
+				ajaxfunc('POST', '/edit', { name: postnameval, contents: postcontentsval }, function(respt) {
+					// submit //
+				});
 			} else {
 				return;
 			}
 
 		});
+
 		// Tab Click
 		this.noteTab.tabclone.addEventListener('tabClick', function() {
 			console.log('This is tab');
@@ -60,12 +69,13 @@ Notepad.prototype._bindEvents = function() {
 			console.log('This is closeBtn');
 			var parentT = this.parentNode;
 			parentT.parentNode.removeChild(parentT);
-			///////////////////////////
-			// that.note.notedom.parentNode.removeChild();    // ------ 보류
-			console.log(that.note.notedom.parentNode);
+			// that.note.notedom.parentNode.childNodes[5].remove();
+			console.log(that.note.constructor);
+			// that.note.notedom.parentNode.removeChild(that.note.notedom);
+			// that.note.notedom.remove();
 		});
 
-	}
+	}  // show function
 
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
@@ -73,31 +83,36 @@ Notepad.prototype._bindEvents = function() {
 	});
 
 	// MAiN BUTTON
-	this.mainbtn.addEventListener('click', function() {
+	this.mainbtn.addEventListener('click', function(e) {
 		ajaxfunc('GET', '/main', null, function(responseText) {
 			var jsnListObj = eval(responseText);
+			var listDiv = document.createElement('div');
+			listDiv.classList.add('allnotelist');
+			document.querySelector('.maincontent').appendChild(listDiv);
+
+			// 묶어도 childNodes[5]여서 지워짐 newbtn Ajax가 안됨...
 
 			for(var i = 0; i < jsnListObj.length; i++) {
 				var newDiv = document.createElement('div');
 				newDiv.classList.add("notelist", jsnListObj[i].name);
 				newDiv.innerHTML = jsnListObj[i].name;
+				listDiv.appendChild(newDiv);
 				(function(m) {
 					newDiv.addEventListener('click', function() {
-						ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
-							var jsnobj = JSON.parse(resp);
-
-							///// form안에 넣기  function showForm
-							showForm("listbutton");
-						});
+						showForm("mainbutton");
+						// ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
+						// 	var jsnobj = JSON.parse(resp);
+						//
+						// 	///// form안에 넣기  function showForm
+						// 	showForm("mainbutton");
+						// });
 					});
 				})(i);
-				ttat.maincontent.appendChild(newDiv);
+
 				///// click할때마다 계속 생성되서 inner되는거 막기
 			}
 		});
 	});
-
-
 
 };
 
@@ -112,8 +127,6 @@ Note.prototype._initialize = function() {
 };
 
 Note.prototype._setDom = function() {
-
-	// Note
 	this.dom = document.querySelector('.note');
 	this.notedom = this.dom.cloneNode(true);
 	this.notedom.style.display = 'block';
@@ -124,14 +137,13 @@ Note.prototype._setDom = function() {
 };
 
 Note.prototype._bindEvents = function() {
-	// tab과 note연결은 어디서?
 	var that = this;
 	this.submitBtn.addEventListener('click', function(e) {
 		that.submitBtn.dispatchEvent(new Event('submitBtn'));
 	});
 };
 
-var Tab = function() {
+var Tab = function(note) {
 	this._initialize();
 };
 
@@ -141,7 +153,6 @@ Tab.prototype._initialize = function() {
 };
 
 Tab.prototype._setDom = function() {
-	// Tab
 	this.tabdom = document.querySelector('.noteTab');
 	this.tabclone = this.tabdom.cloneNode(true);
 	this.tabnotename = this.tabclone.childNodes[1];

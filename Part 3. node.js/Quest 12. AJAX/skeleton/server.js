@@ -125,8 +125,10 @@ app.post('/edit', function(req, res) {
 	                console.log('exist name');
 	                obj[i].contents = req.body.contents;
 	            } else {      // 추가
-	                console.log('no exist name');
-	                obj.push(req.body);
+	                console.log('no exist name, change the name');
+					obj[j].name = req.body.name;
+					obj[i].contents = req.body.contents;
+					// obj.push(req.body);
 	            }
 	            var jsonobj = JSON.stringify(obj, null, 4);
 	            fs.writeFile(__dirname + '/client/test.json', jsonobj, function(err) {
