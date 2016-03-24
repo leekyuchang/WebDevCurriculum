@@ -35,14 +35,14 @@ Notepad.prototype._bindEvents = function() {
 ////////// new에서 submit누르면 server에서 notename.value로(/notes/:notename) redirect???????????????
 //////   new의 save와 기존 노트의 save를 누를때 다르게 하기
 
-			var postnameval = that.note.notename.value;
-			var postcontentsval = that.note.notecontents.value;
+			var postnameval = note.notename.value;
+			var postcontentsval = note.notecontents.value;
 			if(btn == "newbutton") {
 				ajaxfunc('POST', '/new', { name: postnameval, contents: postcontentsval }, function(responseText) {
 					if(responseText == 'Already') {
 						alert('Already existed notename');// exist name on tab or exist name in json
 					} else {
-						that.note.tabnotename.innerHTML = that.note.notename.value; // show tap name
+						note.tabnotename.innerHTML = note.notename.value; // show tap name
 					}
 				});
 			} else if (btn == "mainbutton") {
@@ -57,32 +57,27 @@ Notepad.prototype._bindEvents = function() {
 		});
 
 		// Tab Click
-		this.note.tabclone.addEventListener('tabClick', function() {
+		note.tabclone.addEventListener('tabClick', function() {
 			console.log('This is tab');
 			// link  /notes/:notename
 			// Ajax get form
 		});
 
 		// Tab Close Btn Click
-		this.note.tabclosebtn.addEventListener('closeBtnClick', function(e) {
+		note.tabclosebtn.addEventListener('closeBtnClick', function(e) {
 			console.log('This is closeBtn');
 			var parentT = this.parentNode;
 			parentT.parentNode.removeChild(parentT);
-			that.note.notedom.remove();
+			note.notedom.remove();
 
 		});
 
-		this.note.notecontents.addEventListener('click', function(e) {
-			console.log(this.parentNode.parentNode);
-			console.log(that.note.notedom === this.parentNode.parentNode);
-			// that.note.notedom.parentNode.removeChild(that.note.notedom);
-		});
 
 	}  // show function
 
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
-		// showForm("newbutton");
+		showForm("newbutton");
 
 	});
 
