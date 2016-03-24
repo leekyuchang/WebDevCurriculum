@@ -20,8 +20,8 @@ Notepad.prototype._bindEvents = function() {
 	var i = 0;
 	var ttat = this;
 	function showForm(btn) {     // use in newbtn, mainbtn
-		this.note = new Note();
-		this.noteTab = new Tab();
+		var note = new Note();
+		// this.noteTab = new Tab();
 
 		var that = this;
 		// var postnameval = this.note.notename.value;
@@ -30,8 +30,7 @@ Notepad.prototype._bindEvents = function() {
 		//
 		// }
 
-
-		this.note.submitBtn.addEventListener('submitBtn', function() {
+		note.submitBtn.addEventListener('submitBtn', function() {
 
 ////////// new에서 submit누르면 server에서 notename.value로(/notes/:notename) redirect???????????????
 //////   new의 save와 기존 노트의 save를 누를때 다르게 하기
@@ -40,10 +39,10 @@ Notepad.prototype._bindEvents = function() {
 			var postcontentsval = that.note.notecontents.value;
 			if(btn == "newbutton") {
 				ajaxfunc('POST', '/new', { name: postnameval, contents: postcontentsval }, function(responseText) {
-					if(responseText === 'Already existed notename') {
+					if(responseText == 'Already') {
 						alert('Already existed notename');// exist name on tab or exist name in json
 					} else {
-						that.noteTab.tabnotename.innerHTML = that.note.notename.value; // show tap name
+						that.note.tabnotename.innerHTML = that.note.notename.value; // show tap name
 					}
 				});
 			} else if (btn == "mainbutton") {
@@ -58,28 +57,33 @@ Notepad.prototype._bindEvents = function() {
 		});
 
 		// Tab Click
-		this.noteTab.tabclone.addEventListener('tabClick', function() {
+		this.note.tabclone.addEventListener('tabClick', function() {
 			console.log('This is tab');
 			// link  /notes/:notename
 			// Ajax get form
 		});
 
 		// Tab Close Btn Click
-		this.noteTab.tabclosebtn.addEventListener('closeBtnClick', function(e) {
+		this.note.tabclosebtn.addEventListener('closeBtnClick', function(e) {
 			console.log('This is closeBtn');
 			var parentT = this.parentNode;
 			parentT.parentNode.removeChild(parentT);
-			// that.note.notedom.parentNode.childNodes[5].remove();
-			console.log(that.note.constructor);
+			that.note.notedom.remove();
+
+		});
+
+		this.note.notecontents.addEventListener('click', function(e) {
+			console.log(this.parentNode.parentNode);
+			console.log(that.note.notedom === this.parentNode.parentNode);
 			// that.note.notedom.parentNode.removeChild(that.note.notedom);
-			// that.note.notedom.remove();
 		});
 
 	}  // show function
 
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
-		showForm("newbutton");
+		// showForm("newbutton");
+
 	});
 
 	// MAiN BUTTON
@@ -127,42 +131,39 @@ Note.prototype._initialize = function() {
 };
 
 Note.prototype._setDom = function() {
+
+	// Note
 	this.dom = document.querySelector('.note');
 	this.notedom = this.dom.cloneNode(true);
 	this.notedom.style.display = 'block';
 	document.querySelector('.maincontent').appendChild(this.notedom);
-	this.notename = this.notedom.childNodes[1][0];
-	this.notecontents = this.notedom.childNodes[1][1];
-	this.submitBtn = this.notedom.childNodes[1][2];
+	this.notename = this.notedom.querySelector('.noteName');
+	this.notecontents = this.notedom.querySelector('.noteText');
+	this.submitBtn = this.notedom.querySelector('.notesubmit');
+	// this.notename = this.notedom.childNodes[1][0];
+	// this.notecontents = this.notedom.childNodes[1][1];
+	// this.submitBtn = this.notedom.childNodes[1][2];
+
+	// Tab
+	this.tabdom = document.querySelector('.noteTab');
+	this.tabclone = this.tabdom.cloneNode(true);
+	this.tabclone.style.display = 'block';
+	document.querySelector('.tabbox').appendChild(this.tabclone);
+	this.tabclosebtn = this.tabclone.querySelector('.octicon-x');
+	this.tabnotename = this.tabclone.querySelector('.tabNotename');
+	// this.tabnotename = this.tabclone.childNodes[1];
+	// this.tabclosebtn = this.tabclone.childNodes[3];
 };
 
 Note.prototype._bindEvents = function() {
 	var that = this;
+
+	// Note Event
 	this.submitBtn.addEventListener('click', function(e) {
 		that.submitBtn.dispatchEvent(new Event('submitBtn'));
 	});
-};
 
-var Tab = function(note) {
-	this._initialize();
-};
-
-Tab.prototype._initialize = function() {
-	this._setDom();
-	this._bindEvents();
-};
-
-Tab.prototype._setDom = function() {
-	this.tabdom = document.querySelector('.noteTab');
-	this.tabclone = this.tabdom.cloneNode(true);
-	this.tabnotename = this.tabclone.childNodes[1];
-	this.tabclosebtn = this.tabclone.childNodes[3];
-	this.tabclone.style.display = 'block';
-	document.querySelector('.tabbox').appendChild(this.tabclone);
-};
-
-Tab.prototype._bindEvents = function() {
-	var that = this;
+	// Tab Event
 	this.tabclone.addEventListener('click', function(e) {
 		that.tabclone.dispatchEvent(new Event('tabClick'));
 	});
@@ -172,3 +173,36 @@ Tab.prototype._bindEvents = function() {
 		e.stopPropagation();
 	});
 };
+
+
+//
+//
+// var Tab = function() {
+// 	this._initialize();
+// };
+//
+// Tab.prototype._initialize = function() {
+// 	this._setDom();
+// 	this._bindEvents();
+// };
+//
+// Tab.prototype._setDom = function() {
+// 	this.tabdom = document.querySelector('.noteTab');
+// 	this.tabclone = this.tabdom.cloneNode(true);
+// 	this.tabnotename = this.tabclone.childNodes[1];
+// 	this.tabclosebtn = this.tabclone.childNodes[3];
+// 	this.tabclone.style.display = 'block';
+// 	document.querySelector('.tabbox').appendChild(this.tabclone);
+// };
+//
+// Tab.prototype._bindEvents = function() {
+// 	var that = this;
+// 	this.tabclone.addEventListener('click', function(e) {
+// 		that.tabclone.dispatchEvent(new Event('tabClick'));
+// 	});
+//
+// 	this.tabclosebtn.addEventListener('click', function(e) {
+// 		that.tabclosebtn.dispatchEvent(new Event('closeBtnClick'));
+// 		e.stopPropagation();
+// 	});
+// };

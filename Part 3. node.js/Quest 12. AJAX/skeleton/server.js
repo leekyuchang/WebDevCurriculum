@@ -16,7 +16,6 @@ app.get('/new', function(req, res) {
 	////// read form ?????
 	// form은 clone인데
 	// 이것을 바꾸어야 하는지
-
 });
 
 // NOTES LIST
@@ -56,13 +55,13 @@ app.get('/notes/:notename', function(req, res) {
 
 // NEW Note FORM SEND
 app.post('/new', function(req, res) {
-	var a = 0;
+	var a;
 	    var i;
 	    var obj;
 	    /////find same name in json & form function
 	    function checkExistName(array, name) {
 	        for(i = 0; i < array.length; i += 1) {
-	            if(array[i].name == name) {
+	            if(array[i].name === name) {
 	                a = 1;
 	                return i;
 	            }
@@ -81,7 +80,7 @@ app.post('/new', function(req, res) {
 	            if(a === 1) {  // 'Already existed notename'
 	                console.log('exist name');
 	                // obj[i].contents = req.body.contents;
-					res.send('Already existed notename');
+					res.send('Already');
 	            } else {      // 추가
 	                console.log('no exist name');
 	                obj.push(req.body);
