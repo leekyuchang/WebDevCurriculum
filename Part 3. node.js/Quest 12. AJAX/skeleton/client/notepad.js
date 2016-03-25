@@ -18,12 +18,10 @@ Notepad.prototype._setDom = function() {
 
 Notepad.prototype._bindEvents = function() {
 	var i = 0;
-	var ttat = this;
+	var that = this;
 	function showForm(btn) {     // use in newbtn, mainbtn
 		var note = new Note();
 		// this.noteTab = new Tab();
-
-		var that = this;
 		// var postnameval = this.note.notename.value;
 		// var postcontentsval = this.note.notecontents.value;
 		// if(btn == 'mainbutton') {
@@ -71,14 +69,11 @@ Notepad.prototype._bindEvents = function() {
 			note.notedom.remove();
 
 		});
-
-
 	}  // show function
 
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
 		showForm("newbutton");
-
 	});
 
 	// MAiN BUTTON
