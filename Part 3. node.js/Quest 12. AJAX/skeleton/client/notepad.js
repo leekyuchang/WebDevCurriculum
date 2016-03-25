@@ -111,13 +111,20 @@ Notepad.prototype._bindEvents = function() {
 					newDiv.innerHTML = jsnListObj[i].name;
 					listDiv.appendChild(newDiv);
 					(function(m) {
-						newDiv.addEventListener('click', function() {
-							document.querySelector('.allnotelist').remove();
-							// showForm("mainbutton");
+
+						newDiv.addEventListener('click', function(e) {
+							// 이미 탭에 있으면 안됨
+							var notetabval = document.querySelectorAll('.tabinner');
+							for(var j = 0; j < notetabval.length; j++) {
+								if(notetabval[j].innerHTML === e.target.innerHTML) {
+									return;
+								};
+							}
 							ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
 								var jsnobj = JSON.parse(resp);
 								showForm("mainbutton", jsnobj);
 							});
+							document.querySelector('.allnotelist').remove();
 						});
 					})(i);
 				}
