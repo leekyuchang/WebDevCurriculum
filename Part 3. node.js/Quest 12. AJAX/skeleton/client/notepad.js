@@ -13,21 +13,19 @@ Notepad.prototype._setDom = function() {
 	this.mainbtn = document.querySelector('.btnMain');
 	this.tabbox = document.querySelector('.tabbox');
 	this.maincontent = document.querySelector('.maincontent');
-
 };
 
 Notepad.prototype._bindEvents = function() {
 	var i = 0;
 	var that = this;
-	function showForm(btn) {     // use in newbtn, mainbtn
+	function showForm(btn, jsondata) {     // use in newbtn, mainbtn
 		var note = new Note();
 		// this.noteTab = new Tab();
-		// var postnameval = this.note.notename.value;
-		// var postcontentsval = this.note.notecontents.value;
-
-		// if(btn == 'mainbutton') {
-		//
-		// }
+		if(btn == 'mainbutton') {
+			note.notename.value = jsondata.name;
+			note.notecontents.value = jsondata.contents;
+			note.tabnotename.innerHTML = jsondata.name;
+		};
 
 		note.submitBtn.addEventListener('submitBtn', function() {
 
@@ -37,17 +35,22 @@ Notepad.prototype._bindEvents = function() {
 			var postnameval = note.notename.value;
 			var postcontentsval = note.notecontents.value;
 			if(btn == "newbutton") {
-				ajaxfunc('POST', '/new', { name: postnameval, contents: postcontentsval }, function(responseText) {
+				ajaxfunc('POST', '/notes/:notename', { name: postnameval, contents: postcontentsval, btn: "newsub" }, function(responseText) {
 					if(responseText == 'Already') {
 						alert('Already existed notename');// exist name on tab or exist name in json
 					} else {
-						note.tabnotename.innerHTML = note.notename.value; // show tap name
+						note.tabnotename.innerHTML = postnameval; // show tap name
 					}
 				});
 			} else if (btn == "mainbutton") {
 				/// edit
-				ajaxfunc('POST', '/edit', { name: postnameval, contents: postcontentsval }, function(respt) {
+				ajaxfunc('POST', '/notes/:notename', { name: postnameval, contents: postcontentsval, btn: "mainsub" }, function(respt) {
 					// submit //
+					if(respt == 'diff') {
+						alert('Different note name');
+					} else {
+						console.log('Change note contents');
+					}
 				});
 			} else {
 				return;
@@ -79,7 +82,7 @@ Notepad.prototype._bindEvents = function() {
 		if (document.querySelector('.allnotelist')) {
 			document.querySelector('.allnotelist').remove();
 		};
-		showForm("newbutton");
+		showForm("newbutton", null);
 	});
 
 	// MAiN BUTTON
@@ -101,8 +104,6 @@ Notepad.prototype._bindEvents = function() {
 				listDiv.classList.add('allnotelist');
 				document.querySelector('.maincontent').appendChild(listDiv);
 
-				// 묶어도 childNodes[5]여서 지워짐 newbtn Ajax가 안됨...
-
 				for(var i = 0; i < jsnListObj.length; i++) {
 					var newDiv = document.createElement('div');
 					newDiv.classList.add("notelist", jsnListObj[i].name);
@@ -110,24 +111,21 @@ Notepad.prototype._bindEvents = function() {
 					listDiv.appendChild(newDiv);
 					(function(m) {
 						newDiv.addEventListener('click', function() {
-							showForm("mainbutton");
-							// ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
-							// 	var jsnobj = JSON.parse(resp);
-							//
-							// 	///// form안에 넣기  function showForm
-							// 	showForm("mainbutton");
-							// });
+							document.querySelector('.allnotelist').remove();
+							// showForm("mainbutton");
+							ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
+								var jsnobj = JSON.parse(resp);
+								///// form안에 넣기  function showForm
+								showForm("mainbutton", jsnobj);
+
+								/// list click하면 tab에도 보이기
+							});
 						});
 					})(i);
-
-					///// click할때마다 계속 생성되서 inner되는거 막기
 				}
 			});
 		}
-		// e.target.removeEventListener(e.type, arguments.callee);
-		// document.querySelector('.note').style.display = 'none';
 	});
-
 };
 
 
@@ -150,9 +148,6 @@ Note.prototype._setDom = function() {
 	this.notename = this.notedom.querySelector('.noteName');
 	this.notecontents = this.notedom.querySelector('.noteText');
 	this.submitBtn = this.notedom.querySelector('.notesubmit');
-	// this.notename = this.notedom.childNodes[1][0];
-	// this.notecontents = this.notedom.childNodes[1][1];
-	// this.submitBtn = this.notedom.childNodes[1][2];
 
 	// Tab
 	this.tabdom = document.querySelector('.noteTab');
@@ -161,8 +156,6 @@ Note.prototype._setDom = function() {
 	document.querySelector('.tabbox').appendChild(this.tabclone);
 	this.tabclosebtn = this.tabclone.querySelector('.octicon-x');
 	this.tabnotename = this.tabclone.querySelector('.tabNotename');
-	// this.tabnotename = this.tabclone.childNodes[1];
-	// this.tabclosebtn = this.tabclone.childNodes[3];
 };
 
 Note.prototype._bindEvents = function() {
