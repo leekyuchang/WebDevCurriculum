@@ -24,6 +24,7 @@ Notepad.prototype._bindEvents = function() {
 		// this.noteTab = new Tab();
 		// var postnameval = this.note.notename.value;
 		// var postcontentsval = this.note.notecontents.value;
+
 		// if(btn == 'mainbutton') {
 		//
 		// }
@@ -59,6 +60,7 @@ Notepad.prototype._bindEvents = function() {
 			console.log('This is tab');
 			// link  /notes/:notename
 			// Ajax get form
+			// 이미 있으면 display block로 해야함
 		});
 
 		// Tab Close Btn Click
@@ -73,39 +75,57 @@ Notepad.prototype._bindEvents = function() {
 
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
+
+		if (document.querySelector('.allnotelist')) {
+			document.querySelector('.allnotelist').remove();
+		};
 		showForm("newbutton");
 	});
 
 	// MAiN BUTTON
 	this.mainbtn.addEventListener('click', function(e) {
-		ajaxfunc('GET', '/main', null, function(responseText) {
-			var jsnListObj = eval(responseText);
-			var listDiv = document.createElement('div');
-			listDiv.classList.add('allnotelist');
-			document.querySelector('.maincontent').appendChild(listDiv);
-
-			// 묶어도 childNodes[5]여서 지워짐 newbtn Ajax가 안됨...
-
-			for(var i = 0; i < jsnListObj.length; i++) {
-				var newDiv = document.createElement('div');
-				newDiv.classList.add("notelist", jsnListObj[i].name);
-				newDiv.innerHTML = jsnListObj[i].name;
-				listDiv.appendChild(newDiv);
-				(function(m) {
-					newDiv.addEventListener('click', function() {
-						showForm("mainbutton");
-						// ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
-						// 	var jsnobj = JSON.parse(resp);
-						//
-						// 	///// form안에 넣기  function showForm
-						// 	showForm("mainbutton");
-						// });
-					});
-				})(i);
-
-				///// click할때마다 계속 생성되서 inner되는거 막기
+		var notediv = document.querySelectorAll('.note');
+		if(notediv) {
+			for(var i = 0; i < notediv.length; i++) {
+				notediv[i].style.display = 'none';
 			}
-		});
+		};
+
+		if(document.querySelector('.allnotelist')) {
+			return;
+		} else {
+
+			ajaxfunc('GET', '/main', null, function(responseText) {
+				var jsnListObj = eval(responseText);
+				var listDiv = document.createElement('div');
+				listDiv.classList.add('allnotelist');
+				document.querySelector('.maincontent').appendChild(listDiv);
+
+				// 묶어도 childNodes[5]여서 지워짐 newbtn Ajax가 안됨...
+
+				for(var i = 0; i < jsnListObj.length; i++) {
+					var newDiv = document.createElement('div');
+					newDiv.classList.add("notelist", jsnListObj[i].name);
+					newDiv.innerHTML = jsnListObj[i].name;
+					listDiv.appendChild(newDiv);
+					(function(m) {
+						newDiv.addEventListener('click', function() {
+							showForm("mainbutton");
+							// ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
+							// 	var jsnobj = JSON.parse(resp);
+							//
+							// 	///// form안에 넣기  function showForm
+							// 	showForm("mainbutton");
+							// });
+						});
+					})(i);
+
+					///// click할때마다 계속 생성되서 inner되는거 막기
+				}
+			});
+		}
+		// e.target.removeEventListener(e.type, arguments.callee);
+		// document.querySelector('.note').style.display = 'none';
 	});
 
 };
