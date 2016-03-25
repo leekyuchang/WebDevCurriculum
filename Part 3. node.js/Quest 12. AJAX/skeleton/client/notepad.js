@@ -1,3 +1,4 @@
+// NOTEPAD CLASS
 var Notepad = function(xhr) {
 	this._initialize();
 };
@@ -8,6 +9,8 @@ Notepad.prototype._initialize = function() {
 };
 
 Notepad.prototype._setDom = function() {
+
+	// New Button, Main Button, TabBox, MainContent dom
 	this.newbtn = document.querySelector('.btnNew');
 	this.mainbtn = document.querySelector('.btnMain');
 	this.tabbox = document.querySelector('.tabbox');
@@ -17,14 +20,18 @@ Notepad.prototype._setDom = function() {
 Notepad.prototype._bindEvents = function() {
 	var i = 0;
 	var that = this;
+
+	// Create note instance, Load form, Submit Button, Tab Button
+
 	function showForm(btn, jsondata) {
 		var note = new Note();
-		// this.noteTab = new Tab();
+
+		// If MainButton clicked, load form with note values in form.
 		if(btn == 'mainbutton') {
 			note.notename.value = jsondata.name;
 			note.notecontents.value = jsondata.contents;
 			note.tabnotename.innerHTML = jsondata.name;
-		} else {
+		} else {  // main btn을 눌르고 new를 누르면 복제 되는것 방지
 			note.notename.value = '';
 			note.notecontents.value = '';
 			note.tabnotename.innerHTML = '';
@@ -34,17 +41,23 @@ Notepad.prototype._bindEvents = function() {
 
 			var postnameval = note.notename.value;
 			var postcontentsval = note.notecontents.value;
+
+			// NewButton Ajax
 			if(btn == "newbutton") {
 				ajaxfunc('POST', '/notes/:notename', { name: postnameval, contents: postcontentsval, btnname: "newsub" }, function(responseText) {
+					// Already existed notename Alert
 					if(responseText == 'Already') {
 						alert('Already existed notename');
 					} else {
+						// show notename in tab
 						note.tabnotename.innerHTML = postnameval;
 					}
 				});
+			// MainButton Ajax
 			} else if (btn == "mainbutton") {
-				/// edit
+				/// Edit form value
 				ajaxfunc('POST', '/notes/:notename', { name: postnameval, contents: postcontentsval, btnname: "mainsub" }, function(respt) {
+					// Different note name alert
 					if(respt == 'diff') {
 						alert('Different note name');
 					} else {
@@ -59,47 +72,55 @@ Notepad.prototype._bindEvents = function() {
 
 		// Tab Click
 		note.tabclone.addEventListener('tabClick', function() {
-			console.log('This is tab');
+			// another note display none, without event target dom
 			var notediv = document.querySelectorAll('.note');
 			if(notediv) {
 				for(var i = 0; i < notediv.length; i++) {
 					notediv[i].style.display = 'none';
 				}
 			};
+			// event target show
 			note.notedom.style.display = 'block';
 		});
 
 		// Tab Close Btn Click
 		note.tabclosebtn.addEventListener('closeBtnClick', function(e) {
-			console.log('This is closeBtn');
+			// remove note(tab, form)
 			var parentT = this.parentNode;
 			parentT.parentNode.removeChild(parentT);
 			note.notedom.remove();
 
 		});
-	}  // show function
+	}  // Show function
 
 	this.newbtn.addEventListener('click', function() {
 		console.log("Create new note & new tab");
-
+		// notelist remove // new버튼을 눌렀을때 리스트가 남아있는것 방지
 		if (document.querySelector('.allnotelist')) {
 			document.querySelector('.allnotelist').remove();
 		};
-		showForm("newbutton", "newbtn");
+		// create new note instance
+		showForm("newbutton", "newbtn");  // newbtn = null
 	});
 
-	// MAiN BUTTON
+	// MAiN BUTTON  (List, show existing notes)
 	this.mainbtn.addEventListener('click', function(e) {
+		// note list를 볼때 note들이 보이는것을 방지
 		var notediv = document.querySelectorAll('.note');
 		if(notediv) {
 			for(var i = 0; i < notediv.length; i++) {
 				notediv[i].style.display = 'none';
 			}
 		};
+
+		// main버튼을 눌렀을때 리스트가 계속 생기는것을 방지
+		// removeEventListener로 해도됨
 		if(document.querySelector('.allnotelist')) {
 			return;
 		} else {
 			ajaxfunc('GET', '/main', null, function(responseText) {
+
+				// create note list dom
 				var jsnListObj = eval(responseText);
 				var listDiv = document.createElement('div');
 				listDiv.classList.add('allnotelist');
@@ -110,16 +131,19 @@ Notepad.prototype._bindEvents = function() {
 					newDiv.classList.add("notelist", jsnListObj[i].name);
 					newDiv.innerHTML = jsnListObj[i].name;
 					listDiv.appendChild(newDiv);
-					(function(m) {
 
+					// show existing note form
+					(function(m) {
 						newDiv.addEventListener('click', function(e) {
-							// 이미 탭에 있으면 안됨
+
+							// 탭에 있는 노트는 load하지 못하게
 							var notetabval = document.querySelectorAll('.tabinner');
 							for(var j = 0; j < notetabval.length; j++) {
 								if(notetabval[j].innerHTML === e.target.innerHTML) {
 									return;
 								};
 							}
+							
 							ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
 								var jsnobj = JSON.parse(resp);
 								showForm("mainbutton", jsnobj);
