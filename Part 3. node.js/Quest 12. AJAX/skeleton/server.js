@@ -19,23 +19,19 @@ app.get('/main', function(req, res) {
 		if(err) {
 			console.log(err);
 		} else {
-			// 사용자의 ID, 노트의 개수, 리스트
 			var str = JSON.parse(data);
-			res.send(str); // data는 json but ajax의 xhr.responseText가 string으로 만든다.
+			res.send(str); // data는 json형태 but ajax의 xhr.responseText가 string으로 만든다.
 		}
 	});
 });
 
-// NOTES LOAD
+// NOTES LOAD 노트의 이름과 내용을 read하여 클라이언트로 전송
 app.get('/notes/:notename', function(req, res) {
-	// 이름, 내용
-	// Edit Button  -- 미정
 	console.log('This is ' + req.params.notename + 'note');
 	fs.readFile(__dirname + '/client/test.json', 'utf8', function(err, data) {
 		if(err) {
 			console.log(err);
 		} else {
-			// 이름, 내용
 			var str = JSON.parse(data);
 			// notename의 data만 send하기.
 			for(var i = 0; i < str.length; i += 1) {
@@ -47,37 +43,37 @@ app.get('/notes/:notename', function(req, res) {
 	});
 });
 
-// Edit note form send
+// Edit note (form을 작성하여 server로 send)
 app.post('/notes/:notename', function(req, res) {
-	var a, b;
-    var i;
+	var a, i;
     var obj;
-    /////find same name in json & form function
+
+    // check same name in json & form function
     function checkExistName(array, name) {
         for(i = 0; i < array.length; i += 1) {
             if(array[i].name == name) {
                 a = 1;
-				b = i;
 				return i;
             }
         }
     }
 
     // form to json save or modify
-    console.log(req.body);
     fs.readFile(__dirname + '/client/test.json', 'utf8', function(err, data) {
         if(err) {
             console.log(err);
         } else {
             obj = JSON.parse(data); //objects in array
 			checkExistName(obj, req.body.name);
-			if(req.body.btnname == "newsub") {   /// New note submit
+			// req.body.btnnames는 ajax에서 client의 상황에따라 다르게 적용 하기위한 변수
+			if(req.body.btnname == "newsub") {   /// client에서 New note를 만드는 상황 일때
 	            if(a === 1) {  // 'Already existed notename'
 	                console.log('exist name');
 					res.send('Already');
-	            } else {      // 추가
+	            } else {      // 노트의 이름이 없어 새로 추가
 	                console.log('no exist name');
 					delete req.body.btnname;
+					// req.body를 배열에 넣고 json으로 변환 저장
 	                obj.push(req.body);
 					var jsonobj = JSON.stringify(obj, null, 4);
 		            fs.writeFile(__dirname + '/client/test.json', jsonobj, function(err) {
@@ -87,11 +83,11 @@ app.post('/notes/:notename', function(req, res) {
 		            });
 					res.send('good');
 	            }
-			} else if (req.body.btnname == "mainsub") {   /// List note edit submit
+			} else if (req.body.btnname == "mainsub") {   /// client에서 기존의 노트를 edit하는 상황 일때
 
-				if(a === 1) {  // 이름 같아서 contents 수정
+				if(a === 1) {  // 이름 같아서 contents를 수정
 	                console.log('exist name');
-	                obj[b].contents = req.body.contents;
+	                obj[i].contents = req.body.contents;
 					var jsonobj = JSON.stringify(obj, null, 4);
 					fs.writeFile(__dirname + '/client/test.json', jsonobj, function(err) {
 					    if (err) {
@@ -100,7 +96,6 @@ app.post('/notes/:notename', function(req, res) {
 					});
 					res.send('good');
 	            } else { // 이름이 다르면 alert
-					/// todo: 기존에 있는 이름으로 바뀔때는??
 	                console.log('different note name');
 					res.send('diff');
 	            }
@@ -108,7 +103,6 @@ app.post('/notes/:notename', function(req, res) {
         }
     });
 });
-
 
 var server = app.listen(8080, function () {
 	console.log('Server started!');

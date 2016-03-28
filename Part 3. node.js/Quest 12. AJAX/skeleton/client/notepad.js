@@ -35,7 +35,7 @@ Notepad.prototype._bindEvents = function() {
 			note.notename.value = '';
 			note.notecontents.value = '';
 			note.tabnotename.innerHTML = '';
-		};
+		}
 
 		note.submitBtn.addEventListener('submitBtn', function() {
 
@@ -78,7 +78,7 @@ Notepad.prototype._bindEvents = function() {
 				for(var i = 0; i < notediv.length; i++) {
 					notediv[i].style.display = 'none';
 				}
-			};
+			}
 			// event target show
 			note.notedom.style.display = 'block';
 		});
@@ -98,7 +98,7 @@ Notepad.prototype._bindEvents = function() {
 		// notelist remove // new버튼을 눌렀을때 리스트가 남아있는것 방지
 		if (document.querySelector('.allnotelist')) {
 			document.querySelector('.allnotelist').remove();
-		};
+		}
 		// create new note instance
 		showForm("newbutton", "newbtn");  // newbtn = null
 	});
@@ -111,7 +111,7 @@ Notepad.prototype._bindEvents = function() {
 			for(var i = 0; i < notediv.length; i++) {
 				notediv[i].style.display = 'none';
 			}
-		};
+		}
 
 		// main버튼을 눌렀을때 리스트가 계속 생기는것을 방지
 		// removeEventListener로 해도됨
@@ -141,13 +141,14 @@ Notepad.prototype._bindEvents = function() {
 							for(var j = 0; j < notetabval.length; j++) {
 								if(notetabval[j].innerHTML === e.target.innerHTML) {
 									return;
-								};
+								}
 							}
-							
+							// list click하면 form형태로 load
 							ajaxfunc('GET', '/notes/' + jsnListObj[m].name, null, function(resp) {
 								var jsnobj = JSON.parse(resp);
 								showForm("mainbutton", jsnobj);
 							});
+							// form load한뒤 list dom은 제거
 							document.querySelector('.allnotelist').remove();
 						});
 					})(i);
@@ -199,6 +200,7 @@ Note.prototype._bindEvents = function() {
 		that.tabclone.dispatchEvent(new Event('tabClick'));
 	});
 
+	// close button
 	this.tabclosebtn.addEventListener('click', function(e) {
 		that.tabclosebtn.dispatchEvent(new Event('closeBtnClick'));
 		e.stopPropagation();
