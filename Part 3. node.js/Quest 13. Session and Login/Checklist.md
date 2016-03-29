@@ -24,11 +24,12 @@
     * The next time you visit that site, your PC checks to see if it has a cookie that is relevant
   * 쿠키는 어떤 식으로 서버와 클라이언트 사이에 정보를 주고받나요?
     * HTTP protocol을 통해서 이름, 값, 유효기간, 도메인, 경로등을 주고 받는다.
-
 * 웹 어플리케이션의 세션이란 무엇일까요?
-    * 웹클라이언트의 상태를 유지하기 위해 정보를 웹서버에 저장
   * 세션의 내용은 어디에, 어떤 식으로 저장되나요?
-
+    * 웹클라이언트의 상태를 유지하기 위해 정보를 웹서버(웹 컨테이너)에 저장
+    * The general principle is that you, as the client, give the server your session id, and in return the server grants you access to your session data if it finds your session id stored in its session datastore.
+    * 세션은 객체 행태로 저장된다.
+    
 ## Quest
 * Quest 12에서 수행했던 메모장에 로그인 기능을 넣고자 합니다.
   * 사용자는 딱 세 명만 존재한다고 가정하고, 아이디와 비밀번호, 사용자의 닉네임은 하드코딩해도 무방합니다.
