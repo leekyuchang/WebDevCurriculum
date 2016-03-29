@@ -202,7 +202,7 @@ Note.prototype._bindEvents = function() {
 
 	// close button
 	this.tabclosebtn.addEventListener('click', function(e) {
-		that.tabclosebtn.dispatchEvent(new Event('closeBtnClick'));
+		that.tabclosebtn.dispatchEventnew Event('closeBtnClick'));
 		e.stopPropagation();
 	});
 };
