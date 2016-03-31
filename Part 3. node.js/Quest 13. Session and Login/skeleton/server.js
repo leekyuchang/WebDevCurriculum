@@ -17,11 +17,9 @@ app.use('/static', express.static('static'));
 
 app.get('/', function (req, res) {
 	if(req.session.username) {
-        console.log('logined');
 		res.sendFile(path.join(__dirname, 'static/index.html'));
-        // res.send('<a href="/logout">logout</a>');
     } else {
-        res.send('You should login. ' + '<a href="/login">login</a>');
+		res.send('Please login ' + '<a href="/login">Login page</a>');
     }
 });
 
@@ -70,10 +68,12 @@ app.get('/login', function(req, res) {
 
 
 app.post('/login', function(req, res) {
+
+	var data = JSON.parse(JSON.stringify(req.body));
+	var uname = data.username;
+	var pwd = data.password;
 	var a = 0;
 	var i;
-	var uname = req.body.username;
-	var pwd = req.body.password;
 	var user = [
 		{
 			username : 'test1',
@@ -99,13 +99,15 @@ app.post('/login', function(req, res) {
     }
 
     checkExistName(user, uname, pwd);
-
-    if(a === 1) {
+	console.log(a);
+    if(a == 1) {
         // req.session.logined = true;
 		req.session.username = uname;
         res.redirect('/');
+		// res.send('logined');
     } else {
-        res.send('you"re not member' + '<a href="/login">back</a>');
+        // res.send('you"re not member' + '<a href="/">back</a>');
+		res.send('Please login ' + '<a href="/login">Login page</a>');
     }
 });
 
