@@ -11,6 +11,10 @@
 	display: block;
 }
 
+.notepad-inst .userinfo {
+	height: 30px;
+}
+
 .notepad-inst .menu {
 	height: 30px;
 }
