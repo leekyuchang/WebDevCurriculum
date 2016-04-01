@@ -13,8 +13,8 @@ _._initialize = function() {
 };
 
 _._setSubObjects = function() {
-	// this.loginform = new Loginform();
-	// this.logout = new Logoutform();
+
+	this.user = new User();
 	this.menu = new Menu();
 	this.tabs = new Tabs();
 	this.memoForm = new MemoForm();
@@ -26,8 +26,8 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	// this.dom.querySelector('.login').appendChild(this.loginform.dom);
-	this.dom.querySelector('.login').appendChild(document.querySelector('.logoutbutton'));
+	this.dom.querySelector('.login').appendChild(this.user.dom);
+	// this.dom.querySelector('.login').appendChild(document.querySelector('.logoutbutton'));
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 	this.tabs.dom = this.dom.querySelector('.tabs');
 	this.dom.querySelector('.memo-form').appendChild(this.memoForm.dom);
@@ -35,6 +35,8 @@ _._setDom = function() {
 
 _._bindEvents = function() {
 	var that = this;
+
+
 
 	this.menu.dom.addEventListener('newTab', function() {
 		that.tabs.newTab();
@@ -45,37 +47,28 @@ _._bindEvents = function() {
 		that.tabs.loadTab(name);
 	});
 
-	// this.logout.dom.addEventListener('logout', function() {
-	// 	console.log('logout');
-	// });
-	// this.loginform.dom.addEventListener('login', function(e) {
-	// 	var req = new XMLHttpRequest();
-	// 	req.open('POST', '/login');
-	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	// 	req.body = '';
-	// 	req.body += 'username=' + e.loginfo.username + '&';
-	// 	req.body += 'password=' + e.loginfo.password;
-	// 	req.onreadystatechange = function () {
-	// 		if (req.readyState == 4 && req.status == 200) {
-	// 			if(req.responseText === 'logined') {
-	//
-	// 				// LOG IN
-	// 				// delete login form
-	//
-	// 				var logout = new Logoutform();
-	// 				logout.dom.addEventListener('logout', function() {
-	//
-	// 					// LOG OUT
-	//
-	// 					console.log('logout');
-	// 				});
-	// 			} else {
-	// 				console.log('eeee');
-	// 			}
-	// 		}
-	// 	};
-	// 	req.send(req.body);
-	// });
+	this.user.dom.addEventListener('Login', function(e) {
+		var req = new XMLHttpRequest();
+		req.open('POST', '/login');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = '';
+		req.body += 'username=' + e.userdata.username + '&';
+		req.body += 'password=' + e.userdata.password;
+		req.onreadystatechange = function () {
+			if (req.readyState == 4 && req.status == 200) {
+				// login form remove
+				that.user.dom.remove();
+				// create logoutbutton
+				
+
+				// this.logout.dom.addEventListener('logout', function() {
+				// 	console.log('logout');
+				// });
+			}
+		};
+		req.send(req.body);
+	});
+
 
 	this.tabs.dom.addEventListener('selectTab', function(e) {
 		that.tabs.selectedTab = e.tab;
@@ -182,7 +175,7 @@ _._addTab = function(tab) {
 	this.tabs.push(tab);
 	this.dom.appendChild(tab.dom);
 	// tab.dom.dispatchEvent(new Event('click'));   //////////// ???????????
-	///// 첫번째 탭은 close되지 않는다.
+	// selected된 dom이 안없어짐
 	tab.dom.addEventListener('closeTab', function() {
 		var targetIdx = null;
 
@@ -196,6 +189,7 @@ _._addTab = function(tab) {
 			that.tabs[targetIdx].kill();
 			that.tabs.splice(targetIdx, 1);
 		}
+		// selected된 dom이 안없어짐
 	});
 	this.selectedTab = tab;
 };
@@ -291,4 +285,48 @@ _.render = function(data) {
 
 	this.dom.querySelector('.name').value = data.name;
 	this.dom.querySelector('.content').value = data.content;
+};
+
+
+
+
+
+//// User class를 생성해서 openedtabs, selectedtab 탭을 체크, 서버에 주고 받기
+//// login되었을때 username표시  Ajax를 통해 서버에서 username 넘기거나
+//// 클라이언트에서 인스턴스생성됬을때 username표시
+
+var User = function() {
+	this.username;
+	this.password;
+	this.uopenedtabs;
+	this.uselectedtab;
+	this._initialize();
+};
+
+_ = User.prototype;
+
+_._initialize = function() {
+	this._setDom();
+	this._bindEvents();
+};
+
+_._setDom = function() {
+	var tmpl = document.querySelector('.templates .login-form');
+	this.dom = tmpl.cloneNode(true);
+	// var logouttmpl = document.querySelector('.templates .logoutbutton');
+	// this.logoutdom = logouttmpl.cloneNode(true);
+};
+
+_._bindEvents = function() {
+	var that = this;
+
+	this.dom.querySelector('.loginbutton').addEventListener('click', function() {
+		var ev = new Event('Login');
+		ev.userdata = {
+			username : that.dom.querySelector('.username').value,
+			password : that.dom.querySelector('.password').value
+		};
+		that.dom.dispatchEvent(ev);
+	});
+
 };

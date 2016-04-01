@@ -24,26 +24,27 @@ app.use('/static', express.static('static'));
 
 
 app.get('/', function (req, res) {
-	if(req.session.username) {
-		//// 저장된 세션을 불러와야 한다.
-		/// tab과 세션들...
-		// if(req.session.data) {
-		// 	res.send(req.session);
-		// 	/// 탭과 내용을 불러오기
-		// } else {
-		// 	res.sendFile(path.join(__dirname, 'static/index.html'));
-		// }
-		// console.log(req.session);
-		res.sendFile(path.join(__dirname, 'static/index.html'));
-
-    } else {
-		res.send('Please login ' + '<a href="/login">Login page</a>');
-    }
+	res.sendFile(path.join(__dirname, 'static/index.html'));
+	// if(req.session.username) {
+	// 	//// 저장된 세션을 불러와야 한다.
+	// 	/// tab과 세션들...
+	// 	// if(req.session.data) {
+	// 	// 	res.send(req.session);
+	// 	// 	/// 탭과 내용을 불러오기
+	// 	// } else {
+	// 	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
+	// 	// }
+	// 	// console.log(req.session);
+	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
+	//
+    // } else {
+	// 	res.send('Please login ' + '<a href="/login">Login page</a>');
+    // }
 });
 
 
 app.get('/load', function(req, res) {
-	var dir = path.join(__dirname, 'notes'),
+	var dir = path.join(__dirname, 'notes', req.session.username),
 		files = fs.readdirSync(dir);
 
 	var matched = files.filter(function(f) {
@@ -74,6 +75,7 @@ app.post('/save', function(req, res) {
 		data = JSON.parse(JSON.stringify(req.body));
 
 	data.id = Number(data.id);
+
 	// if(req.session.data) {
 	// 	if (!Array.isArray(req.session.data)) {
 	// 		req.session.data = [];
@@ -134,7 +136,8 @@ app.post('/login', function(req, res) {
 		///// 세션 로그인
 		req.session.uid = user[i].uid;
 		req.session.username = uname;
-        res.redirect('/');
+		res.send('logined');
+        // res.redirect('/');
     } else {
 		res.send('Please login ' + '<a href="/login">Login page</a>');
     }
