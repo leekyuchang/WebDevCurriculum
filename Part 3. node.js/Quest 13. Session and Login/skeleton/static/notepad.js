@@ -48,7 +48,6 @@ _._bindEvents = function() {
 	// this.logout.dom.addEventListener('logout', function() {
 	// 	console.log('logout');
 	// });
-
 	// this.loginform.dom.addEventListener('login', function(e) {
 	// 	var req = new XMLHttpRequest();
 	// 	req.open('POST', '/login');
@@ -140,73 +139,6 @@ _._bindEvents = function() {
 	});
 };
 
-
-
-
-
-// var Loginform = function() {
-// 		this._initialize();
-// 	};
-//
-// _ = Loginform.prototype;
-//
-// _._initialize = function() {
-// 	this._setDom();
-// 	this._bindEvents();
-// };
-//
-// _._setDom = function() {
-// 	var tmpl = document.querySelector('.templates .login-form');
-//
-// 	this.dom = tmpl.cloneNode(true);
-// };
-//
-// _._bindEvents = function() {
-// 	var that = this;
-//
-// 	this.dom.querySelector('.loginbutton').addEventListener('click', function() {
-// 		var evd = new Event('login');
-// 		evd.loginfo = {
-// 			username : that.dom.querySelector('.username').value,
-// 			password : that.dom.querySelector('.password').value
-// 		};
-// 		that.dom.dispatchEvent(evd);
-// 	});
-// };
-
-
-// var Logoutform = function() {
-// 		this._initialize();
-// 	};
-//
-// _ = Logoutform.prototype;
-//
-// _._initialize = function() {
-// 	this._setDom();
-// 	this._bindEvents();
-// };
-//
-// _._setDom = function() {
-// 	this.dom = document.createElement("BUTTON");
-// 	this.dom.appendChild(document.createTextNode("Logout"));
-// 	this.dom.className = "logoutbutton";
-// 	document.querySelector('.login').appendChild(this.dom);
-// };
-//
-// _._bindEvents = function() {
-// 	var that = this;
-// 	this.dom.addEventListener('click', function(e) {
-// 		that.dom.dispatchEvent(new Event('logout'));
-// 	});
-// };
-
-
-
-
-
-
-
-
 var Tabs = function() {
 		this.dom;
 		this.selectedTab;
@@ -249,7 +181,8 @@ _._addTab = function(tab) {
 
 	this.tabs.push(tab);
 	this.dom.appendChild(tab.dom);
-	tab.dom.dispatchEvent(new Event('click'));
+	// tab.dom.dispatchEvent(new Event('click'));   //////////// ???????????
+	///// 첫번째 탭은 close되지 않는다.
 	tab.dom.addEventListener('closeTab', function() {
 		var targetIdx = null;
 
@@ -259,16 +192,13 @@ _._addTab = function(tab) {
 			}
 		});
 
-		if(targetIdx) {
+		if(targetIdx + 1) {
 			that.tabs[targetIdx].kill();
 			that.tabs.splice(targetIdx, 1);
 		}
 	});
 	this.selectedTab = tab;
 };
-
-
-
 
 
 var Tab = function(data) {

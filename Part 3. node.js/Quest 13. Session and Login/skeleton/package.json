@@ -2,7 +2,9 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
     "express": "*",
-    "express-session": "^1.13.0"
+    "express-session": "^1.13.0",
+    "session-file-store": "^0.2.0"
   }
 }
