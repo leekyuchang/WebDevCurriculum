@@ -31,6 +31,7 @@ var user = [
 ];
 
 app.get('/', function (req, res) {
+	res.sendFile(path.join(__dirname, 'static/index.html'));
 	// if(req.session.username) {
 	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
 	// } else {
@@ -52,9 +53,9 @@ app.get('/', function (req, res) {
     // } else {
 	// 	res.send('Please login ' + '<a href="/login">Login page</a>');
     // }
-	if(req.session.username) {
-		res.sendFile(path.join(__dirname, 'static/index.html'));
-	}
+	// if(req.session.username) {
+	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
+	// }
 
 });
 
@@ -143,10 +144,11 @@ app.post('/login', function(req, res) {
 
 app.get('/logout', function(req, res) {
     req.session.destroy();
+	res.redirect('/');
 	// req.session = null;
-	req.session.save(function() {
-		res.redirect('/');
-	});
+	// return req.session.save(function() {
+	// 	res.redirect('/');
+	// });
 
 });
 
