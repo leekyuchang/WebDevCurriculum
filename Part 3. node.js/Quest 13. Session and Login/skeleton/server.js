@@ -13,15 +13,22 @@ app.use(session({
 	// store: new FileStore(),
 	secret : '!@#asdf!@#gre',
 	resave : true,
-	saveUninitialized : false,   // false일때 new노트 저장하면 session에 덮어쓰기 된다.
-	// cookie : {
-	// 	maxAge: 6000000
-	// }
+	saveUninitialized : false
 }));
 
 app.use('/static', express.static('static'));
 
-
+var user = [
+	{	uid : 'test1',
+		username : 'test1',
+		password : 'test1'},
+	{	uid : 'test2',
+		username : 'test2',
+		password : 'test2'},
+	{	uid : 'test3',
+		username : 'test3',
+		password : 'test3'}
+];
 
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'static/index.html'));
@@ -88,16 +95,15 @@ app.post('/save', function(req, res) {
 	// 	req.session.data.push(data);
 	// }
 
-
 	req.session.data = data;
 	fs.writeFileSync(path.join(dir, data.id + '.json'), JSON.stringify(data, null, 4), 'utf-8');
 	res.send('success');
 });
 
 
-app.get('/login', function(req, res) {
-    res.sendFile(path.join(__dirname + '/static', 'login.html'));
-});
+// app.get('/login', function(req, res) {
+//     res.sendFile(path.join(__dirname + '/static', 'login.html'));
+// });
 
 
 app.post('/login', function(req, res) {
@@ -106,17 +112,7 @@ app.post('/login', function(req, res) {
 	var pwd = data.password;
 	var a = 0;
 	var i;
-	var user = [
-		{	uid : 'test1',
-			username : 'test1',
-			password : 'test1'},
-		{	uid : 'test2',
-			username : 'test2',
-			password : 'test2'},
-		{	uid : 'test3',
-			username : 'test3',
-			password : 'test3'}
-	];
+
 
 	function checkExistName(array, name, password) {
         for(i = 0; i < array.length; i += 1) {
@@ -136,10 +132,11 @@ app.post('/login', function(req, res) {
 		///// 세션 로그인
 		req.session.uid = user[i].uid;
 		req.session.username = uname;
-		res.send('logined');
+		res.send('true');
         // res.redirect('/');
     } else {
-		res.send('Please login ' + '<a href="/login">Login page</a>');
+		res.send('false');
+		// res.send('Please login ' + '<a href="/login">Login page</a>');
     }
 });
 
@@ -147,7 +144,7 @@ app.post('/login', function(req, res) {
 app.get('/logout', function(req, res) {
     // req.session.destroy();
 	req.session = null;
-    res.redirect('/login');
+    res.redirect('/');
 });
 
 var server = app.listen(8080, function () {

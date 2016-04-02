@@ -27,7 +27,6 @@ _._setDom = function() {
 	this.dom.appendChild(tmpl.cloneNode(true));
 
 	this.dom.querySelector('.login').appendChild(this.user.dom);
-	// this.dom.querySelector('.login').appendChild(document.querySelector('.logoutbutton'));
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 	this.tabs.dom = this.dom.querySelector('.tabs');
 	this.dom.querySelector('.memo-form').appendChild(this.memoForm.dom);
@@ -57,13 +56,18 @@ _._bindEvents = function() {
 		req.onreadystatechange = function () {
 			if (req.readyState == 4 && req.status == 200) {
 				// login form remove
-				that.user.dom.remove();
-				// create logoutbutton
-				
+				if(req.responseText == 'true') {
+					that.user.dom.remove();
+					var tmpl = document.querySelector('.templates .logoutbutton');
+					var logoutbutton = tmpl.cloneNode(true);
+					that.dom.querySelector('.login').appendChild(logoutbutton);
+					// this.logout.dom.addEventListener('logout', function() {
+					// 	console.log('logout');
+					// });
+				} else if (req.responseText == 'false') {
+					alert('Nop');
+				}
 
-				// this.logout.dom.addEventListener('logout', function() {
-				// 	console.log('logout');
-				// });
 			}
 		};
 		req.send(req.body);
