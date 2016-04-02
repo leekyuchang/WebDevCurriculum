@@ -2,7 +2,6 @@ node_modules/*
 bower_components/*
 **/node_modules/*
 **/bower_components/*
-/Users/kyu/Desktop/Webstudy/WebDevCurriculum/Part 3. node.js/Quest 13. Session and Login/skeleton/notes/*
 **/.DS_Store
 **/Thumbs.db
 npm-debug.log
