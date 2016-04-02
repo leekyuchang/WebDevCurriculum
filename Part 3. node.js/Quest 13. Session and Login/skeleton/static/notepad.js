@@ -14,7 +14,7 @@ _._initialize = function() {
 
 _._setSubObjects = function() {
 
-	this.user = new User();
+	// this.user = new User();
 	this.menu = new Menu();
 	this.tabs = new Tabs();
 	this.memoForm = new MemoForm();
@@ -26,7 +26,11 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	this.dom.querySelector('.login').appendChild(this.user.dom);
+	// this.dom.querySelector('.login').appendChild(this.user.dom);
+	// this.dom.querySelector('.logoutbutton').appendChild(this.user.dom);
+	this.logouttmpl = document.querySelector('.templates .logoutbutton');
+	this.logoutdom = this.logouttmpl.cloneNode(true);
+	this.dom.querySelector('.login').appendChild(this.logoutdom);
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 	this.tabs.dom = this.dom.querySelector('.tabs');
 	this.dom.querySelector('.memo-form').appendChild(this.memoForm.dom);
@@ -34,8 +38,6 @@ _._setDom = function() {
 
 _._bindEvents = function() {
 	var that = this;
-
-
 
 	this.menu.dom.addEventListener('newTab', function() {
 		that.tabs.newTab();
@@ -46,32 +48,29 @@ _._bindEvents = function() {
 		that.tabs.loadTab(name);
 	});
 
-	this.user.dom.addEventListener('Login', function(e) {
-		var req = new XMLHttpRequest();
-		req.open('POST', '/login');
-		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		req.body = '';
-		req.body += 'username=' + e.userdata.username + '&';
-		req.body += 'password=' + e.userdata.password;
-		req.onreadystatechange = function () {
-			if (req.readyState == 4 && req.status == 200) {
-				// login form remove
-				if(req.responseText == 'true') {
-					that.user.dom.remove();
-					var tmpl = document.querySelector('.templates .logoutbutton');
-					var logoutbutton = tmpl.cloneNode(true);
-					that.dom.querySelector('.login').appendChild(logoutbutton);
-					// this.logout.dom.addEventListener('logout', function() {
-					// 	console.log('logout');
-					// });
-				} else if (req.responseText == 'false') {
-					alert('Nop');
-				}
-
-			}
-		};
-		req.send(req.body);
-	});
+	// this.user.dom.addEventListener('Login', function(e) {
+	// 	var req = new XMLHttpRequest();
+	// 	req.open('POST', '/login');
+	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	// 	req.body = '';
+	// 	req.body += 'username=' + e.userdata.username + '&';
+	// 	req.body += 'password=' + e.userdata.password;
+	// 	req.onreadystatechange = function () {
+	// 		if (req.readyState == 4 && req.status == 200) {
+	// 			// login form remove
+	// 			if(req.responseText == 'true') {
+	// 				that.user.dom.remove();
+	// 				var tmpl = document.querySelector('.templates .logoutbutton');
+	// 				var logoutbutton = tmpl.cloneNode(true);
+	// 				that.dom.querySelector('.login').appendChild(logoutbutton);
+	// 			} else if (req.responseText == 'false') {
+	// 				alert('Nop');
+	// 			}
+	//
+	// 		}
+	// 	};
+	// 	req.send(req.body);
+	// });
 
 
 	this.tabs.dom.addEventListener('selectTab', function(e) {

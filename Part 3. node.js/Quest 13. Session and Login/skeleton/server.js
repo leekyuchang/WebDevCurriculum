@@ -31,7 +31,12 @@ var user = [
 ];
 
 app.get('/', function (req, res) {
-	res.sendFile(path.join(__dirname, 'static/index.html'));
+	if(req.session.username) {
+		res.sendFile(path.join(__dirname, 'static/index.html'));
+	} else {
+		res.send('Please login ' + '<a href="/login">Login page</a>');
+	}
+	// res.sendFile(path.join(__dirname, 'static/index.html'));
 	// if(req.session.username) {
 	// 	//// 저장된 세션을 불러와야 한다.
 	// 	/// tab과 세션들...
@@ -101,9 +106,9 @@ app.post('/save', function(req, res) {
 });
 
 
-// app.get('/login', function(req, res) {
-//     res.sendFile(path.join(__dirname + '/static', 'login.html'));
-// });
+app.get('/login', function(req, res) {
+    res.sendFile(path.join(__dirname + '/static', 'login.html'));
+});
 
 
 app.post('/login', function(req, res) {
@@ -132,8 +137,8 @@ app.post('/login', function(req, res) {
 		///// 세션 로그인
 		req.session.uid = user[i].uid;
 		req.session.username = uname;
-		res.send('true');
-        // res.redirect('/');
+		// res.send('true');
+        res.redirect('/');
     } else {
 		res.send('false');
 		// res.send('Please login ' + '<a href="/login">Login page</a>');
@@ -142,8 +147,8 @@ app.post('/login', function(req, res) {
 
 
 app.get('/logout', function(req, res) {
-    // req.session.destroy();
-	req.session = null;
+    req.session.destroy();
+	// req.session = null;
     res.redirect('/');
 });
 
