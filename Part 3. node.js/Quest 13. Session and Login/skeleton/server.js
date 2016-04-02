@@ -31,11 +31,11 @@ var user = [
 ];
 
 app.get('/', function (req, res) {
-	if(req.session.username) {
-		res.sendFile(path.join(__dirname, 'static/index.html'));
-	} else {
-		res.send('Please login ' + '<a href="/login">Login page</a>');
-	}
+	// if(req.session.username) {
+	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
+	// } else {
+	// 	res.send('Please login ' + '<a href="/login">Login page</a>');
+	// }
 	// res.sendFile(path.join(__dirname, 'static/index.html'));
 	// if(req.session.username) {
 	// 	//// 저장된 세션을 불러와야 한다.
@@ -52,6 +52,10 @@ app.get('/', function (req, res) {
     // } else {
 	// 	res.send('Please login ' + '<a href="/login">Login page</a>');
     // }
+	if(req.session.username) {
+		res.sendFile(path.join(__dirname, 'static/index.html'));
+	}
+
 });
 
 
@@ -123,30 +127,40 @@ app.post('/login', function(req, res) {
 		if(uname === users.username && pwd === users.password) {
 			req.session.uid = users.uid;
 			req.session.username = uname;
-			res.redirect('/');
+			res.send('true');
+			// req.session.save(function() {
+			// 	// res.redirect('/');
+			// });
+
 		} else if (uname === users.username && pwd !== users.password) {
-			res.send('Please login ' + '<a href="/login">Login page</a>');
+			res.send('false');
+			// res.send('Please login ' + '<a href="/login">Login page</a>');
 		}
 	}
 
 });
 
 
-// app.get('/logout', function(req, res) {
-//
-//     req.session.destroy();
-// 	// req.session = null;
-//     res.redirect('/');
-// });
-
-app.post('/logout', function(req, res) {
-
-	/// 로그아웃 할때 탭의 개수와 상태를 파일로 만들기
-	/// 로그인 할때 파일의 정보를 불러와 이전의 상태를 만들기
-	console.log(req.body);
+app.get('/logout', function(req, res) {
     req.session.destroy();
-    res.redirect('/');
+	// req.session = null;
+	req.session.save(function() {
+		res.redirect('/');
+	});
+
 });
+
+
+// app.post('/logout', function(req, res) {
+//
+// 	/// 로그아웃 할때 탭의 개수와 상태를 파일로 만들기
+// 	/// 로그인 할때 파일의 정보를 불러와 이전의 상태를 만들기
+// 		req.session.destroy();
+// 		req.session.save(function() {
+// 			res.redirect('/');
+// 		});
+//
+// });
 
 var server = app.listen(8080, function () {
 	console.log('Server started!');

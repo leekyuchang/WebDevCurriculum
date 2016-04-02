@@ -14,7 +14,12 @@ _._initialize = function() {
 
 _._setSubObjects = function() {
 
-	// this.user = new User();
+//1111///////////////////////
+	this.user = new User();
+
+/////////////////////////
+
+
 	this.menu = new Menu();
 	this.tabs = new Tabs();
 	this.memoForm = new MemoForm();
@@ -26,11 +31,19 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	// this.dom.querySelector('.login').appendChild(this.user.dom);
-	// this.dom.querySelector('.logoutbutton').appendChild(this.user.dom);
-	this.logouttmpl = document.querySelector('.templates .logoutbutton');
-	this.logoutdom = this.logouttmpl.cloneNode(true);
-	this.dom.querySelector('.login').appendChild(this.logoutdom);
+//1111///////////////////////
+
+	this.dom.querySelector('.login').appendChild(this.user.dom);
+
+/////////////////////////
+
+
+	// this.logouttmpl = document.querySelector('.templates .logoutbutton');
+	// this.logoutdom = this.logouttmpl.cloneNode(true);
+	// this.dom.querySelector('.login').appendChild(this.logoutdom);
+
+//1111///////////////////////
+
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 	this.tabs.dom = this.dom.querySelector('.tabs');
 	this.dom.querySelector('.memo-form').appendChild(this.memoForm.dom);
@@ -48,54 +61,60 @@ _._bindEvents = function() {
 		that.tabs.loadTab(name);
 	});
 
-	// this.user.dom.addEventListener('Login', function(e) {
-	// 	var req = new XMLHttpRequest();
-	// 	req.open('POST', '/login');
-	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	// 	req.body = '';
-	// 	req.body += 'username=' + e.userdata.username + '&';
-	// 	req.body += 'password=' + e.userdata.password;
-	// 	req.onreadystatechange = function () {
-	// 		if (req.readyState == 4 && req.status == 200) {
-	// 			// login form remove
-	// 			if(req.responseText == 'true') {
-	// 				that.user.dom.remove();
-	// 				var tmpl = document.querySelector('.templates .logoutbutton');
-	// 				var logoutbutton = tmpl.cloneNode(true);
-	// 				that.dom.querySelector('.login').appendChild(logoutbutton);
-	// 			} else if (req.responseText == 'false') {
-	// 				alert('Nop');
-	// 			}
-	//
-	// 		}
-	// 	};
-	// 	req.send(req.body);
-	// });
 
-	this.logoutdom.addEventListener('click', function(e) {
-		/// Ajax로 상태 넘기기
-		// var req = new XMLHttpRequest();
-		// req.open('POST', '/logout');
-		// req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		//
-		//
-		// /// 로그아웃 할때 탭의 개수와 탭이름? 서버로 넘기기
-		// /// 로그인 할때 탭이름 체크해서 /load???
-		// req.body = 'sdf';
-		// // 탭개수, 탭이름?
-		// req.onreadystatechange = function (aEvt) {
-		// 	if (req.readyState == 4) {
-		// 		if(req.status == 200) {
-		// 			console.log('good');
-		// 		} else {
-		// 			console.log('error');
-		// 		}
-		// 	}
-		// };
-		// req.send(req.body);
-		that.tabs.loadTab('sdf');
+//1111///////////////////////
 
+
+	this.user.dom.addEventListener('Login', function(e) {
+		var req = new XMLHttpRequest();
+		req.open('POST', '/login');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = '';
+		req.body += 'username=' + e.userdata.username + '&';
+		req.body += 'password=' + e.userdata.password;
+		req.onreadystatechange = function () {
+			if (req.readyState == 4 && req.status == 200) {
+				// login form remove
+				if(req.responseText == 'true') {
+					that.user.dom.remove();
+					var tmpl = document.querySelector('.templates .logoutbutton');
+					var logoutbutton = tmpl.cloneNode(true);
+					that.dom.querySelector('.login').appendChild(logoutbutton);
+				} else if (req.responseText == 'false') {
+					alert('Nop');
+				}
+
+			}
+		};
+		req.send(req.body);
 	});
+
+//1111///////////////////////
+
+	// this.logoutdom.addEventListener('click', function(e) {
+	// 	/// Ajax로 상태 넘기기
+	// 	// var req = new XMLHttpRequest();
+	// 	// req.open('POST', '/logout');
+	// 	// req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	// 	//
+	// 	//
+	// 	// /// 로그아웃 할때 탭의 개수와 탭이름? 서버로 넘기기
+	// 	// /// 로그인 할때 탭이름 체크해서 /load???
+	// 	// req.body = 'sdf';
+	// 	// // 탭개수, 탭이름?
+	// 	// req.onreadystatechange = function (aEvt) {
+	// 	// 	if (req.readyState == 4) {
+	// 	// 		if(req.status == 200) {
+	// 	// 			console.log('good');
+	// 	// 		} else {
+	// 	// 			console.log('error');
+	// 	// 		}
+	// 	// 	}
+	// 	// };
+	// 	// req.send(req.body);
+	// 	that.tabs.loadTab('sdf');
+	//
+	// });
 
 
 	this.tabs.dom.addEventListener('selectTab', function(e) {
@@ -319,42 +338,42 @@ _.render = function(data) {
 
 
 
-//// User class를 생성해서 openedtabs, selectedtab 탭을 체크, 서버에 주고 받기
-//// login되었을때 username표시  Ajax를 통해 서버에서 username 넘기거나
-//// 클라이언트에서 인스턴스생성됬을때 username표시
+// User class를 생성해서 openedtabs, selectedtab 탭을 체크, 서버에 주고 받기
+// login되었을때 username표시  Ajax를 통해 서버에서 username 넘기거나
+// 클라이언트에서 인스턴스생성됬을때 username표시
 
-// var User = function() {
-// 	this.username;
-// 	this.password;
-// 	this.uopenedtabs;
-// 	this.uselectedtab;
-// 	this._initialize();
-// };
-//
-// _ = User.prototype;
-//
-// _._initialize = function() {
-// 	this._setDom();
-// 	this._bindEvents();
-// };
-//
-// _._setDom = function() {
-// 	var tmpl = document.querySelector('.templates .login-form');
-// 	this.dom = tmpl.cloneNode(true);
-// 	// var logouttmpl = document.querySelector('.templates .logoutbutton');
-// 	// this.logoutdom = logouttmpl.cloneNode(true);
-// };
-//
-// _._bindEvents = function() {
-// 	var that = this;
-//
-// 	this.dom.querySelector('.loginbutton').addEventListener('click', function() {
-// 		var ev = new Event('Login');
-// 		ev.userdata = {
-// 			username : that.dom.querySelector('.username').value,
-// 			password : that.dom.querySelector('.password').value
-// 		};
-// 		that.dom.dispatchEvent(ev);
-// 	});
-//
-// };
+var User = function() {
+	this.username;
+	this.password;
+	this.uopenedtabs;
+	this.uselectedtab;
+	this._initialize();
+};
+
+_ = User.prototype;
+
+_._initialize = function() {
+	this._setDom();
+	this._bindEvents();
+};
+
+_._setDom = function() {
+	var tmpl = document.querySelector('.templates .login-form');
+	this.dom = tmpl.cloneNode(true);
+	// var logouttmpl = document.querySelector('.templates .logoutbutton');
+	// this.logoutdom = logouttmpl.cloneNode(true);
+};
+
+_._bindEvents = function() {
+	var that = this;
+
+	this.dom.querySelector('.loginbutton').addEventListener('click', function() {
+		var ev = new Event('Login');
+		ev.userdata = {
+			username : that.dom.querySelector('.username').value,
+			password : that.dom.querySelector('.password').value
+		};
+		that.dom.dispatchEvent(ev);
+	});
+
+};
