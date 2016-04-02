@@ -115,40 +115,36 @@ app.post('/login', function(req, res) {
 	var data = JSON.parse(JSON.stringify(req.body));
 	var uname = data.username;
 	var pwd = data.password;
-	var a = 0;
-	var i;
 
+	// ///// 로그인 했을때 세션에 맞는 세션 파일 불러 오기!
 
-	function checkExistName(array, name, password) {
-        for(i = 0; i < array.length; i += 1) {
-            if(array[i].username === name && array[i].password === password) {
-                a = 1;
-				return i;
-            }
-        }
-    }
+	for(var j=0; j<user.length; j++) {
+		var users = user[j];
+		if(uname === users.username && pwd === users.password) {
+			req.session.uid = users.uid;
+			req.session.username = uname;
+			res.redirect('/');
+		} else if (uname === users.username && pwd !== users.password) {
+			res.send('Please login ' + '<a href="/login">Login page</a>');
+		}
+	}
 
-    checkExistName(user, uname, pwd);
-
-	///// 로그인 했을때 세션에 맞는 세션 파일 불러 오기!
-
-	console.log(a);
-    if(a == 1) {
-		///// 세션 로그인
-		req.session.uid = user[i].uid;
-		req.session.username = uname;
-		// res.send('true');
-        res.redirect('/');
-    } else {
-		res.send('false');
-		// res.send('Please login ' + '<a href="/login">Login page</a>');
-    }
 });
 
 
-app.get('/logout', function(req, res) {
+// app.get('/logout', function(req, res) {
+//
+//     req.session.destroy();
+// 	// req.session = null;
+//     res.redirect('/');
+// });
+
+app.post('/logout', function(req, res) {
+
+	/// 로그아웃 할때 탭의 개수와 상태를 파일로 만들기
+	/// 로그인 할때 파일의 정보를 불러와 이전의 상태를 만들기
+	console.log(req.body);
     req.session.destroy();
-	// req.session = null;
     res.redirect('/');
 });
 
