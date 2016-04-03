@@ -91,9 +91,8 @@ app.get('/load', function(req, res) {
 app.post('/save', function(req, res) {
 	var dir = path.join(__dirname, 'notes', req.session.username),
 		data = JSON.parse(JSON.stringify(req.body));
-
+		console.log(data);
 	data.id = Number(data.id);
-
 	// if(req.session.data) {
 	// 	if (!Array.isArray(req.session.data)) {
 	// 		req.session.data = [];
@@ -142,27 +141,35 @@ app.post('/login', function(req, res) {
 });
 
 
-app.get('/logout', function(req, res) {
-    req.session.destroy();
-	res.redirect('/');
-	// req.session = null;
-	// return req.session.save(function() {
-	// 	res.redirect('/');
-	// });
-
-});
-
-
-// app.post('/logout', function(req, res) {
-//
-// 	/// 로그아웃 할때 탭의 개수와 상태를 파일로 만들기
-// 	/// 로그인 할때 파일의 정보를 불러와 이전의 상태를 만들기
-// 		req.session.destroy();
-// 		req.session.save(function() {
-// 			res.redirect('/');
-// 		});
+// app.get('/logout', function(req, res) {
+//     req.session.destroy();
+// 	res.redirect('/');
+// 	// req.session = null;
+// 	// return req.session.save(function() {
+// 	// 	res.redirect('/');
+// 	// });
 //
 // });
+
+
+app.post('/logout', function(req, res) {
+	var dir = path.join(__dirname, 'notes'),
+		data = JSON.parse(JSON.stringify(req.body));
+
+	/// write note info file ///
+	if(req.session.username !== undefined) {
+		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
+	}
+
+	/// 로그인 할때 파일의 정보를 불러와 이전의 상태를 만들기
+	// var tabname = data.tabname; // object(array)
+	// console.log(tabname); //['New tab', 'New tab', 'sdf']
+
+	req.session.destroy(function() {
+		res.redirect('/');
+	});
+
+});
 
 var server = app.listen(8080, function () {
 	console.log('Server started!');

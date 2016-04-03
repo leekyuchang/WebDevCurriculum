@@ -78,29 +78,37 @@ _._bindEvents = function() {
 	// 	req.send(req.body);
 	// });
 
-//1111///////////////////////
+
 	this.logoutdom.addEventListener('click', function(e) {
 		/// Ajax로 상태 넘기기
-		// var req = new XMLHttpRequest();
-		// req.open('POST', '/logout');
-		// req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		//
-		//
-		// /// 로그아웃 할때 탭의 개수와 탭이름? 서버로 넘기기
-		// /// 로그인 할때 탭이름 체크해서 /load???
-		// req.body = 'sdf';
-		// // 탭개수, 탭이름?
-		// req.onreadystatechange = function (aEvt) {
-		// 	if (req.readyState == 4) {
-		// 		if(req.status == 200) {
-		// 			console.log('good');
-		// 		} else {
-		// 			console.log('error');
-		// 		}
-		// 	}
-		// };
-		// req.send(req.body);
-		that.tabs.loadTab('sdf');
+
+		var req = new XMLHttpRequest();
+		req.open('POST', '/logout');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = '';
+		/// 로그아웃 할때 탭의 개수와 탭이름? 서버로 넘기기
+		var currentTab = that.tabs.dom.childNodes;
+		for(var i=0; i < currentTab.length; i++) {
+			var tabname = currentTab[i].firstElementChild.innerText;
+			req.body += 'tabname=' + tabname + '&';
+			// if(i < currentTab.length - 1) {
+			// 	req.body += "&";
+			// }
+		}
+		req.body += 'tabnumbers=' + currentTab.length;
+		// req.body = 'tabname=' + tabArray;
+		// console.log(tabArray);
+		console.log(req.body);
+		req.onreadystatechange = function (aEvt) {
+			if (req.readyState == 4) {
+				if(req.status == 200) {
+					console.log('good');
+				} else {
+					console.log('error');
+				}
+			}
+		};
+		req.send(req.body);
 
 	});
 
