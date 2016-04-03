@@ -31,13 +31,12 @@ var user = [
 ];
 
 app.get('/', function (req, res) {
-	res.sendFile(path.join(__dirname, 'static/index.html'));
 
-	// if(req.session.username) {
-	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
-	// } else {
-	// 	res.send('Please login ' + '<a href="/login">Login page</a>');
-	// }
+	if(req.session.username) {
+		res.sendFile(path.join(__dirname, 'static/index.html'));
+	} else {
+		res.send('Please login ' + '<a href="/login">Login page</a>');
+	}
 	// res.sendFile(path.join(__dirname, 'static/index.html'));
 	// if(req.session.username) {
 	// 	//// 저장된 세션을 불러와야 한다.
@@ -57,7 +56,7 @@ app.get('/', function (req, res) {
 	// if(req.session.username) {
 	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
 	// }
-	
+
 });
 
 
@@ -130,17 +129,16 @@ app.post('/login', function(req, res) {
 		if(uname === users.username && pwd === users.password) {
 			req.session.uid = users.uid;
 			req.session.username = uname;
-			res.send('true');
+			// res.send('true');
 			// req.session.save(function() {
 			// 	// res.redirect('/');
 			// });
-
+			res.redirect('/');
 		} else if (uname === users.username && pwd !== users.password) {
-			res.send('false');
-			// res.send('Please login ' + '<a href="/login">Login page</a>');
+			// res.send('false');
+			res.send('Please login ' + '<a href="/login">Login page</a>');
 		}
 	}
-
 });
 
 
