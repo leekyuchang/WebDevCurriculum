@@ -32,6 +32,7 @@ var user = [
 
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'static/index.html'));
+
 	// if(req.session.username) {
 	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
 	// } else {
@@ -56,8 +57,9 @@ app.get('/', function (req, res) {
 	// if(req.session.username) {
 	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
 	// }
-
+	
 });
+
 
 
 app.get('/load', function(req, res) {
