@@ -12,6 +12,7 @@
 }
 
 .notepad-inst .login {
+	display: flex;
 	height: 30px;
 }
 

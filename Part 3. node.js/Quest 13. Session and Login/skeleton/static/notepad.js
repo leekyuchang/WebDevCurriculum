@@ -35,6 +35,10 @@ _._setDom = function() {
 	this.logoutdom = this.logouttmpl.cloneNode(true);
 	this.dom.querySelector('.login').appendChild(this.logoutdom);
 
+	this.loadTabtmpl = document.querySelector('.templates .loadtab');
+	this.loadTabdom = this.loadTabtmpl.cloneNode(true);
+	this.dom.querySelector('.login').appendChild(this.loadTabdom);
+
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 	this.tabs.dom = this.dom.querySelector('.tabs');
 	this.dom.querySelector('.memo-form').appendChild(this.memoForm.dom);
@@ -110,6 +114,22 @@ _._bindEvents = function() {
 		};
 		req.send(req.body);
 
+	});
+
+	this.loadTabdom.addEventListener('click', function(e) {
+		var req = new XMLHttpRequest();
+		req.open('GET', '/loadtab');
+		req.onreadystatechange = function () {
+			if (req.readyState == 4) {
+				if(req.status == 200) {
+					// var data = JSON.parse(req.responseText);
+					//
+					// // data분리해서 tab load, new tab
+					// console.log(data);
+				}
+			}
+		};
+		req.send(null);
 	});
 
 
@@ -329,47 +349,3 @@ _.render = function(data) {
 	this.dom.querySelector('.name').value = data.name;
 	this.dom.querySelector('.content').value = data.content;
 };
-
-
-
-
-
-// User class를 생성해서 openedtabs, selectedtab 탭을 체크, 서버에 주고 받기
-// login되었을때 username표시  Ajax를 통해 서버에서 username 넘기거나
-// 클라이언트에서 인스턴스생성됬을때 username표시
-
-// var User = function() {
-// 	this.username;
-// 	this.password;
-// 	this.uopenedtabs;
-// 	this.uselectedtab;
-// 	this._initialize();
-// };
-//
-// _ = User.prototype;
-//
-// _._initialize = function() {
-// 	this._setDom();
-// 	this._bindEvents();
-// };
-//
-// _._setDom = function() {
-// 	var tmpl = document.querySelector('.templates .login-form');
-// 	this.dom = tmpl.cloneNode(true);
-// 	// var logouttmpl = document.querySelector('.templates .logoutbutton');
-// 	// this.logoutdom = logouttmpl.cloneNode(true);
-// };
-//
-// _._bindEvents = function() {
-// 	var that = this;
-//
-// 	this.dom.querySelector('.loginbutton').addEventListener('click', function() {
-// 		var ev = new Event('Login');
-// 		ev.userdata = {
-// 			username : that.dom.querySelector('.username').value,
-// 			password : that.dom.querySelector('.password').value
-// 		};
-// 		that.dom.dispatchEvent(ev);
-// 	});
-//
-// };

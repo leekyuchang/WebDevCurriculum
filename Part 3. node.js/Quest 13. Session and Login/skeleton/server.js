@@ -1,16 +1,12 @@
 var express = require('express'),
 	path = require('path'),
 	fs = require('fs'),
-	// cookieParser = require('cookie-parser'),
 	session = require('express-session'),
-	// FileStore = require('session-file-store')(session),
 	bodyParser = require('body-parser');
 	app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
 app.use(session({
-	// store: new FileStore(),
 	secret : '!@#asdf!@#gre',
 	resave : true,
 	saveUninitialized : false
@@ -37,26 +33,6 @@ app.get('/', function (req, res) {
 	} else {
 		res.send('Please login ' + '<a href="/login">Login page</a>');
 	}
-	// res.sendFile(path.join(__dirname, 'static/index.html'));
-	// if(req.session.username) {
-	// 	//// 저장된 세션을 불러와야 한다.
-	// 	/// tab과 세션들...
-	// 	// if(req.session.data) {
-	// 	// 	res.send(req.session);
-	// 	// 	/// 탭과 내용을 불러오기
-	// 	// } else {
-	// 	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
-	// 	// }
-	// 	// console.log(req.session);
-	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
-	//
-    // } else {
-	// 	res.send('Please login ' + '<a href="/login">Login page</a>');
-    // }
-	// if(req.session.username) {
-	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
-	// }
-
 });
 
 
@@ -87,23 +63,20 @@ app.get('/load', function(req, res) {
 	}
 });
 
+app.get('/loadtab', function(req, res) {
+	// readfile, send data, 클라이언트에서 분리해서 load
+	var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
+		tabData = fs.readFileSync(tabDataDir, 'utf-8');
+		res.send(tabData);
+
+});
+
 
 app.post('/save', function(req, res) {
 	var dir = path.join(__dirname, 'notes', req.session.username),
 		data = JSON.parse(JSON.stringify(req.body));
 		console.log(data);
 	data.id = Number(data.id);
-	// if(req.session.data) {
-	// 	if (!Array.isArray(req.session.data)) {
-	// 		req.session.data = [];
-	// 		req.session.data.push(data);
-	// 	} else {
-	// 		req.session.data.push(data);
-	// 	}
-	// } else {
-	// 	req.session.data = [];
-	// 	req.session.data.push(data);
-	// }
 
 	req.session.data = data;
 	fs.writeFileSync(path.join(dir, data.id + '.json'), JSON.stringify(data, null, 4), 'utf-8');
@@ -128,10 +101,6 @@ app.post('/login', function(req, res) {
 		if(uname === users.username && pwd === users.password) {
 			req.session.uid = users.uid;
 			req.session.username = uname;
-			// res.send('true');
-			// req.session.save(function() {
-			// 	// res.redirect('/');
-			// });
 			res.redirect('/');
 		} else if (uname === users.username && pwd !== users.password) {
 			// res.send('false');
