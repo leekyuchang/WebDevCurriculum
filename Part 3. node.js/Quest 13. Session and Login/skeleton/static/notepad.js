@@ -26,10 +26,32 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	document.querySelector('#Notepad').addEventListener("load", function(e) {
-		console.log('sdf');
+	this.logintmpl = document.querySelector('.templates .login-form');
+	this.logindom = this.logintmpl.cloneNode(true);
 
+	this.loginbtn = this.logindom.querySelector('.loginbutton');
+	this.loginUsername = this.logindom.querySelector('.username').value;
+	this.loginPassword = this.logindom.querySelector('.password').value;
+
+
+	this.logouttmpl = document.querySelector('.templates .logoutbutton');
+	this.logoutdom = this.logouttmpl.cloneNode(true);
+
+	document.addEventListener("DOMContentLoaded", function(e) {
+		if(document.cookie === '') {
+			that.dom.querySelector('.login').appendChild(that.logindom);
+
+			this.loginbtn.addEventListener('click', function(e) {
+					var username = that.loginUsername;
+					var password = that.loginPassword;
+					console.log(username);
+			});
+		} else {
+			that.dom.querySelector('.login').appendChild(that.logoutdom);
+		}
 	});
+
+
 
 
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
