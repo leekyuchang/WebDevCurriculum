@@ -25,13 +25,21 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	this.logouttmpl = document.querySelector('.templates .logoutbutton');
-	this.logoutdom = this.logouttmpl.cloneNode(true);
-	this.dom.querySelector('.login').appendChild(this.logoutdom);
+	// login form
+	this.logintmpl = document.querySelector('.templates .login-form');
+	this.logindom = this.logintmpl.cloneNode(true);
+	this.dom.querySelector('.login').appendChild(this.logindom);
+	this.loginbtn = this.logindom.querySelector('.loginbutton');
+	this.loginUsername = this.logindom.querySelector('.username').value;
+ 	this.loginPassword = this.logindom.querySelector('.password').value;
 
-	this.loadTabtmpl = document.querySelector('.templates .loadtab');
-	this.loadTabdom = this.loadTabtmpl.cloneNode(true);
-	this.dom.querySelector('.login').appendChild(this.loadTabdom);
+	// logout button
+	// this.logouttmpl = document.querySelector('.templates .logoutbutton');
+	// this.logoutdom = this.logouttmpl.cloneNode(true);
+	// this.dom.querySelector('.login').appendChild(this.logoutdom);
+	// this.loadTabtmpl = document.querySelector('.templates .loadtab');
+	// this.loadTabdom = this.loadTabtmpl.cloneNode(true);
+	// this.dom.querySelector('.login').appendChild(this.loadTabdom);
 
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 	this.tabs.dom = this.dom.querySelector('.tabs');
@@ -50,65 +58,88 @@ _._bindEvents = function() {
 		that.tabs.loadTab(name);
 	});
 
-	this.logoutdom.addEventListener('click', function(e) {
+	this.loginbtn.addEventListener('click', function(e) {
+		var username = that.logindom.querySelector('.username').value
+		var password = that.logindom.querySelector('.password').value
+
 		var req = new XMLHttpRequest();
-		req.open('POST', '/logout');
+		req.open('POST', '/login');
 		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		req.body = '';
-		/// 로그아웃 할때 탭의 개수와 탭이름? 서버로 넘기기
-		var currentTab = that.tabs.dom.childNodes;
-		for(var i=0; i < currentTab.length; i++) {
-			var tabname = currentTab[i].firstElementChild.innerText;
-			req.body += 'tabname=' + tabname + '&';
-			// if(i < currentTab.length - 1) {
-			// 	req.body += "&";
-			// }
-		}
-		req.body += 'tabnumbers=' + currentTab.length;
-		// req.body = 'tabname=' + tabArray;
-		// console.log(tabArray);
-		console.log(req.body);
-		req.onreadystatechange = function (aEvt) {
-			if (req.readyState == 4) {
-				if(req.status == 200) {
-					console.log('good');
-				} else {
-					console.log('error');
+		req.body += 'username=' + username + '&';
+		req.body += 'password=' + password;
+		req.onreadystatechange = function () {
+			if (req.readyState == 4 && req.status == 200) {
+				if(req.responseText == 'true') {
+
 				}
+				that.logindom.remove();
+				var tmpl = document.querySelector('.templates .logoutbutton');
+				var logoutbutton = tmpl.cloneNode(true);
+				that.dom.querySelector('.login').appendChild(logoutbutton);
 			}
 		};
 		req.send(req.body);
-
 	});
 
-	this.loadTabdom.addEventListener('click', function(e) {
-		var req = new XMLHttpRequest();
-		req.open('GET', '/loadtab');
-		req.onreadystatechange = function () {
-			if (req.readyState == 4) {
-				if(req.status == 200) {
-					var data = JSON.parse(req.responseText);
-					// // data분리해서 tab load, new tab
-					// console.log(data);	// Object {tabname: Array[3], tabnumbers: "3"}
-					var tablength = data.tabname.length
-					if(tablength === 0) {
-						alert('not exist');
-					} else {
-						for(var i = 0; i < tablength; i++) {
-							// load tab, new tab (New tab과 다른것 구분)
-							if(data.tabname[i] === "New tab") {
-								that.tabs.newTab();
-							} else {
-								that.tabs.loadTab(data.tabname[i]);
-								console.log(data.tabname[i]);
-							}
-						}
-					}
-				}
-			}
-		};
-		req.send(null);
-	});
+	// this.logoutdom.addEventListener('click', function(e) {
+	// 	var req = new XMLHttpRequest();
+	// 	req.open('POST', '/logout');
+	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	// 	req.body = '';
+	// 	/// 로그아웃 할때 탭의 개수와 탭이름? 서버로 넘기기
+	// 	var currentTab = that.tabs.dom.childNodes;
+	// 	for(var i=0; i < currentTab.length; i++) {
+	// 		var tabname = currentTab[i].firstElementChild.innerText;
+	// 		req.body += 'tabname=' + tabname + '&';
+	// 		// if(i < currentTab.length - 1) {
+	// 		// 	req.body += "&";
+	// 		// }
+	// 	}
+	// 	req.body += 'tabnumbers=' + currentTab.length;
+	// 	// req.body = 'tabname=' + tabArray;
+	// 	// console.log(tabArray);
+	// 	console.log(req.body);
+	// 	req.onreadystatechange = function (aEvt) {
+	// 		if (req.readyState == 4) {
+	// 			if(req.status == 200) {
+	// 				console.log('good');
+	// 			} else {
+	// 				console.log('error');
+	// 			}
+	// 		}
+	// 	};
+	// 	req.send(req.body);
+	//
+	// });
+	// this.loadTabdom.addEventListener('click', function(e) {
+	// 	var req = new XMLHttpRequest();
+	// 	req.open('GET', '/loadtab');
+	// 	req.onreadystatechange = function () {
+	// 		if (req.readyState == 4) {
+	// 			if(req.status == 200) {
+	// 				var data = JSON.parse(req.responseText);
+	// 				// // data분리해서 tab load, new tab
+	// 				// console.log(data);	// Object {tabname: Array[3], tabnumbers: "3"}
+	// 				var tablength = data.tabname.length
+	// 				if(tablength === 0) {
+	// 					alert('not exist');
+	// 				} else {
+	// 					for(var i = 0; i < tablength; i++) {
+	// 						// load tab, new tab (New tab과 다른것 구분)
+	// 						if(data.tabname[i] === "New tab") {
+	// 							that.tabs.newTab();
+	// 						} else {
+	// 							that.tabs.loadTab(data.tabname[i]);
+	// 							console.log(data.tabname[i]);
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	};
+	// 	req.send(null);
+	// });
 
 
 	this.tabs.dom.addEventListener('selectTab', function(e) {
@@ -137,6 +168,37 @@ _._bindEvents = function() {
 		};
 		req.send(req.body);
 	});
+
+	// load될때 체크하기
+	// window.addEventListener("load", function(e) {
+	// 	var req = new XMLHttpRequest();
+	// 	req.open('GET', '/loadtab');
+	// 	req.onreadystatechange = function () {
+	// 		if (req.readyState == 4) {
+	// 			if(req.status == 200) {
+	// 				var data = JSON.parse(req.responseText);
+	// 				// // data분리해서 tab load, new tab
+	// 				// console.log(data);	// Object {tabname: Array[3], tabnumbers: "3"}
+	// 				var tablength = data.tabname.length
+	// 				if(tablength === 0) {
+	// 					alert('not exist');
+	// 				} else {
+	// 					for(var i = 0; i < tablength; i++) {
+	// 						// load tab, new tab (New tab과 다른것 구분)
+	// 						if(data.tabname[i] === "New tab") {
+	// 							that.tabs.newTab();
+	// 						} else {
+	// 							that.tabs.loadTab(data.tabname[i]);
+	// 							console.log(data.tabname[i]);
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	};
+	// 	req.send(null);
+	// });
+
 };
 
 

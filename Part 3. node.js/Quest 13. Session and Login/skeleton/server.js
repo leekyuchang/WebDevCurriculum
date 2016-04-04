@@ -27,15 +27,16 @@ var user = [
 ];
 
 app.get('/', function (req, res) {
-
 	if(req.session.username) {
 		res.sendFile(path.join(__dirname, 'static/index.html'));
 	} else {
-		res.send('Please login ' + '<a href="/login">Login page</a>');
+		res.sendFile(path.join(__dirname, 'static/index.html'));
 	}
 });
 
-
+// app.get('/logined', function (req, res) {
+// 	res.sendFile(path.join(__dirname, 'static/index.html'));
+// });
 
 app.get('/load', function(req, res) {
 	var dir = path.join(__dirname, 'notes', req.session.username),
@@ -84,9 +85,9 @@ app.post('/save', function(req, res) {
 });
 
 
-app.get('/login', function(req, res) {
-    res.sendFile(path.join(__dirname + '/static', 'login.html'));
-});
+// app.get('/login', function(req, res) {
+//     res.sendFile(path.join(__dirname + '/static', 'login.html'));
+// });
 
 
 app.post('/login', function(req, res) {
@@ -95,16 +96,18 @@ app.post('/login', function(req, res) {
 	var pwd = data.password;
 
 	// ///// 로그인 했을때 세션에 맞는 세션 파일 불러 오기!
-
 	for(var j=0; j<user.length; j++) {
 		var users = user[j];
 		if(uname === users.username && pwd === users.password) {
-			req.session.uid = users.uid;
 			req.session.username = uname;
-			res.redirect('/');
+			// res.send('true');
+			req.session.save(function() {
+				res.redirect('/');
+			});
+
 		} else if (uname === users.username && pwd !== users.password) {
 			// res.send('false');
-			res.send('Please login ' + '<a href="/login">Login page</a>');
+			rea.redirect('/');
 		}
 	}
 });
@@ -139,3 +142,17 @@ app.post('/logout', function(req, res) {
 var server = app.listen(8080, function () {
 	console.log('Server started!');
 });
+
+
+// 1.로그인폼
+// 2.아이디패스워드입력
+// 3.Ajax 콜
+// 4.문제없으면 signin 정보를 session 또는 local storage에 저장
+// 5. 모든 페이지마다 signin 상태를 확인 (storage 정보 확인)
+// 6. 화면 분기
+// 서버 쪽에 모든 url 요청에 대해 sign-in 여부를 확인하는 로직
+// if(로그인상태) {
+//    로그아웃버튼
+// } else {
+//   로그인 폼
+// }
