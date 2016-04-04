@@ -1,8 +1,8 @@
 var express = require('express'),
 	path = require('path'),
 	fs = require('fs'),
-	session = require('express-session'),
 	cookieParser = require('cookie-parser'),
+	session = require('express-session'),
 	bodyParser = require('body-parser');
 	app = express();
 
@@ -28,28 +28,20 @@ var user = [
 		password : 'test3'}
 ];
 
-////////////
-// function loggedIn(req, res, next) {
-//     if (req.user.username)
-//         return next();
-//     res.redirect('/');
-// }
-//////////////
-
 app.get('/', function (req, res) {
-	// if(req.session.username) {
-	// 	// res.sendFile(path.join(__dirname, 'static/index.html'));
-	// 	res.send('true');
-	// } else {
-	// 	res.send('false');
-	// 	// res.sendFile(path.join(__dirname, 'static/index.html'));
-	// }
+
 	res.sendFile(path.join(__dirname, 'static/index.html'));
+	// if(req.session.username) {
+	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
+	// } else {
+	// 	res.sendFile(path.join(__dirname, 'static/index.html'));
+	// }
 });
 
 // app.get('/logined', function (req, res) {
-// 	res.sendFile(path.join(__dirname, 'static/index.html'));
-// });
+ // 	res.sendFile(path.join(__dirname, 'static/index.html'));
+ // });
+
 
 app.get('/load', function(req, res) {
 	var dir = path.join(__dirname, 'notes', req.session.username),
@@ -82,6 +74,7 @@ app.get('/loadtab', function(req, res) {
 	var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
 		tabData = fs.readFileSync(tabDataDir, 'utf-8');
 		res.send(tabData);
+
 });
 
 
@@ -108,12 +101,12 @@ app.post('/login', function(req, res) {
 	var pwd = data.password;
 
 	// ///// 로그인 했을때 세션에 맞는 세션 파일 불러 오기!
+
 	for(var j=0; j<user.length; j++) {
 		var users = user[j];
 		if(uname === users.username && pwd === users.password) {
 			req.session.username = uname;
-			res.cookie('username' , uname)
-			// res.send('true');
+			res.cookie('username' , uname);
 			req.session.save(function() {
 				// res.redirect('/');
 				res.send('true');
@@ -121,7 +114,7 @@ app.post('/login', function(req, res) {
 
 		} else if (uname === users.username && pwd !== users.password) {
 			res.send('false');
-			// rea.redirect('/');
+			// res.send('Please login ' + '<a href="/login">Login page</a>');
 		}
 	}
 });
@@ -141,7 +134,6 @@ app.post('/login', function(req, res) {
 app.post('/logout', function(req, res) {
 	var dir = path.join(__dirname, 'notes'),
 		data = JSON.parse(JSON.stringify(req.body));
-
 	/// write note info file ///
 	if(req.session.username !== undefined) {
 		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
@@ -157,17 +149,3 @@ app.post('/logout', function(req, res) {
 var server = app.listen(8080, function () {
 	console.log('Server started!');
 });
-
-
-// 1.로그인폼
-// 2.아이디패스워드입력
-// 3.Ajax 콜
-// 4.session
-// 5.모든 페이지마다 signin 상태를 확인 (storage 정보 확인)
-// 6.화면 분기
-// 서버 쪽에 모든 url 요청에 대해 sign-in 여부를 확인하는 로직
-// if(로그인상태) {
-//    로그아웃버튼
-// } else {
-//   로그인 폼
-// }
