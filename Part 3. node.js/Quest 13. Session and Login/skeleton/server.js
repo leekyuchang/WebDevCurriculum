@@ -130,9 +130,6 @@ app.post('/logout', function(req, res) {
 		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
 	}
 
-	/// 로그인 할때 파일의 정보를 불러와 이전의 상태를 만들기
-	// var tabname = data.tabname; // object(array)
-	// console.log(tabname); //['New tab', 'New tab', 'sdf']
 	req.session.destroy(function() {
 		res.redirect('/');
 	});
