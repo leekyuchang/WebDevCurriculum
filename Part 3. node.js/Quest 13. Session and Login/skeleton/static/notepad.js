@@ -28,14 +28,84 @@ _._setDom = function() {
 
 	this.logintmpl = document.querySelector('.templates .login-form');
 	this.logindom = this.logintmpl.cloneNode(true);
-
 	this.loginbtn = this.logindom.querySelector('.loginbutton');
-	this.loginUsername = this.logindom.querySelector('.username').value;
-	this.loginPassword = this.logindom.querySelector('.password').value;
-
+	// this.loginUsername = this.logindom.querySelector('.username').value;
+	// this.loginPassword = this.logindom.querySelector('.password').value;
 
 	this.logouttmpl = document.querySelector('.templates .logoutbutton');
 	this.logoutdom = this.logouttmpl.cloneNode(true);
+
+	this.loginbtn.addEventListener('click', function(e) {
+		var loginUsername = that.logindom.querySelector('.username').value;
+		var loginPassword = that.logindom.querySelector('.password').value;
+		var req = new XMLHttpRequest();
+		req.open('POST', '/login');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = '';
+		req.body += 'username=' + loginUsername + '&';
+		req.body += 'password=' + loginPassword;
+		req.onreadystatechange = function() {
+			if (req.readyState == 4) {
+				if ( req.status == 200) {
+
+					if(req.responseText === 'true') {
+						that.logindom.remove();
+						that.dom.querySelector('.login').appendChild(that.logoutdom);
+						var reqq = new XMLHttpRequest();
+						reqq.open('GET', '/loadtab');
+						reqq.onreadystatechange = function () {
+							if (reqq.readyState == 4 && reqq.status == 200) {
+								var data = JSON.parse(reqq.responseText);
+								var tablength = data.tabname.length
+								if(tablength !== 0) {
+									for(var i = 0; i < tablength; i++) {
+										// load tab, new tab (New tab과 다른것 구분)
+										if(data.tabname[i] === "New tab") {
+											that.tabs.newTab();
+										} else {
+											that.tabs.loadTab(data.tabname[i]);
+										}
+									}
+								}
+							}
+						};
+					} else {
+						alert('wrong');
+					}
+				}
+				reqq.send(null);
+			}
+		}
+		req.send(req.body);
+	});
+
+	// if (this.loginbtn){
+	// }
+
+	this.logoutdom.addEventListener('click', function(e) {
+		var req = new XMLHttpRequest();
+		req.open('POST', '/logout');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = '';
+		var currentTab = that.tabs.dom.childNodes;
+		for(var i=0; i < currentTab.length; i++) {
+			var tabname = currentTab[i].firstElementChild.innerText;
+			req.body += 'tabname=' + tabname + '&';
+		}
+		req.body += 'tabnumbers=' + currentTab.length;
+		req.onreadystatechange = function (aEvt) {
+			if (req.readyState == 4) {
+				if(req.status == 200) {
+					console.log('good');
+				} else {
+					console.log('error');
+				}
+			}
+		};
+		req.send(req.body);
+	});
+	// if (this.logoutdom) {
+	// }
 
 	document.addEventListener("DOMContentLoaded", function(e) {
 		if(document.cookie === '') {
@@ -44,171 +114,6 @@ _._setDom = function() {
 			that.dom.querySelector('.login').appendChild(that.logoutdom);
 		}
 	});
-
-	if (this.loginbtn){
-		this.loginbtn.addEventListener('click', function(e) {
-			var loginUsername = that.logindom.querySelector('.username').value;
-			var loginPassword = that.logindom.querySelector('.password').value;
-			var req = new XMLHttpRequest();
-			req.open('POST', '/login');
-			req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			req.body = '';
-			req.body += 'username=' + loginUsername + '&';
-			req.body += 'password=' + loginPassword;
-			req.onreadystatechange = function() {
-				if (req.readyState == 4 && req.status == 200) {
-					// refresh 필요
-				}
-			}
-			req.send(req.body);
-		});
-	}
-
-	if (this.logoutdom) {
-		this.logoutdom.addEventListener('click', function(e) {
-			var req = new XMLHttpRequest();
-			req.open('POST', '/logout');
-			req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			req.body = '';
-			var currentTab = that.tabs.dom.childNodes;
-			for(var i=0; i < currentTab.length; i++) {
-				var tabname = currentTab[i].firstElementChild.innerText;
-				req.body += 'tabname=' + tabname + '&';
-			}
-			req.body += 'tabnumbers=' + currentTab.length;
-			req.onreadystatechange = function (aEvt) {
-				if (req.readyState == 4) {
-					if(req.status == 200) {
-						console.log('good');
-					} else {
-						console.log('error');
-					}
-				}
-			};
-			req.send(req.body);
-		});
-	}
-
-		// if(document.cookie) {
-		// 	// login form
-		//
-		// }
-		// if(document.cookie == '') {
-		// 	// login form
-		// 	that.logintmpl = document.querySelector('.templates .login-form');
-		// 	that.logindom = that.logintmpl.cloneNode(true);
-		// 	that.dom.querySelector('.login').appendChild(that.logindom);
-		// 	that.loginbtn = that.logindom.querySelector('.loginbutton');
-		// 	that.loginUsername = that.logindom.querySelector('.username').value;
-		// 	that.loginPassword = that.logindom.querySelector('.password').value;
-		// 	console.log(that.loginUsername);
-		// 	that.loginbtn.addEventListener('click', function(e) {
-		// 		var ttat = that;
-		// 		var username = ttat.loginUsername;
-		// 		var password = ttat.loginPassword;
-		// 		console.log(username);
-		//
-		// 		var req = new XMLHttpRequest();
-		// 		req.open('POST', '/login');
-		// 		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		// 		req.body = '';
-		// 		req.body += 'username=' + username + '&';
-		// 		req.body += 'password=' + password;
-		//
-		// 		req.onreadystatechange = function () {
-		// 			if (req.readyState == 4) {
-		// 				if(req.status == 200) {
-		// 					if(req.responseText === 'true') {
-		// 						ttat.logindom.remove();
-		// 						ttat.logouttmpl = document.querySelector('.templates .logoutbutton');
-		// 						ttat.logoutdom = ttat.logouttmpl.cloneNode(true);
-		// 						ttat.dom.querySelector('.login').appendChild(ttat.logoutdom);
-		// 						// var req = new XMLHttpRequest();
-		// 						// req.open('GET', '/loadtab');
-		// 						// req.onreadystatechange = function (asdf) {
-		// 						// 	if (req.readyState == 4 && req.status == 200) {
-		// 						// 		var data = JSON.parse(req.asdf);
-		// 						// 		console.log(data);
-		// 						// 		// console.log(req.responseText);// Object {tabname: Array[3], tabnumbers: "3"}
-		// 						// 		var tablength = data.tabname.length;
-		// 						// 		if(tablength === 0) {
-		// 						// 			alert('not exist');
-		// 						// 		} else {
-		// 						// 			for(var i = 0; i < tablength; i++) {
-		// 						// 				// load tab, new tab (New tab과 다른것 구분)
-		// 						// 				if(data.tabname[i] === "New tab") {
-		// 						// 					that.tabs.newTab();
-		// 						// 				} else {
-		// 						// 					that.tabs.loadTab(data.tabname[i]);
-		// 						// 					console.log(data.tabname[i]);
-		// 						// 				}
-		// 						// 			}
-		// 						// 		}
-		// 						// 	}
-		// 						// }
-		// 						// req.send(null);
-		// 					} else if (req.responseText === 'false'){
-		// 						alert('Nop');
-		// 					}
-		// 				}
-		// 			}
-		// 		};
-		// 		req.send(req.body);
-		// 	});
-		// } else {
-		// // logout button
-		// 	that.logouttmpl = document.querySelector('.templates .logoutbutton');
-		// 	that.logoutdom = that.logouttmpl.cloneNode(true);
-		// 	that.dom.querySelector('.login').appendChild(that.logoutdom);
-		//
-		// 	var req = new XMLHttpRequest();
-		// 	req.open('POST', '/logout');
-		// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		// 	req.body = '';
-		// 	var currentTab = that.tabs.dom.childNodes;
-		// 	for(var i=0; i < currentTab.length; i++) {
-		// 		var tabname = currentTab[i].firstElementChild.innerText;
-		// 		req.body += 'tabname=' + tabname + '&';
-		// 	}
-		// 	req.body += 'tabnumbers=' + currentTab.length;
-		// 	req.onreadystatechange = function (aEvt) {
-		// 		if (req.readyState == 4) {
-		// 			if(req.status == 200) {
-		// 				console.log('good');
-		// 			} else {
-		// 				console.log('error');
-		// 			}
-		// 		}
-		// 	};
-		// 	req.send(req.body);
-		//
-		// 	// req.open('GET', '/loadtab');
-		// 	// req.onreadystatechange = function () {
-		// 	// 	if (req.readyState == 4) {
-		// 	// 		if(req.status == 200) {
-		// 	// 			var data = JSON.parse(req.responseText);
-		// 	// 			// // data분리해서 tab load, new tab
-		// 	// 			// console.log(data);	// Object {tabname: Array[3], tabnumbers: "3"}
-		// 	// 			var tablength = data.tabname.length
-		// 	// 			if(tablength === 0) {
-		// 	// 				alert('not exist');
-		// 	// 			} else {
-		// 	// 				for(var i = 0; i < tablength; i++) {
-		// 	// 					// load tab, new tab (New tab과 다른것 구분)
-		// 	// 					if(data.tabname[i] === "New tab") {
-		// 	// 						that.tabs.newTab();
-		// 	// 					} else {
-		// 	// 						that.tabs.loadTab(data.tabname[i]);
-		// 	// 						console.log(data.tabname[i]);
-		// 	// 					}
-		// 	// 				}
-		// 	// 			}
-		// 	// 		}
-		// 	// 	}
-		// 	// };
-		// 	// req.send(null);
-		// }
-
 
 
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);

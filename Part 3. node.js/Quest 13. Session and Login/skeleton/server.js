@@ -100,16 +100,14 @@ app.post('/login', function(req, res) {
 	var uname = data.username;
 	var pwd = data.password;
 
-	// ///// 로그인 했을때 세션에 맞는 세션 파일 불러 오기!
-
 	for(var j=0; j<user.length; j++) {
 		var users = user[j];
 		if(uname === users.username && pwd === users.password) {
 			req.session.username = uname;
 			res.cookie('username' , uname);
 			req.session.save(function() {
-				// res.redirect('/');
 				res.send('true');
+				// res.redirect('/');
 			});
 
 		} else if (uname === users.username && pwd !== users.password) {
