@@ -35,13 +35,38 @@ _._setDom = function() {
 _._bindEvents = function() {
 	var that = this;
 
+	function currentTabSave() {
+		var req = new XMLHttpRequest();
+		req.open('POST', '/tabsave');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = '';
+		var currentTab = that.tabs.dom.childNodes;
+		for(var i=0; i < currentTab.length; i++) {
+			var tabname = currentTab[i].firstElementChild.innerText;
+			req.body += 'tabname=' + tabname + '&';
+		}
+		req.body += 'tabnumbers=' + currentTab.length;
+		req.onreadystatechange = function (aEvt) {
+			if (req.readyState == 4) {
+				if(req.status == 200) {
+					console.log('good');
+				} else {
+					console.log('error');
+				}
+			}
+		};
+		req.send(req.body);
+	}
+
 	this.menu.dom.addEventListener('newTab', function() {
 		that.tabs.newTab();
+		currentTabSave();
 	});
 
 	this.menu.dom.addEventListener('loadTab', function() {
 		var name = prompt('Input tab name:');
 		that.tabs.loadTab(name);
+		// currentTabSave();
 	});
 
 	this.tabs.dom.addEventListener('selectTab', function(e) {
@@ -80,7 +105,7 @@ _._bindEvents = function() {
 						console.log('logined');
 						that.logins.logouttmpl.style.display = 'block';
 						var data = JSON.parse(req.responseText);
-						var tablength = data.tabname.length;
+						var tablength = data.tabnumbers;
 						if(tablength !== 0) {
 							for(var i = 0; i < tablength; i++) {
 								if(data.tabname[i] === "New tab") {
@@ -101,27 +126,7 @@ _._bindEvents = function() {
 	});
 
 	this.logins.logoutbtn.addEventListener('click', function() {
-		var req = new XMLHttpRequest();
-		req.open('POST', '/logouted');
-		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		req.body = '';
-		var currentTab = that.tabs.dom.childNodes;
-		for(var i=0; i < currentTab.length; i++) {
-			var tabname = currentTab[i].firstElementChild.innerText;
-			req.body += 'tabname=' + tabname + '&';
-		}
-		req.body += 'tabnumbers=' + currentTab.length;
-		req.onreadystatechange = function (aEvt) {
-			if (req.readyState == 4) {
-				if(req.status == 200) {
-					console.log('good');
-				} else {
-					console.log('error');
-				}
-			}
-		};
-		req.send(req.body);
-		console.log(req.body);
+		currentTabSave();
 	});
 
 };
@@ -210,11 +215,11 @@ _._addTab = function(tab) {
 				targetIdx = idx;
 			}
 		});
-
 		if(targetIdx + 1) {
 			that.tabs[targetIdx].kill();
 			that.tabs.splice(targetIdx, 1);
 		}
+		console.log(tab.data.name);
 	});
 	this.selectedTab = tab;
 };
@@ -344,8 +349,8 @@ _._bindEvents = function() {
 	var that = this;
 	// 로그인 되어있는지 체크
 
-	window.addEventListener('load', function() {
+	// window.addEventListener('load', function() {
 		var ev = new Event('loginCheck');
 		that.dom.dispatchEvent(ev);
-	});
+	// });
 };

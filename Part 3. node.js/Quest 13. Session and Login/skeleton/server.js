@@ -33,7 +33,6 @@ app.get('/', function (req, res) {
 });
 
 app.get('/load', function(req, res) {
-
 	/// push하기
 	var dir = path.join(__dirname, 'notes', req.session.username),
 		files = fs.readdirSync(dir);
@@ -64,26 +63,28 @@ app.get('/load', function(req, res) {
 app.post('/save', function(req, res) {
 	var dir = path.join(__dirname, 'notes', req.session.username),
 		data = JSON.parse(JSON.stringify(req.body));
-		console.log(data);
 	data.id = Number(data.id);
 	req.session.data = data;
 	fs.writeFileSync(path.join(dir, data.id + '.json'), JSON.stringify(data, null, 4), 'utf-8');
 	res.send('success');
 });
 
-// app.post('/newtab', function(req, res) {
-// 	var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
-// 	tabData = fs.readFileSync(tabDataDir, 'utf-8');
-// 	res.send(tabData);
-// });
+app.post('/tabsave', function(req, res) {
+	if (req.session.username !== undefined) {
+		var dir = path.join(__dirname, 'notes'),
+		data = JSON.parse(JSON.stringify(req.body));
+		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
+		console.log('server: logout');
+	}
+});
 
 app.get('/logined', function(req, res) {
 	// 탭도 체크하기
 	if (req.session.username) {
 		var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
 		tabData = fs.readFileSync(tabDataDir, 'utf-8');
+		console.log(tabData);
 		res.send(tabData);
-
 	} else {
 		res.send('false');
 	}
@@ -107,18 +108,6 @@ app.post('/login', function(req, res) {
 	}
 });
 
-app.post('/logouted', function(req, res) {
-	var dir = path.join(__dirname, 'notes'),
-		data = JSON.parse(JSON.stringify(req.body));
-	console.log(data);
-
-	if(req.session.username !== undefined) {
-		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
-		console.log('server: logout');
-	}
-});
-
-
 app.post('/logout', function(req, res) {
 	req.session.destroy(function() {
 		// res.clearCookie('username');
@@ -130,7 +119,3 @@ app.post('/logout', function(req, res) {
 var server = app.listen(8080, function () {
 	console.log('Server started!');
 });
-
-
-// 새로고침할때랑 로그인 할때를 나눠야하는지
-// new버튼이나 closetab버튼 눌렀을때도 서버에 보내서 로그인/새로고침할때 불러오는건지
