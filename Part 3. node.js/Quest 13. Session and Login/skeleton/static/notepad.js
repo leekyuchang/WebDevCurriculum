@@ -36,32 +36,10 @@ _._setDom = function() {
 _._bindEvents = function() {
 	var that = this;
 
-	function currentTabSave() {
-		var req = new XMLHttpRequest();
-		req.open('POST', '/tabsave');
-		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		req.body = '';
-		var currentTab = that.tabs.dom.childNodes;
-		for(var i=0; i < currentTab.length; i++) {
-			var tabname = currentTab[i].firstElementChild.innerText;
-			req.body += 'tabname=' + tabname + '&';
-		}
-		req.body += 'tabnumbers=' + currentTab.length;
-		req.onreadystatechange = function (aEvt) {
-			if (req.readyState == 4) {
-				if(req.status == 200) {
-					console.log('good');
-				} else {
-					console.log('error');
-				}
-			}
-		};
-		req.send(req.body);
-	}
-
 	this.menu.dom.addEventListener('newTab', function() {
 		that.tabs.newTab();
-		currentTabSave();
+		// currentTabSave();
+		// that.tabs.tabsSave();
 	});
 
 	this.menu.dom.addEventListener('loadTab', function() {
@@ -99,7 +77,6 @@ _._bindEvents = function() {
 	this.logins.dom.addEventListener('loginCheck', function(e) {
 		e.checkFunc = function(check) {
 			if(check !== 'false') {
-				console.log('logined');
 				that.logins.logouttmpl.style.display = 'block';
 				var data = JSON.parse(check);
 				var tablength = data.tabnumbers;
@@ -113,15 +90,15 @@ _._bindEvents = function() {
 					}
 				}
 			} else if (check === 'false') {
-				console.log('not logined');
 				that.logins.logintmpl.style.display = 'block';
 			}
 		}
 	});
 
-	this.logins.logoutbtn.addEventListener('click', function() {
-		currentTabSave();
-	});
+	// this.logins.logoutbtn.addEventListener('click', function() {
+	// 	// currentTabSave();
+	// 	// that.tabs.tabsSave();
+	// });
 };
 
 
@@ -158,6 +135,11 @@ _._bindEvents = function() {
 	});
 };
 
+
+
+
+
+
 var Tabs = function() {
 		this.dom;
 		this.selectedTab;
@@ -180,7 +162,6 @@ _.loadTab = function(name) {
 		if (req.readyState == 4) {
 			if(req.status == 200) {
 				var data = JSON.parse(req.responseText);
-
 				if(data.success) {
 					var tab = new Tab(data);
 					that._addTab(tab);
@@ -193,16 +174,41 @@ _.loadTab = function(name) {
 		}
 	};
 	req.send(null);
+
 };
 
 _._addTab = function(tab) {
 	var that = this;
 
+	// addtab
 	this.tabs.push(tab);
 	this.dom.appendChild(tab.dom);
+
+	var req = new XMLHttpRequest();
+	req.open('POST', '/tabsave');
+	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	req.body = '';
+	for(var i=0; i < this.tabs.length; i++) {
+		var currentTab = this.tabs[i].dom.firstElementChild.innerText;
+		req.body += 'tabname=' + currentTab + '&';
+	}
+	 req.body += 'tabnumbers=' + this.tabs.length;
+
+	req.onreadystatechange = function () {
+		if (req.readyState == 4) {
+			if(req.status == 200) {
+				console.log('good');
+			} else {
+				console.log('error');
+			}
+		}
+	};
+	req.send(req.body);
+
+	// closetab
 	tab.dom.addEventListener('closeTab', function() {
 		var targetIdx = null;
-
 		that.tabs.forEach(function(t, idx) {
 			if(t.data.id === tab.data.id) {
 				targetIdx = idx;
@@ -212,9 +218,26 @@ _._addTab = function(tab) {
 			that.tabs[targetIdx].kill();
 			that.tabs.splice(targetIdx, 1);
 		}
-		console.log(tab.data.name);
+
+		var req = new XMLHttpRequest();
+		req.open('POST', '/closetab');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = 'tabname=' + tab.data.name;
+		req.onreadystatechange = function () {
+			if (req.readyState == 4) {
+				if(req.status == 200) {
+					console.log('good');
+				} else {
+					console.log('error');
+				}
+			}
+		};
+		req.send(req.body);
 	});
+
 	this.selectedTab = tab;
+
+
 };
 
 
@@ -271,6 +294,8 @@ _.saveData = function(data) {
 	this.data = data;
 	this.dom.querySelector('.name').innerHTML = data.name;
 }
+
+
 
 
 

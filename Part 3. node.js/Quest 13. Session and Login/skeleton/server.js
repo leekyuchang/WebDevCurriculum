@@ -1,13 +1,11 @@
 var express = require('express'),
 	path = require('path'),
 	fs = require('fs'),
-	// cookieParser = require('cookie-parser'),
 	session = require('express-session'),
 	bodyParser = require('body-parser');
 	app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
 app.use(session({
 	secret : '!@#asdf!@#gre',
 	resave : true,
@@ -33,7 +31,6 @@ app.get('/', function (req, res) {
 });
 
 app.get('/load', function(req, res) {
-	/// push하기
 	var dir = path.join(__dirname, 'notes', req.session.username),
 		files = fs.readdirSync(dir);
 
@@ -73,8 +70,22 @@ app.post('/tabsave', function(req, res) {
 	if (req.session.username !== undefined) {
 		var dir = path.join(__dirname, 'notes'),
 		data = JSON.parse(JSON.stringify(req.body));
-		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
-		console.log('server: logout');
+		console.log(data);
+		// A4. 1번 체크
+		// fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
+		res.send('good');
+	}
+});
+
+
+app.post('/closetab', function(req, res) {
+	if (req.session.username !== undefined) {
+		var dir = path.join(__dirname, 'notes'),
+		data = JSON.parse(JSON.stringify(req.body));
+		console.log(data);
+		// A4. 1번 체크
+		// fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
+		res.send('good');
 	}
 });
 
@@ -83,8 +94,9 @@ app.get('/logined', function(req, res) {
 	if (req.session.username) {
 		var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
 		tabData = fs.readFileSync(tabDataDir, 'utf-8');
-		console.log(tabData);
 		res.send(tabData);
+		// 보내고 tabData지우기
+
 	} else {
 		res.send('false');
 	}
@@ -110,7 +122,6 @@ app.post('/login', function(req, res) {
 
 app.post('/logout', function(req, res) {
 	req.session.destroy(function() {
-		// res.clearCookie('username');
 		res.redirect('/');
 	});
 
