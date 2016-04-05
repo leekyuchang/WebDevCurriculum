@@ -17,17 +17,27 @@
 		</div>
 
 		<div class="login-inst">
-			<div class="login-form" style="display: none">
+			<form action="/login" method="POST" class="login-form" style="display: none">
+			        <input type="text" name="username" class="username" placeholder="username">
+			        <input type="password" name="password" class="password" placeholder="Password">
+			        <button type="submit" class="loginbutton">Login</button>
+			</form>
+
+			<form action="/logout" method="POST" class="logout-form" style="display: none">
+			    <button type="submit" class="logoutbutton">Logout</button>
+			</form>
+
+			<!-- <div class="login-form" style="display: none">
 			        <input type="text" class="username" placeholder="username">
 			        <input type="password" class="password" placeholder="Password">
 			        <button class="loginbutton">Login</button>
-			</div>
+			</div> -->
 
-			<div class="logout-form" style="display: none">
+			<!-- <div class="logout-form" style="display: none">
 				<form action="/logout" method="POST" class="logoutbutton">
 				    <button type="submit">Logout</button>
 				</form>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- <button type="BUTTON" class="loadtab">Load-Tab</button> -->

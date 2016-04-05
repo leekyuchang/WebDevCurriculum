@@ -25,81 +25,6 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	// this.loginbtn.addEventListener('click', function(e) {
-	// 	var loginUsername = that.logindom.querySelector('.username').value;
-	// 	var loginPassword = that.logindom.querySelector('.password').value;
-	// 	var req = new XMLHttpRequest();
-	// 	req.open('POST', '/login');
-	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	// 	req.body = '';
-	// 	req.body += 'username=' + loginUsername + '&';
-	// 	req.body += 'password=' + loginPassword;
-	// 	req.onreadystatechange = function() {
-	// 		if (req.readyState == 4) {
-	// 			if ( req.status == 200) {
-	//
-	// 				if(req.responseText === 'true') {
-	// 					that.logindom.remove();
-	// 					that.dom.querySelector('.login').appendChild(that.logoutdom);
-	// 					var reqq = new XMLHttpRequest();
-	// 					reqq.open('GET', '/loadtab');
-	// 					reqq.onreadystatechange = function () {
-	// 						if (reqq.readyState == 4 && reqq.status == 200) {
-	// 							var data = JSON.parse(reqq.responseText);
-	// 							var tablength = data.tabname.length
-	// 							if(tablength !== 0) {
-	// 								for(var i = 0; i < tablength; i++) {
-	// 									// load tab, new tab (New tab과 다른것 구분)
-	// 									if(data.tabname[i] === "New tab") {
-	// 										that.tabs.newTab();
-	// 									} else {
-	// 										that.tabs.loadTab(data.tabname[i]);
-	// 									}
-	// 								}
-	// 							}
-	// 						}
-	// 					};
-	// 				} else {
-	// 					alert('wrong');
-	// 				}
-	// 			}
-	// 			reqq.send(null);
-	// 		}
-	// 	}
-	// 	req.send(req.body);
-	// });
-	//
-	// this.logoutdom.addEventListener('click', function(e) {
-	// 	var req = new XMLHttpRequest();
-	// 	req.open('POST', '/logout');
-	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	// 	req.body = '';
-	// 	var currentTab = that.tabs.dom.childNodes;
-	// 	for(var i=0; i < currentTab.length; i++) {
-	// 		var tabname = currentTab[i].firstElementChild.innerText;
-	// 		req.body += 'tabname=' + tabname + '&';
-	// 	}
-	// 	req.body += 'tabnumbers=' + currentTab.length;
-	// 	req.onreadystatechange = function (aEvt) {
-	// 		if (req.readyState == 4) {
-	// 			if(req.status == 200) {
-	// 				console.log('good');
-	// 			} else {
-	// 				console.log('error');
-	// 			}
-	// 		}
-	// 	};
-	// 	req.send(req.body);
-	// });
-	//
-	// document.addEventListener("DOMContentLoaded", function(e) {
-	// 	if(document.cookie === '') {
-	// 		that.dom.querySelector('.login').appendChild(that.logindom);
-	// 	} else {
-	// 		that.dom.querySelector('.login').appendChild(that.logoutdom);
-	// 	}
-	// });
-
 	this.dom.querySelector('.login').appendChild(this.logins.dom);
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 
@@ -145,20 +70,29 @@ _._bindEvents = function() {
 		req.send(req.body);
 	});
 
-
 	this.logins.dom.addEventListener('loginCheck', function() {
 		var req = new XMLHttpRequest();
 		req.open('GET', '/logined');
 		req.onreadystatechange = function() {
 			if (req.readyState == 4) {
 				if (req.status == 200) {
-					if(req.responseText == 'true') {
+					if(req.responseText !== 'false') {
 						console.log('logined');
-						return that.logins.logouttmpl.style.display = 'block';
-					} else {
+						that.logins.logouttmpl.style.display = 'block';
+						var data = JSON.parse(req.responseText);
+						var tablength = data.tabname.length;
+						if(tablength !== 0) {
+							for(var i = 0; i < tablength; i++) {
+								if(data.tabname[i] === "New tab") {
+									that.tabs.newTab();
+								} else {
+									that.tabs.loadTab(data.tabname[i]);
+								}
+							}
+						}
+					} else if (req.responseText === 'false') {
 						console.log('not logined');
-						return that.logins.logintmpl.style.display = 'block';
-
+						that.logins.logintmpl.style.display = 'block';
 					}
 				}
 			}
@@ -166,26 +100,30 @@ _._bindEvents = function() {
 		req.send(null);
 	});
 
-	this.logins.loginbtn.addEventListener('login', function(e) {
-		// var loginUsername = that.logindom.querySelector('.username').value;
-		// var loginPassword = that.logindom.querySelector('.password').value;
-		// var req = new XMLHttpRequest();
-		// req.open('POST', '/login');
-		// req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		// req.body = '';
-		// req.body += 'username=' + loginUsername + '&';
-		// req.body += 'password=' + loginPassword;
-		// req.onreadystatechange = function() {
-		// 	if (req.readyState == 4) {
-		// 		if ( req.status == 200) {
-		//
-		// 		}
-		//
-		// 	}
-		// }
-		// req.send(req.body);
-		console.log('login');
+	this.logins.logoutbtn.addEventListener('click', function() {
+		var req = new XMLHttpRequest();
+		req.open('POST', '/logouted');
+		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		req.body = '';
+		var currentTab = that.tabs.dom.childNodes;
+		for(var i=0; i < currentTab.length; i++) {
+			var tabname = currentTab[i].firstElementChild.innerText;
+			req.body += 'tabname=' + tabname + '&';
+		}
+		req.body += 'tabnumbers=' + currentTab.length;
+		req.onreadystatechange = function (aEvt) {
+			if (req.readyState == 4) {
+				if(req.status == 200) {
+					console.log('good');
+				} else {
+					console.log('error');
+				}
+			}
+		};
+		req.send(req.body);
+		console.log(req.body);
 	});
+
 };
 
 
@@ -379,7 +317,7 @@ _.render = function(data) {
 
 var Login = function() {
 	this._initialize();
-	this.logined = 1;
+	this.logined = '';
 };
 
 _ = Login.prototype;
@@ -395,8 +333,9 @@ _._setDom = function() {
 	this.dom = tmpl.cloneNode(true);
 
 	this.logintmpl = this.dom.querySelector('.login-form');
-	this.loginbtn = this.logintmpl.querySelector('.loginbutton');
-
+	// this.loginbtn = this.logintmpl.querySelector('.loginbutton');
+	// this.loginUsername = that.logintmpl.querySelector('.username').value;
+	// this.loginPassword = that.logintmpl.querySelector('.password').value;
 	this.logouttmpl = this.dom.querySelector('.logout-form');
 	this.logoutbtn = this.logouttmpl.querySelector('.logoutbutton');
 };
@@ -404,15 +343,9 @@ _._setDom = function() {
 _._bindEvents = function() {
 	var that = this;
 	// 로그인 되어있는지 체크
+
 	window.addEventListener('load', function() {
-		that.dom.dispatchEvent(new Event('loginCheck'));
-	});
-
-	this.loginbtn.addEventListener('click', function() {
-		that.dom.dispatchEvent(new Event('login'));
-	});
-
-	this.logoutbtn.addEventListener('click', function() {
-		that.dom.dispatchEvent(new Event('logout'));
+		var ev = new Event('loginCheck');
+		that.dom.dispatchEvent(ev);
 	});
 };
