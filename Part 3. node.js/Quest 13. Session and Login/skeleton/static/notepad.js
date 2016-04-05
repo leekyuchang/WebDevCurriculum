@@ -12,6 +12,7 @@ _._initialize = function() {
 };
 
 _._setSubObjects = function() {
+
 	this.logins = new Login();
 	this.menu = new Menu();
 	this.tabs = new Tabs();
@@ -24,6 +25,8 @@ _._setDom = function() {
 
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
+
+	this.logins.dom.cloneNode(true);
 
 	this.dom.querySelector('.login').appendChild(this.logins.dom);
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
@@ -95,40 +98,32 @@ _._bindEvents = function() {
 		req.send(req.body);
 	});
 
-	this.logins.dom.addEventListener('loginCheck', function() {
-		var req = new XMLHttpRequest();
-		req.open('GET', '/logined');
-		req.onreadystatechange = function() {
-			if (req.readyState == 4) {
-				if (req.status == 200) {
-					if(req.responseText !== 'false') {
-						console.log('logined');
-						that.logins.logouttmpl.style.display = 'block';
-						var data = JSON.parse(req.responseText);
-						var tablength = data.tabnumbers;
-						if(tablength !== 0) {
-							for(var i = 0; i < tablength; i++) {
-								if(data.tabname[i] === "New tab") {
-									that.tabs.newTab();
-								} else {
-									that.tabs.loadTab(data.tabname[i]);
-								}
-							}
+	this.logins.dom.addEventListener('loginCheck', function(e) {
+		e.checkFunc = function(check) {
+			if(check !== 'false') {
+				console.log('logined');
+				that.logins.logouttmpl.style.display = 'block';
+				var data = JSON.parse(check);
+				var tablength = data.tabnumbers;
+				if(tablength !== 0) {
+					for(var i = 0; i < tablength; i++) {
+						if(data.tabname[i] === "New tab") {
+							that.tabs.newTab();
+						} else {
+							that.tabs.loadTab(data.tabname[i]);
 						}
-					} else if (req.responseText === 'false') {
-						console.log('not logined');
-						that.logins.logintmpl.style.display = 'block';
 					}
 				}
+			} else if (check === 'false') {
+				console.log('not logined');
+				that.logins.logintmpl.style.display = 'block';
 			}
-		};
-		req.send(null);
+		}
 	});
 
 	this.logins.logoutbtn.addEventListener('click', function() {
 		currentTabSave();
 	});
-
 };
 
 
@@ -322,7 +317,7 @@ _.render = function(data) {
 
 var Login = function() {
 	this._initialize();
-	this.logined = '';
+	// this.logined = '';
 };
 
 _ = Login.prototype;
@@ -334,9 +329,9 @@ _._initialize = function() {
 
 _._setDom = function() {
 
-	var tmpl = document.querySelector('.templates .login-inst');
-	this.dom = tmpl.cloneNode(true);
-
+	// var tmpl = document.querySelector('.templates .login-inst');
+	// this.dom = tmpl.cloneNode(true);
+	this.dom = document.querySelector('.templates .login-inst');
 	this.logintmpl = this.dom.querySelector('.login-form');
 	// this.loginbtn = this.logintmpl.querySelector('.loginbutton');
 	// this.loginUsername = that.logintmpl.querySelector('.username').value;
@@ -348,9 +343,19 @@ _._setDom = function() {
 _._bindEvents = function() {
 	var that = this;
 	// 로그인 되어있는지 체크
-
-	// window.addEventListener('load', function() {
+	window.addEventListener('load', function() {
 		var ev = new Event('loginCheck');
+		ev.req = new XMLHttpRequest();
+		ev.req.open('GET', '/logined');
+		ev.req.onreadystatechange = function() {
+			if (ev.req.readyState == 4) {
+				if (ev.req.status == 200) {
+					ev.checkFunc(ev.req.responseText);
+				}
+			}
+		};
+		ev.req.send(null);
+
 		that.dom.dispatchEvent(ev);
-	// });
+	});
 };
