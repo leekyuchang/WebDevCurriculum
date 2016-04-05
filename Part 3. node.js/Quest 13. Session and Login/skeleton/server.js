@@ -90,9 +90,14 @@ app.post('/save', function(req, res) {
 });
 
 
-// app.get('/login', function(req, res) {
-//     res.sendFile(path.join(__dirname + '/static', 'login.html'));
-// });
+app.get('/logined', function(req, res) {
+	if (req.session.username) {
+		res.send('true');
+	} else {
+		res.send('false');
+	}
+	// res.sendFile(path.join(__dirname + '/static', 'login.html'));
+});
 
 
 app.post('/login', function(req, res) {
@@ -147,3 +152,14 @@ app.post('/logout', function(req, res) {
 var server = app.listen(8080, function () {
 	console.log('Server started!');
 });
+
+// 
+// 해야 할 일
+// 1. 로그인 여부 체크
+// 로그인 상태면 -> 노트/탭 데이터 로드
+// 아니면 -> 로그인 폼 표시 및 빈 노트 표시
+// 로그인 상태에서 로그아웃 누르면?
+// 로그인 정보 삭제, 노트/탭 삭제, 로그임폼 표시
+// 로그아웃 상태에서 로그인 하면?
+// 로그인 폼 제거, 사용자의 노트/탭 로드
+// 그러다가 페이지 리프레쉬 하면?

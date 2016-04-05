@@ -45,3 +45,9 @@
 .tab-inst {
 	display: inline-block;
 }
+
+.login-inst {
+	/*width: 100%;
+	height: 30px;*/
+	display: inline-block;
+}

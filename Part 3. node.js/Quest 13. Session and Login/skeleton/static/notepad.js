@@ -1,6 +1,5 @@
 var Notepad = function(dom) {
 		this.dom = dom;
-
 		this._initialize();
 	};
 
@@ -13,7 +12,7 @@ _._initialize = function() {
 };
 
 _._setSubObjects = function() {
-
+	this.logins = new Login();
 	this.menu = new Menu();
 	this.tabs = new Tabs();
 	this.memoForm = new MemoForm();
@@ -26,97 +25,84 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	this.logintmpl = document.querySelector('.templates .login-form');
-	this.logindom = this.logintmpl.cloneNode(true);
-	this.loginbtn = this.logindom.querySelector('.loginbutton');
-	// this.loginUsername = this.logindom.querySelector('.username').value;
-	// this.loginPassword = this.logindom.querySelector('.password').value;
+	// this.loginbtn.addEventListener('click', function(e) {
+	// 	var loginUsername = that.logindom.querySelector('.username').value;
+	// 	var loginPassword = that.logindom.querySelector('.password').value;
+	// 	var req = new XMLHttpRequest();
+	// 	req.open('POST', '/login');
+	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	// 	req.body = '';
+	// 	req.body += 'username=' + loginUsername + '&';
+	// 	req.body += 'password=' + loginPassword;
+	// 	req.onreadystatechange = function() {
+	// 		if (req.readyState == 4) {
+	// 			if ( req.status == 200) {
+	//
+	// 				if(req.responseText === 'true') {
+	// 					that.logindom.remove();
+	// 					that.dom.querySelector('.login').appendChild(that.logoutdom);
+	// 					var reqq = new XMLHttpRequest();
+	// 					reqq.open('GET', '/loadtab');
+	// 					reqq.onreadystatechange = function () {
+	// 						if (reqq.readyState == 4 && reqq.status == 200) {
+	// 							var data = JSON.parse(reqq.responseText);
+	// 							var tablength = data.tabname.length
+	// 							if(tablength !== 0) {
+	// 								for(var i = 0; i < tablength; i++) {
+	// 									// load tab, new tab (New tab과 다른것 구분)
+	// 									if(data.tabname[i] === "New tab") {
+	// 										that.tabs.newTab();
+	// 									} else {
+	// 										that.tabs.loadTab(data.tabname[i]);
+	// 									}
+	// 								}
+	// 							}
+	// 						}
+	// 					};
+	// 				} else {
+	// 					alert('wrong');
+	// 				}
+	// 			}
+	// 			reqq.send(null);
+	// 		}
+	// 	}
+	// 	req.send(req.body);
+	// });
+	//
+	// this.logoutdom.addEventListener('click', function(e) {
+	// 	var req = new XMLHttpRequest();
+	// 	req.open('POST', '/logout');
+	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	// 	req.body = '';
+	// 	var currentTab = that.tabs.dom.childNodes;
+	// 	for(var i=0; i < currentTab.length; i++) {
+	// 		var tabname = currentTab[i].firstElementChild.innerText;
+	// 		req.body += 'tabname=' + tabname + '&';
+	// 	}
+	// 	req.body += 'tabnumbers=' + currentTab.length;
+	// 	req.onreadystatechange = function (aEvt) {
+	// 		if (req.readyState == 4) {
+	// 			if(req.status == 200) {
+	// 				console.log('good');
+	// 			} else {
+	// 				console.log('error');
+	// 			}
+	// 		}
+	// 	};
+	// 	req.send(req.body);
+	// });
+	//
+	// document.addEventListener("DOMContentLoaded", function(e) {
+	// 	if(document.cookie === '') {
+	// 		that.dom.querySelector('.login').appendChild(that.logindom);
+	// 	} else {
+	// 		that.dom.querySelector('.login').appendChild(that.logoutdom);
+	// 	}
+	// });
 
-	this.logouttmpl = document.querySelector('.templates .logoutbutton');
-	this.logoutdom = this.logouttmpl.cloneNode(true);
-
-	this.loginbtn.addEventListener('click', function(e) {
-		var loginUsername = that.logindom.querySelector('.username').value;
-		var loginPassword = that.logindom.querySelector('.password').value;
-		var req = new XMLHttpRequest();
-		req.open('POST', '/login');
-		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		req.body = '';
-		req.body += 'username=' + loginUsername + '&';
-		req.body += 'password=' + loginPassword;
-		req.onreadystatechange = function() {
-			if (req.readyState == 4) {
-				if ( req.status == 200) {
-
-					if(req.responseText === 'true') {
-						that.logindom.remove();
-						that.dom.querySelector('.login').appendChild(that.logoutdom);
-						var reqq = new XMLHttpRequest();
-						reqq.open('GET', '/loadtab');
-						reqq.onreadystatechange = function () {
-							if (reqq.readyState == 4 && reqq.status == 200) {
-								var data = JSON.parse(reqq.responseText);
-								var tablength = data.tabname.length
-								if(tablength !== 0) {
-									for(var i = 0; i < tablength; i++) {
-										// load tab, new tab (New tab과 다른것 구분)
-										if(data.tabname[i] === "New tab") {
-											that.tabs.newTab();
-										} else {
-											that.tabs.loadTab(data.tabname[i]);
-										}
-									}
-								}
-							}
-						};
-					} else {
-						alert('wrong');
-					}
-				}
-				reqq.send(null);
-			}
-		}
-		req.send(req.body);
-	});
-
-	// if (this.loginbtn){
-	// }
-
-	this.logoutdom.addEventListener('click', function(e) {
-		var req = new XMLHttpRequest();
-		req.open('POST', '/logout');
-		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		req.body = '';
-		var currentTab = that.tabs.dom.childNodes;
-		for(var i=0; i < currentTab.length; i++) {
-			var tabname = currentTab[i].firstElementChild.innerText;
-			req.body += 'tabname=' + tabname + '&';
-		}
-		req.body += 'tabnumbers=' + currentTab.length;
-		req.onreadystatechange = function (aEvt) {
-			if (req.readyState == 4) {
-				if(req.status == 200) {
-					console.log('good');
-				} else {
-					console.log('error');
-				}
-			}
-		};
-		req.send(req.body);
-	});
-	// if (this.logoutdom) {
-	// }
-
-	document.addEventListener("DOMContentLoaded", function(e) {
-		if(document.cookie === '') {
-			that.dom.querySelector('.login').appendChild(that.logindom);
-		} else {
-			that.dom.querySelector('.login').appendChild(that.logoutdom);
-		}
-	});
-
-
+	this.dom.querySelector('.login').appendChild(this.logins.dom);
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
+
 	this.tabs.dom = this.dom.querySelector('.tabs');
 	this.dom.querySelector('.memo-form').appendChild(this.memoForm.dom);
 };
@@ -140,7 +126,6 @@ _._bindEvents = function() {
 
 	this.memoForm.dom.addEventListener('saveTab', function(e) {
 		e.data.id = that.tabs.selectedTab.data.id;
-		// server save
 		var req = new XMLHttpRequest();
 		req.open('POST', '/save');
 		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -158,6 +143,48 @@ _._bindEvents = function() {
 			}
 		};
 		req.send(req.body);
+	});
+
+
+	this.logins.dom.addEventListener('loginCheck', function() {
+		var req = new XMLHttpRequest();
+		req.open('GET', '/logined');
+		req.onreadystatechange = function() {
+			if (req.readyState == 4) {
+				if (req.status == 200) {
+					if(req.responseText == 'true') {
+						console.log('logined');
+						return that.logins.logouttmpl.style.display = 'block';
+					} else {
+						console.log('not logined');
+						return that.logins.logintmpl.style.display = 'block';
+
+					}
+				}
+			}
+		};
+		req.send(null);
+	});
+
+	this.logins.loginbtn.addEventListener('login', function(e) {
+		// var loginUsername = that.logindom.querySelector('.username').value;
+		// var loginPassword = that.logindom.querySelector('.password').value;
+		// var req = new XMLHttpRequest();
+		// req.open('POST', '/login');
+		// req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		// req.body = '';
+		// req.body += 'username=' + loginUsername + '&';
+		// req.body += 'password=' + loginPassword;
+		// req.onreadystatechange = function() {
+		// 	if (req.readyState == 4) {
+		// 		if ( req.status == 200) {
+		//
+		// 		}
+		//
+		// 	}
+		// }
+		// req.send(req.body);
+		console.log('login');
 	});
 };
 
@@ -180,7 +207,6 @@ _._initialize = function() {
 
 _._setDom = function() {
 	var tmpl = document.querySelector('.templates .menu-inst');
-
 	this.dom = tmpl.cloneNode(true);
 };
 
@@ -238,8 +264,6 @@ _._addTab = function(tab) {
 
 	this.tabs.push(tab);
 	this.dom.appendChild(tab.dom);
-	// tab.dom.dispatchEvent(new Event('click'));   //////////// ???????????
-	// selected된 dom이 안없어짐
 	tab.dom.addEventListener('closeTab', function() {
 		var targetIdx = null;
 
@@ -253,7 +277,6 @@ _._addTab = function(tab) {
 			that.tabs[targetIdx].kill();
 			that.tabs.splice(targetIdx, 1);
 		}
-		// selected된 dom이 안없어짐
 	});
 	this.selectedTab = tab;
 };
@@ -329,7 +352,6 @@ _._initialize = function() {
 
 _._setDom = function() {
 	var tmpl = document.querySelector('.templates .memo-form-inst');
-
 	this.dom = tmpl.cloneNode(true);
 };
 
@@ -351,4 +373,46 @@ _.render = function(data) {
 
 	this.dom.querySelector('.name').value = data.name;
 	this.dom.querySelector('.content').value = data.content;
+};
+
+
+
+var Login = function() {
+	this._initialize();
+	this.logined = 1;
+};
+
+_ = Login.prototype;
+
+_._initialize = function() {
+	this._setDom();
+	this._bindEvents();
+};
+
+_._setDom = function() {
+
+	var tmpl = document.querySelector('.templates .login-inst');
+	this.dom = tmpl.cloneNode(true);
+
+	this.logintmpl = this.dom.querySelector('.login-form');
+	this.loginbtn = this.logintmpl.querySelector('.loginbutton');
+
+	this.logouttmpl = this.dom.querySelector('.logout-form');
+	this.logoutbtn = this.logouttmpl.querySelector('.logoutbutton');
+};
+
+_._bindEvents = function() {
+	var that = this;
+	// 로그인 되어있는지 체크
+	window.addEventListener('load', function() {
+		that.dom.dispatchEvent(new Event('loginCheck'));
+	});
+
+	this.loginbtn.addEventListener('click', function() {
+		that.dom.dispatchEvent(new Event('login'));
+	});
+
+	this.logoutbtn.addEventListener('click', function() {
+		that.dom.dispatchEvent(new Event('logout'));
+	});
 };
