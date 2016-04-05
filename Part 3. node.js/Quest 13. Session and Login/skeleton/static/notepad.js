@@ -38,14 +38,11 @@ _._bindEvents = function() {
 
 	this.menu.dom.addEventListener('newTab', function() {
 		that.tabs.newTab();
-		// currentTabSave();
-		// that.tabs.tabsSave();
 	});
 
 	this.menu.dom.addEventListener('loadTab', function() {
 		var name = prompt('Input tab name:');
 		that.tabs.loadTab(name);
-		// currentTabSave();
 	});
 
 	this.tabs.dom.addEventListener('selectTab', function(e) {
@@ -95,10 +92,6 @@ _._bindEvents = function() {
 		}
 	});
 
-	// this.logins.logoutbtn.addEventListener('click', function() {
-	// 	// currentTabSave();
-	// 	// that.tabs.tabsSave();
-	// });
 };
 
 
@@ -206,7 +199,6 @@ _._addTab = function(tab) {
 	};
 	req.send(req.body);
 
-	// closetab
 	tab.dom.addEventListener('closeTab', function() {
 		var targetIdx = null;
 		that.tabs.forEach(function(t, idx) {
@@ -220,9 +212,16 @@ _._addTab = function(tab) {
 		}
 
 		var req = new XMLHttpRequest();
-		req.open('POST', '/closetab');
+		req.open('POST', '/tabsave');
 		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		req.body = 'tabname=' + tab.data.name;
+
+		req.body = '';
+		for(var i=0; i < that.tabs.length; i++) {
+			var currentTab = that.tabs[i].dom.firstElementChild.innerText;
+			req.body += 'tabname=' + currentTab + '&';
+		}
+		 req.body += 'tabnumbers=' + that.tabs.length;
+
 		req.onreadystatechange = function () {
 			if (req.readyState == 4) {
 				if(req.status == 200) {
@@ -236,7 +235,6 @@ _._addTab = function(tab) {
 	});
 
 	this.selectedTab = tab;
-
 
 };
 

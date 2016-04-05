@@ -61,7 +61,7 @@ app.post('/save', function(req, res) {
 	var dir = path.join(__dirname, 'notes', req.session.username),
 		data = JSON.parse(JSON.stringify(req.body));
 	data.id = Number(data.id);
-	req.session.data = data;
+	// req.session.data = data;
 	fs.writeFileSync(path.join(dir, data.id + '.json'), JSON.stringify(data, null, 4), 'utf-8');
 	res.send('success');
 });
@@ -72,22 +72,11 @@ app.post('/tabsave', function(req, res) {
 		data = JSON.parse(JSON.stringify(req.body));
 		console.log(data);
 		// A4. 1번 체크
-		// fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
+		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
 		res.send('good');
 	}
 });
 
-
-app.post('/closetab', function(req, res) {
-	if (req.session.username !== undefined) {
-		var dir = path.join(__dirname, 'notes'),
-		data = JSON.parse(JSON.stringify(req.body));
-		console.log(data);
-		// A4. 1번 체크
-		// fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
-		res.send('good');
-	}
-});
 
 app.get('/logined', function(req, res) {
 	// 탭도 체크하기
@@ -95,7 +84,6 @@ app.get('/logined', function(req, res) {
 		var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
 		tabData = fs.readFileSync(tabDataDir, 'utf-8');
 		res.send(tabData);
-		// 보내고 tabData지우기
 
 	} else {
 		res.send('false');
