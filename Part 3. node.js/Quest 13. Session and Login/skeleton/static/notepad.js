@@ -26,8 +26,6 @@ _._setDom = function() {
 	this.dom.innerHTML = '';
 	this.dom.appendChild(tmpl.cloneNode(true));
 
-	this.logins.dom.cloneNode(true);
-
 	this.dom.querySelector('.login').appendChild(this.logins.dom);
 	this.dom.querySelector('.menu').appendChild(this.menu.dom);
 
@@ -329,13 +327,9 @@ _._initialize = function() {
 
 _._setDom = function() {
 
-	// var tmpl = document.querySelector('.templates .login-inst');
-	// this.dom = tmpl.cloneNode(true);
-	this.dom = document.querySelector('.templates .login-inst');
+	var tmpl = document.querySelector('.templates .login-inst');
+	this.dom = tmpl.cloneNode(true);
 	this.logintmpl = this.dom.querySelector('.login-form');
-	// this.loginbtn = this.logintmpl.querySelector('.loginbutton');
-	// this.loginUsername = that.logintmpl.querySelector('.username').value;
-	// this.loginPassword = that.logintmpl.querySelector('.password').value;
 	this.logouttmpl = this.dom.querySelector('.logout-form');
 	this.logoutbtn = this.logouttmpl.querySelector('.logoutbutton');
 };
