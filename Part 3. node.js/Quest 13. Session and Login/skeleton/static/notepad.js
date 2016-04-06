@@ -72,7 +72,7 @@ _._bindEvents = function() {
 	});
 
 	this.logins.dom.addEventListener('loginCheck', function(e) {
-		e.checkFunc = function(check) {
+		e.loadTabs = function(check) {
 			if(check !== 'false') {
 				that.logins.logouttmpl.style.display = 'block';
 				var data = JSON.parse(check);
@@ -183,40 +183,7 @@ _._addTab = function(tab) {
 	this.tabs.push(tab);
 	this.dom.appendChild(tab.dom);
 
-	var req = new XMLHttpRequest();
-	req.open('POST', '/tabsave');
-	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-	req.body = '';
-	for(var i=0; i < this.tabs.length; i++) {
-		var currentTab = this.tabs[i].dom.firstElementChild.innerText;
-		req.body += 'tabname=' + currentTab + '&';
-	}
-	req.body += 'tabnumbers=' + this.tabs.length;
-
-	req.onreadystatechange = function () {
-		if (req.readyState == 4) {
-			if(req.status == 200) {
-				console.log('good');
-			} else {
-				console.log('error');
-			}
-		}
-	};
-	req.send(req.body);
-
-	tab.dom.addEventListener('closeTab', function() {
-		var targetIdx = null;
-		that.tabs.forEach(function(t, idx) {
-			if(t.data.id === tab.data.id) {
-				targetIdx = idx;
-			}
-		});
-		if(targetIdx + 1) {
-			that.tabs[targetIdx].kill();
-			that.tabs.splice(targetIdx, 1);
-		}
-
+	function checkAndSend() {
 		var req = new XMLHttpRequest();
 		req.open('POST', '/tabsave');
 		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -238,10 +205,23 @@ _._addTab = function(tab) {
 			}
 		};
 		req.send(req.body);
+	}
+	checkAndSend();
+
+	tab.dom.addEventListener('closeTab', function() {
+		var targetIdx = null;
+		that.tabs.forEach(function(t, idx) {
+			if(t.data.id === tab.data.id) {
+				targetIdx = idx;
+			}
+		});
+		if(targetIdx + 1) {
+			that.tabs[targetIdx].kill();
+			that.tabs.splice(targetIdx, 1);
+		}
+		checkAndSend();
 	});
-
 	this.selectedTab = tab;
-
 };
 
 
@@ -335,7 +315,6 @@ _._bindEvents = function() {
 
 _.render = function(data) {
 	this.dom.style.display = 'block';
-
 	this.dom.querySelector('.name').value = data.name;
 	this.dom.querySelector('.content').value = data.content;
 };
@@ -344,7 +323,6 @@ _.render = function(data) {
 
 var Login = function() {
 	this._initialize();
-	// this.logined = '';
 };
 
 _ = Login.prototype;
@@ -360,12 +338,10 @@ _._setDom = function() {
 	this.dom = tmpl.cloneNode(true);
 	this.logintmpl = this.dom.querySelector('.login-form');
 	this.logouttmpl = this.dom.querySelector('.logout-form');
-	this.logoutbtn = this.logouttmpl.querySelector('.logoutbutton');
 };
 
 _._bindEvents = function() {
 	var that = this;
-	// 로그인 되어있는지 체크
 	window.addEventListener('load', function() {
 		var ev = new Event('loginCheck');
 		ev.req = new XMLHttpRequest();
@@ -373,7 +349,7 @@ _._bindEvents = function() {
 		ev.req.onreadystatechange = function() {
 			if (ev.req.readyState == 4) {
 				if (ev.req.status == 200) {
-					ev.checkFunc(ev.req.responseText);
+					ev.loadTabs(ev.req.responseText);
 				}
 			}
 		};
