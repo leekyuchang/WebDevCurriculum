@@ -72,32 +72,30 @@ _._bindEvents = function() {
 	});
 
 	this.logins.dom.addEventListener('loginCheck', function(e) {
-		e.loadTabs = function(check) {
-			if(check !== 'false') {
-				that.logins.logouttmpl.style.display = 'block';
-				var data = JSON.parse(check);
-				var tablength = data.tabnumbers;
-				if (tablength == 1) {
-					if (data.tabname === "New tab") {
+
+		if(e.trueOrfalse !== 'false') {
+			that.logins.logouttmpl.style.display = 'block';
+			var data = JSON.parse(e.trueOrfalse);
+			var tablength = data.tabnumbers;
+			if (tablength == 1) {
+				if (data.tabname === "New tab") {
+					that.tabs.newTab();
+				} else {
+					that.tabs.loadTab(data.tabname);
+				}
+			} else if (tablength > 1) {
+				for(var i = 0; i < tablength; i++) {
+					if(data.tabname[i] === "New tab") {
 						that.tabs.newTab();
 					} else {
-						that.tabs.loadTab(data.tabname);
-					}
-				} else if (tablength > 1) {
-					for(var i = 0; i < tablength; i++) {
-						if(data.tabname[i] === "New tab") {
-							that.tabs.newTab();
-						} else {
-							that.tabs.loadTab(data.tabname[i]);
-						}
+						that.tabs.loadTab(data.tabname[i]);
 					}
 				}
-			} else if (check === 'false') {
-				that.logins.logintmpl.style.display = 'block';
 			}
+		} else if (e.trueOrfalse === 'false') {
+			that.logins.logintmpl.style.display = 'block';
 		}
 	});
-
 };
 
 
@@ -342,19 +340,18 @@ _._setDom = function() {
 
 _._bindEvents = function() {
 	var that = this;
-	window.addEventListener('load', function() {
-		var ev = new Event('loginCheck');
-		ev.req = new XMLHttpRequest();
-		ev.req.open('GET', '/logined');
-		ev.req.onreadystatechange = function() {
-			if (ev.req.readyState == 4) {
-				if (ev.req.status == 200) {
-					ev.loadTabs(ev.req.responseText);
-				}
-			}
-		};
-		ev.req.send(null);
 
-		that.dom.dispatchEvent(ev);
-	});
+	// window.addEventListener('load', function() {
+	var ev = new Event('loginCheck');
+	ev.req = new XMLHttpRequest();
+	ev.req.open('GET', '/logined');
+	ev.req.onreadystatechange = function() {
+		if (ev.req.readyState == 4) {
+			if (ev.req.status == 200) {
+				ev.trueOrfalse = ev.req.responseText;
+				that.dom.dispatchEvent(ev);
+			}
+		}
+	};
+	ev.req.send(null);
 };
