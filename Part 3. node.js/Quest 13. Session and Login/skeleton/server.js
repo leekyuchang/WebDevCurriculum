@@ -71,7 +71,6 @@ app.post('/tabsave', function(req, res) {
 		var dir = path.join(__dirname, 'notes'),
 		data = JSON.parse(JSON.stringify(req.body));
 		console.log(data);
-		// A4. 1번 체크
 		fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
 		res.send('good');
 	}
@@ -79,7 +78,6 @@ app.post('/tabsave', function(req, res) {
 
 
 app.get('/logined', function(req, res) {
-	// 탭도 체크하기
 	if (req.session.username) {
 		var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
 		tabData = fs.readFileSync(tabDataDir, 'utf-8');

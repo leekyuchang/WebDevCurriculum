@@ -77,7 +77,13 @@ _._bindEvents = function() {
 				that.logins.logouttmpl.style.display = 'block';
 				var data = JSON.parse(check);
 				var tablength = data.tabnumbers;
-				if(tablength !== 0) {
+				if (tablength == 1) {
+					if (data.tabname === "New tab") {
+						that.tabs.newTab();
+					} else {
+						that.tabs.loadTab(data.tabname);
+					}
+				} else if (tablength > 1) {
 					for(var i = 0; i < tablength; i++) {
 						if(data.tabname[i] === "New tab") {
 							that.tabs.newTab();
@@ -186,7 +192,7 @@ _._addTab = function(tab) {
 		var currentTab = this.tabs[i].dom.firstElementChild.innerText;
 		req.body += 'tabname=' + currentTab + '&';
 	}
-	 req.body += 'tabnumbers=' + this.tabs.length;
+	req.body += 'tabnumbers=' + this.tabs.length;
 
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
