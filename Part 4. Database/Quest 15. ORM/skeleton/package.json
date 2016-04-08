@@ -2,6 +2,8 @@
   "private": true,
   "dependencies": {
     "express": "*",
-    "sequelize": "*"
+    "sequelize": "*",
+    "express-session": "^1.13.0",
+    "body-parser": "^1.15.0"
   }
 }

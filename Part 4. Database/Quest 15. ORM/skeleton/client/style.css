@@ -1,3 +1,53 @@
 * {
-	/* TODO: 필요한 CSS를 채워넣어 보세요! */
+	font-size: 14px;
+	outline: 1px solid black;
+}
+
+#Notepad {
+	width: 800px;
+}
+
+.notepad-inst {
+	display: block;
+}
+
+.notepad-inst .login {
+	display: flex;
+	height: 30px;
+}
+
+.notepad-inst .menu {
+	height: 30px;
+}
+
+.notepad-inst .tabs {
+	height: 30px;
+}
+
+.notepad-inst .memo-form {
+	height: 500px;
+}
+
+.memo-form-inst {
+	display: none;
+}
+
+.memo-form-inst .name {
+	width: 100%;
+	height: 30px;
+}
+
+.memo-form-inst .content {
+	width: 100%;
+	height: 450px;
+}
+
+.tab-inst {
+	display: inline-block;
+}
+
+.login-inst {
+	/*width: 100%;
+	height: 30px;*/
+	display: inline-block;
 }
