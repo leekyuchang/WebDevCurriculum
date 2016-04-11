@@ -1,9 +1,10 @@
 {
   "private": true,
   "dependencies": {
+    "body-parser": "^1.15.0",
     "express": "*",
-    "sequelize": "*",
     "express-session": "^1.13.0",
-    "body-parser": "^1.15.0"
+    "mysql": "^2.10.2",
+    "sequelize": "*"
   }
 }

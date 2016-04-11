@@ -2,7 +2,8 @@ var express = require('express'),
 	path = require('path'),
 	fs = require('fs'),
 	session = require('express-session'),
-	bodyParser = require('body-parser');
+	bodyParser = require('body-parser'),
+    Sequelize = require('sequelize');
 	app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -11,6 +12,10 @@ app.use(session({
 	resave : true,
 	saveUninitialized : false
 }));
+var sequelize = new Sequelize('sdf', 'kyu', '1111', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
 
 app.use('/static', express.static('static'));
 

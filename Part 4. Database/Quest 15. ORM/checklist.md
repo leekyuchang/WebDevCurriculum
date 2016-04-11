@@ -27,3 +27,6 @@
 * 이제 Quest 12~13의 결과물을 Quest 14의 MySQL 테이블과 연동해 보고자 합니다.
   * Sequelize를 통해 Quest 14에서 설계한 테이블을 모델로 만들어 보세요.
   * 로그인을 지원하는 메모장 어플리케이션을 파일이 아닌 DB기반으로 바꾸어 보세요.
+
+## get!
+* Errors are only triggered when something goes seriously wrong - a syntax error in the SQL and things like that. ex(find할때 error)
