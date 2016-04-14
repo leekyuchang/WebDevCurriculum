@@ -41,19 +41,19 @@ var User = sequelize.define('user', {
 });
 
 var Note = sequelize.define('note', {
-    noteid: {
+    id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    notename: {
+    name: {
         type: Sequelize.STRING
     },
-    contents: {
+    content: {
         type: Sequelize.STRING
     },
-	tabsave: {
-		type: Sequelize.BOOLEAN
+	tabopen: {
+		type: Sequelize.BOOLEAN, allowNull: false, default: false
 	},
     userid: {
         type: Sequelize.INTEGER,
@@ -70,29 +70,22 @@ app.get('/', function (req, res) {
 });
 
 app.get('/load', function(req, res) {
-	// var dir = path.join(__dirname, 'notes', req.session.username),
-	// 	files = fs.readdirSync(dir);
-	//
-	// var matched = files.filter(function(f) {
-	// 		return (
-	// 			JSON.parse(
-	// 				fs.readFileSync(
-	// 					path.join(dir, f),
-	// 					'utf-8'
-	// 				)
-	// 			).name === req.query.name
-	// 		);
-	// 	})[0];
-	//
-	// if(matched) {
-	// 	var obj = JSON.parse(fs.readFileSync(path.join(dir, matched), 'utf-8'));
-	// 	obj.id = Number(matched.replace('.json', ''));
-	// 	obj.success = true;
-	// 	res.json(obj);
-	// } else {
-	// 	var obj = { success: false };
-	// 	res.json(obj);
-	// }
+	var user = req.session.username;
+    var userid = req.session.userid;
+    var Onenotename = req.query.name;
+
+	Note.findOne({
+		where: {
+			userid: userid,
+			name: Onenotename
+		}
+	}).then(function(result) {
+		result.updateAttributes({
+			tabopen: true
+		}).then(function(result) {
+			res.json(result);
+		});
+    });
 });
 
 
@@ -100,31 +93,61 @@ app.post('/save', function(req, res) {
 	if (req.session.username) {
 		var data = JSON.parse(JSON.stringify(req.body));
 		data.id = Number(data.id);
-		Note.create({
-			noteid: data.id,
-			notename: data.name,
-			contents: data.content,
-			userid: req.session.userid
-		}).then(function() {
-			res.redirect('/');
-		});
+
+		Note.findOne({
+			where: {
+				id: data.id
+			}
+		}).then(function(result) {
+			result.updateAttributes({
+				name: data.name,
+				content: data.content,
+				tabopen: true
+			});
+			// else if (result === null) {
+			// 	Note.create({
+			// 		id: data.id,
+			// 		name: data.name,
+			// 		content: data.content,
+			// 		userid: req.session.userid,
+			// 		tabopen: true
+			// 	});
+			// }
+	    });
+		res.send('success');
 	}
-	// var dir = path.join(__dirname, 'notes', req.session.username),
-	// 	data = JSON.parse(JSON.stringify(req.body));
-	// data.id = Number(data.id);
-	// // req.session.data = data;
-	// fs.writeFileSync(path.join(dir, data.id + '.json'), JSON.stringify(data, null, 4), 'utf-8');
-	// res.send('success');
 });
 
-app.post('/tabsave', function(req, res) {
-	// if (req.session.username !== undefined) {
-	// 	var dir = path.join(__dirname, 'notes'),
-	// 	data = JSON.parse(JSON.stringify(req.body));
-	// 	console.log(data);
-	// 	fs.writeFileSync(path.join(dir, req.session.username + '.json'), JSON.stringify(data, null, 4), 'utf-8');
-	// 	res.send('good');
-	// }
+
+app.post('/addtab', function(req, res) {
+	var data = JSON.parse(JSON.stringify(req.body));
+	Note.create({
+		id: data.id,
+		name: data.name,
+		content: data.content,
+		userid: req.session.userid,
+		tabopen: true
+	});
+});
+
+app.get('/closetab', function(req, res) {
+
+	//  tab name == New tab 이면 delete
+
+	var tabid = req.query.id;
+	Note.findOne({
+		where: {
+			id: tabid
+		}
+	}).then(function(result) {
+
+		if (result !== null) {
+			result.updateAttributes({
+				tabopen: false
+			});
+		}
+		res.send('success');
+	});
 });
 
 
@@ -133,22 +156,28 @@ app.post('/join', function(req, res) {
 	User.create({
         username: req.body.username,
         password: req.body.password
-    }).then(function() {
-		req.session.username = req.body.username;
-        res.redirect('/');
+    }).then(function(result) {
+		req.session.username = result.username;
+		req.session.userid = result.userid;
+		req.session.save(function() {
+			res.redirect('/');
+		});
     });
 });
 
-// Login
+// Login check
 app.get('/logined', function(req, res) {
 	if (req.session.username) {
+		var userid = req.session.userid;
 		// tab data뿌리기
-
-		// var tabDataDir = path.join(__dirname, 'notes', req.session.username + '.json'),
-		// tabData = fs.readFileSync(tabDataDir, 'utf-8');
-		// res.send('tabData');
-		res.send('true');
-
+		Note.findAll({
+			where: {
+				userid: userid,
+				tabopen: true
+			}
+		}).then(function(result) {
+			res.json(result);
+		});
 	} else {
 		res.send('false');
 	}

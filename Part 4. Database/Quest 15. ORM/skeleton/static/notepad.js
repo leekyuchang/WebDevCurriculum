@@ -75,23 +75,33 @@ _._bindEvents = function() {
 
 		if(e.trueOrfalse !== 'false') {
 			that.logins.logouttmpl.style.display = 'block';
-			var data = JSON.parse(e.trueOrfalse);
-			var tablength = data.tabnumbers;
-			if (tablength == 1) {
-				if (data.tabname === "New tab") {
-					that.tabs.newTab();
-				} else {
-					that.tabs.loadTab(data.tabname);
-				}
-			} else if (tablength > 1) {
-				for(var i = 0; i < tablength; i++) {
-					if(data.tabname[i] === "New tab") {
-						that.tabs.newTab();
-					} else {
-						that.tabs.loadTab(data.tabname[i]);
-					}
-				}
+			var tab = JSON.parse(e.trueOrfalse);
+
+			for(var i = 0; i < tab.length; i++) {
+				that.tabs.loadTab(tab[i].name);
+
+				// if(tab[i].id === "New tab") {
+				// 	that.tabs.newTab();
+				// } else {
+				// 	that.tabs.loadTab(data.tabname[i]);
+				// }
 			}
+
+			// if (tablength == 1) {
+			// 	if (data.tabname === "New tab") {
+			// 		that.tabs.newTab();
+			// 	} else {
+			// 		that.tabs.loadTab(data.tabname);
+			// 	}
+			// } else if (tablength > 1) {
+			// 	for(var i = 0; i < tablength; i++) {
+			// 		if(data.tabname[i] === "New tab") {
+			// 			that.tabs.newTab();
+			// 		} else {
+			// 			that.tabs.loadTab(data.tabname[i]);
+			// 		}
+			// 	}
+			// }
 		} else if (e.trueOrfalse === 'false') {
 			that.logins.logintmpl.style.display = 'block';
 			that.logins.jointmpl.style.display = 'block';
@@ -160,7 +170,7 @@ _.loadTab = function(name) {
 		if (req.readyState == 4) {
 			if(req.status == 200) {
 				var data = JSON.parse(req.responseText);
-				if(data.success) {
+				if(data.tabopen) {
 					var tab = new Tab(data);
 					that._addTab(tab);
 				} else {
@@ -182,30 +192,48 @@ _._addTab = function(tab) {
 	this.tabs.push(tab);
 	this.dom.appendChild(tab.dom);
 
-	function checkAndSend() {
-		var req = new XMLHttpRequest();
-		req.open('POST', '/tabsave');
-		req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-		req.body = '';
-		for(var i=0; i < that.tabs.length; i++) {
-			var currentTab = that.tabs[i].dom.firstElementChild.innerText;
-			req.body += 'tabname=' + currentTab + '&';
-		}
-		 req.body += 'tabnumbers=' + that.tabs.length;
+	var req = new XMLHttpRequest();
+	req.open('POST', '/addtab');
+	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-		req.onreadystatechange = function () {
-			if (req.readyState == 4) {
-				if(req.status == 200) {
-					console.log('good');
-				} else {
-					console.log('error');
-				}
+	var tabname = tab.dom.firstElementChild.innerText;
+	req.body = 'id=' + tab.data.id + '&';
+	req.body += 'name=' + tabname + '&';
+	req.body += 'content' + tab.data.content;
+	console.log(req.body);
+	req.onreadystatechange = function () {
+		if (req.readyState == 4) {
+			if(req.status == 200) {
+				console.log('good');
+			} else {
+				console.log('error');
 			}
-		};
-		req.send(req.body);
-	}
-	checkAndSend();
+		}
+	};
+	req.send(req.body);
+	// var req = new XMLHttpRequest();
+	// req.open('POST', '/addtab');
+	// req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	//
+	// req.body = '';
+	// for(var i=0; i < that.tabs.length; i++) {
+	// 	var currentTab = that.tabs[i].dom.firstElementChild.innerText;
+	// 	req.body += 'tabname=' + currentTab + '&';
+	// }
+	//  req.body += 'tabnumbers=' + that.tabs.length;
+	//
+	// req.onreadystatechange = function () {
+	// 	if (req.readyState == 4) {
+	// 		if(req.status == 200) {
+	// 			console.log('good');
+	// 		} else {
+	// 			console.log('error');
+	// 		}
+	// 	}
+	// };
+	// req.send(req.body);
+
 
 	tab.dom.addEventListener('closeTab', function() {
 		var targetIdx = null;
@@ -218,7 +246,21 @@ _._addTab = function(tab) {
 			that.tabs[targetIdx].kill();
 			that.tabs.splice(targetIdx, 1);
 		}
-		checkAndSend();
+		// checkAndSend();
+		var req = new XMLHttpRequest();
+		var id = tab.data.id;
+		req.open('GET', '/closetab?id=' + id);
+
+		req.onreadystatechange = function () {
+			if (req.readyState == 4) {
+				if(req.status == 200) {
+					console.log('good');
+				} else {
+					console.log('error');
+				}
+			}
+		};
+		req.send(null);
 	});
 	this.selectedTab = tab;
 };
