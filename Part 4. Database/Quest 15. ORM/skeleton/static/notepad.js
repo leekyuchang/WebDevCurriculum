@@ -94,6 +94,7 @@ _._bindEvents = function() {
 			}
 		} else if (e.trueOrfalse === 'false') {
 			that.logins.logintmpl.style.display = 'block';
+			that.logins.jointmpl.style.display = 'block';
 		}
 	});
 };
@@ -336,6 +337,7 @@ _._setDom = function() {
 	this.dom = tmpl.cloneNode(true);
 	this.logintmpl = this.dom.querySelector('.login-form');
 	this.logouttmpl = this.dom.querySelector('.logout-form');
+	this.jointmpl = this.dom.querySelector('.join-form');
 };
 
 _._bindEvents = function() {
