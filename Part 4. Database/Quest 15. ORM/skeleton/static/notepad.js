@@ -76,32 +76,9 @@ _._bindEvents = function() {
 		if(e.trueOrfalse !== 'false') {
 			that.logins.logouttmpl.style.display = 'block';
 			var tab = JSON.parse(e.trueOrfalse);
-
 			for(var i = 0; i < tab.length; i++) {
 				that.tabs.loadTab(tab[i].name);
-
-				// if(tab[i].id === "New tab") {
-				// 	that.tabs.newTab();
-				// } else {
-				// 	that.tabs.loadTab(data.tabname[i]);
-				// }
 			}
-
-			// if (tablength == 1) {
-			// 	if (data.tabname === "New tab") {
-			// 		that.tabs.newTab();
-			// 	} else {
-			// 		that.tabs.loadTab(data.tabname);
-			// 	}
-			// } else if (tablength > 1) {
-			// 	for(var i = 0; i < tablength; i++) {
-			// 		if(data.tabname[i] === "New tab") {
-			// 			that.tabs.newTab();
-			// 		} else {
-			// 			that.tabs.loadTab(data.tabname[i]);
-			// 		}
-			// 	}
-			// }
 		} else if (e.trueOrfalse === 'false') {
 			that.logins.logintmpl.style.display = 'block';
 			that.logins.jointmpl.style.display = 'block';
@@ -200,8 +177,7 @@ _._addTab = function(tab) {
 	var tabname = tab.dom.firstElementChild.innerText;
 	req.body = 'id=' + tab.data.id + '&';
 	req.body += 'name=' + tabname + '&';
-	req.body += 'content' + tab.data.content;
-	console.log(req.body);
+	req.body += 'content=' + tab.data.content;
 	req.onreadystatechange = function () {
 		if (req.readyState == 4) {
 			if(req.status == 200) {
@@ -212,28 +188,6 @@ _._addTab = function(tab) {
 		}
 	};
 	req.send(req.body);
-	// var req = new XMLHttpRequest();
-	// req.open('POST', '/addtab');
-	// req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	//
-	// req.body = '';
-	// for(var i=0; i < that.tabs.length; i++) {
-	// 	var currentTab = that.tabs[i].dom.firstElementChild.innerText;
-	// 	req.body += 'tabname=' + currentTab + '&';
-	// }
-	//  req.body += 'tabnumbers=' + that.tabs.length;
-	//
-	// req.onreadystatechange = function () {
-	// 	if (req.readyState == 4) {
-	// 		if(req.status == 200) {
-	// 			console.log('good');
-	// 		} else {
-	// 			console.log('error');
-	// 		}
-	// 	}
-	// };
-	// req.send(req.body);
-
 
 	tab.dom.addEventListener('closeTab', function() {
 		var targetIdx = null;

@@ -3,7 +3,8 @@ var express = require('express'),
 	fs = require('fs'),
 	session = require('express-session'),
 	bodyParser = require('body-parser'),
-    Sequelize = require('sequelize');
+    Sequelize = require('sequelize'),
+	crypto = require('crypto');
 	app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,15 +37,14 @@ var User = sequelize.define('user', {
         type: Sequelize.STRING
     },
     password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING, allowNull: false
     }
 });
 
 var Note = sequelize.define('note', {
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        primaryKey: true
     },
     name: {
         type: Sequelize.STRING
@@ -78,7 +78,8 @@ app.get('/load', function(req, res) {
 		where: {
 			userid: userid,
 			name: Onenotename
-		}
+		},
+		attributes: ['id', 'name', 'content']
 	}).then(function(result) {
 		result.updateAttributes({
 			tabopen: true
@@ -104,15 +105,6 @@ app.post('/save', function(req, res) {
 				content: data.content,
 				tabopen: true
 			});
-			// else if (result === null) {
-			// 	Note.create({
-			// 		id: data.id,
-			// 		name: data.name,
-			// 		content: data.content,
-			// 		userid: req.session.userid,
-			// 		tabopen: true
-			// 	});
-			// }
 	    });
 		res.send('success');
 	}
@@ -121,19 +113,38 @@ app.post('/save', function(req, res) {
 
 app.post('/addtab', function(req, res) {
 	var data = JSON.parse(JSON.stringify(req.body));
-	Note.create({
-		id: data.id,
-		name: data.name,
-		content: data.content,
-		userid: req.session.userid,
-		tabopen: true
-	});
+	data.id = Number(data.id);
+
+	Note.findOne({
+		where: {
+			id: data.id,
+			name: data.name
+		},
+		attributes: ['id', 'name', 'content']
+	}).then(function(result) {
+		if (result !== null) {
+			result.updateAttributes({
+				tabopen: true
+			}).then(function(result) {
+				res.json(result);
+			});
+		} else if (result == null) {
+			Note.create({
+				id: data.id,
+				name: data.name,
+				content: data.content,
+				userid: req.session.userid,
+				tabopen: true
+			});
+			res.send('good');
+		}
+    });
+
 });
 
 app.get('/closetab', function(req, res) {
 
 	//  tab name == New tab 이면 delete
-
 	var tabid = req.query.id;
 	Note.findOne({
 		where: {
@@ -153,9 +164,10 @@ app.get('/closetab', function(req, res) {
 
 //Join
 app.post('/join', function(req, res) {
+	var sha2pwd = crypto.createHash('sha256').update(req.body.password).digest('base64');
 	User.create({
         username: req.body.username,
-        password: req.body.password
+        password: sha2pwd
     }).then(function(result) {
 		req.session.username = result.username;
 		req.session.userid = result.userid;
@@ -186,14 +198,14 @@ app.get('/logined', function(req, res) {
 app.post('/login', function(req, res) {
 	var data = JSON.parse(JSON.stringify(req.body));
 	var uname = data.username;
-	var pwd = data.password;
-
+	// var pwd = data.password;
+	var sha2pwd = crypto.createHash('sha256').update(data.password).digest('base64');
 	User.findOne({
         where: {username: uname},
         attributes: ['username', 'password', 'userid']
     }).then(function(result) {
         if(result) {
-            if(result.password === pwd) {
+            if(result.password == sha2pwd) {
                 req.session.username = result.username;
                 req.session.userid = result.userid;
 				req.session.save(function() {
