@@ -1,0 +1,19 @@
+{
+  "name": "Quest 16. Polymer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/leekyuchang/WebDevCurriculum",
+  "authors": [
+    "leekyuchang <kyuchang90@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.4.0"
+  }
+}

@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="toolbox-element.html">
+
+<dom-module id="desktop-system-element">
+    <template>
+        <style>
+
+            .desktopLayout {
+                width: 500px;
+                height: 500px;
+                background-color: #EAEAEA;
+                border: 1px solid black;
+
+            }
+
+        </style>
+        <div class="desktopLayout">
+            <icon-folder-element></icon-folder-element>
+        </div>
+        <toolbox-element></toolbox-element>
+    </template>
+</dom-module>
+
+<script>
+
+    Polymer({
+        is: "desktop-system-element",
+        //
+        //
+        // ready: function() {
+        // }
+    });
+
+</script>

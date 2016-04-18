@@ -1,0 +1,36 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+
+<dom-module id="icon-folder-element">
+    <template>
+        <style>
+            .icondom {
+                width: 35px;
+            	height: 35px;
+                background-color: yellow;
+            }
+
+        </style>
+        <!-- <div class="dom"></div> -->
+        <!-- <div class="icondom"></div> -->
+    </template>
+</dom-module>
+
+<script>
+
+    Polymer({
+        is: "icon-folder-element",
+
+
+        ready: function() {
+            var icon = document.createElement('div');
+            icon.className = "icondom";
+            Polymer.dom(this.root).appendChild(icon);
+            icon.addEventListener('click', function() {
+                console.log('icon');
+            });
+            var folder = "Folder";
+        }
+    });
+
+</script>

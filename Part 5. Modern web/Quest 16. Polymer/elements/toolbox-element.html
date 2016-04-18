@@ -1,0 +1,54 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="icon-folder-element.html">
+
+<dom-module id="toolbox-element">
+    <template>
+        <style>
+
+            .toolboxLayout {
+                width: 500px;
+                height: 100px;
+                background-color: gray;
+                border: 1px solid black;
+                border-top: none;
+            }
+
+        </style>
+        <div class="toolboxLayout">
+            <div class="iconInput">
+                <input type="text" id="iconN" name="iconnumber" placeholder="Icon">
+                <button class="iconCreateBtn">Create</button>
+            </div>
+
+            <div class="folderInput">
+                <input type="text" id="folderN" name="foldernumber" placeholder="Folder">
+                <button class="folderCreateBtn">Create</button>
+            </div>
+            <div class="size">
+                W:<input type="text" name="iconwidth" value="35" class="sizeW">
+				H:<input type="text" name="iconheight" value="35" class="sizeH">
+                <button class="sizeBtn">Size</button>
+            </div>
+            <div class="shape">
+                Square<input type="radio" class="square_radio" name="radioGroup" value="square" checked>
+				Circle<input type="radio" class="circle_radio" name="radioGroup" value="circle">
+            </div>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+
+    Polymer({
+        is: "toolbox-element",
+        //
+        //
+        ready: function() {
+            var iconcreatebtn = Polymer.dom(this.root).querySelector('.iconCreateBtn');
+            iconcreatebtn.addEventListener('click', function() {
+                alert('Hi');
+            });
+        }
+    });
+
+</script>
