@@ -8,8 +8,8 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 35px;
-            	height: 35px;
+                width: 50px;
+            	height: 50px;
                 background-color: yellow;
             }
 
@@ -17,14 +17,22 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 35px;
-            	height: 35px;
+                width: 50px;
+            	height: 50px;
                 background-color: skyblue;
             }
 
+            .windowdom {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 70px;
+            	height: 70px;
+                background-color: red;
+            }
+
         </style>
-        <div class="icondom"></div>
-        <!-- <div class="folderdom" on-click="openwindow"></div> -->
+        <div class="dom"></div>
 
     </template>
 </dom-module>
@@ -37,26 +45,34 @@
 
         ready: function() {
 
-            // var icondom = this.$$('.icondom');
-            // var folderdom = this.$$('.icondom');
+            var dom = this.$$('.dom');
+            var desktopDom = document.querySelector('desktop-system-element').querySelector('.desktopDom');
 
-            this.addEventListener('click', function (e) {
-                console.log('Hi');
+            dom.addEventListener('mousedown', function(e) {
+            		dom.isMouseDown = true;
+            		dom.mouseCoord = [e.pageX, e.pageY];
+
             });
 
+        	dom.addEventListener('mousemove', function(e) {
+        		if(dom.isMouseDown) {
+        			var diff = [
+        				e.pageX - dom.mouseCoord[0],
+        				e.pageY - dom.mouseCoord[1]
+        			];
+        			dom.mouseCoord = [e.pageX, e.pageY];
+        			dom.style.left = (Number(dom.style.left.replace('px', '')) + diff[0]) + 'px';
+        			dom.style.top = (Number(dom.style.top.replace('px', '')) + diff[1]) + 'px';
+        		}
+
+        		var mouseUpEvent = document.addEventListener('mouseup', function() {
+        			dom.isMouseDown = false;
+        			document.removeEventListener('mouseup', mouseUpEvent);
+        		});
+
+        	});
         }
 
-        // openwindow: function(e) {
-        //     console.log("Hi i'm folder");
-        // }
-        // iconposition: function(icondom, desktopDom) {
-        //     var icondomPosition = [
-        //         Math.floor(Math.random() * (desktopDom.getBoundingClientRect().width - 35)),
-        //         Math.floor(Math.random() * (desktopDom.getBoundingClientRect().height - 35))
-        //     ];
-        //     icondom.style.left = (icondom.getBoundingClientRect().left - desktopDom.getBoundingClientRect().left + icondomPosition[0]) + 'px';
-        //     icondom.style.top = (icondom.getBoundingClientRect().top - desktopDom.getBoundingClientRect().top + icondomPosition[1]) + 'px';
-        // }
     });
 
 </script>
