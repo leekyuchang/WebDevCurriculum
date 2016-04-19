@@ -5,14 +5,27 @@
     <template>
         <style>
             .icondom {
+                position: absolute;
+                top: 0;
+                left: 0;
                 width: 35px;
             	height: 35px;
                 background-color: yellow;
             }
 
+            .folderdom {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 35px;
+            	height: 35px;
+                background-color: skyblue;
+            }
+
         </style>
-        <!-- <div class="dom"></div> -->
-        <!-- <div class="icondom"></div> -->
+        <div class="icondom"></div>
+        <!-- <div class="folderdom" on-click="openwindow"></div> -->
+
     </template>
 </dom-module>
 
@@ -23,14 +36,27 @@
 
 
         ready: function() {
-            var icon = document.createElement('div');
-            icon.className = "icondom";
-            Polymer.dom(this.root).appendChild(icon);
-            icon.addEventListener('click', function() {
-                console.log('icon');
+
+            // var icondom = this.$$('.icondom');
+            // var folderdom = this.$$('.icondom');
+
+            this.addEventListener('click', function (e) {
+                console.log('Hi');
             });
-            var folder = "Folder";
+
         }
+
+        // openwindow: function(e) {
+        //     console.log("Hi i'm folder");
+        // }
+        // iconposition: function(icondom, desktopDom) {
+        //     var icondomPosition = [
+        //         Math.floor(Math.random() * (desktopDom.getBoundingClientRect().width - 35)),
+        //         Math.floor(Math.random() * (desktopDom.getBoundingClientRect().height - 35))
+        //     ];
+        //     icondom.style.left = (icondom.getBoundingClientRect().left - desktopDom.getBoundingClientRect().left + icondomPosition[0]) + 'px';
+        //     icondom.style.top = (icondom.getBoundingClientRect().top - desktopDom.getBoundingClientRect().top + icondomPosition[1]) + 'px';
+        // }
     });
 
 </script>

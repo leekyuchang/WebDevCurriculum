@@ -1,11 +1,13 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="icon-folder-element.html">
+
 
 <dom-module id="toolbox-element">
     <template>
         <style>
 
             .toolboxLayout {
+                position: absolute;
+                top: 572px;
                 width: 500px;
                 height: 100px;
                 background-color: gray;
@@ -16,12 +18,12 @@
         </style>
         <div class="toolboxLayout">
             <div class="iconInput">
-                <input type="text" id="iconN" name="iconnumber" placeholder="Icon">
-                <button class="iconCreateBtn">Create</button>
+                <input type="text" id="iconN" name="iconnumber" placeholder="Icon" value=1>
+                <button class="iconCreateBtn" on-click="createicon">Create</button>
             </div>
 
             <div class="folderInput">
-                <input type="text" id="folderN" name="foldernumber" placeholder="Folder">
+                <input type="text" id="folderN" name="foldernumber" placeholder="Folder" value=1>
                 <button class="folderCreateBtn">Create</button>
             </div>
             <div class="size">
@@ -42,13 +44,35 @@
     Polymer({
         is: "toolbox-element",
         //
-        //
+
         ready: function() {
-            var iconcreatebtn = Polymer.dom(this.root).querySelector('.iconCreateBtn');
-            iconcreatebtn.addEventListener('click', function() {
-                alert('Hi');
-            });
+            var that = this;
+            // var iconcreatebtn = Polymer.dom(this.root).querySelector('.iconCreateBtn');
+            // iconcreatebtn.addEventListener('click', function() {
+            //     alert('Hi');
+            // });
+
+            // this.$$('.iconCreateBtn').addEventListener('click', function() {
+            //     var iconNumbers = that.$$('#iconN').value;
+            //     var desktopDom = document.querySelector('desktop-system-element');
+            //     var iconDom = document.querySelector('icon-folder-element');
+            //     // Polymer.dom(desktopDom).appendChild(iconDom);
+            //     console.log(iconNumbers);
+            // });
+
+
+        },
+
+        createicon: function(e) {
+            var iconNumbers = this.$$('#iconN').value;
+            document.querySelector('desktop-system-element').fire('fireicon', {numbers: iconNumbers});
+        },
+
+        createfolder: function(e) {
+            var folderNumbers = this.$$('#folderN').value;
+            document.querySelector('desktop-system-element').fire('firefolder', {numbers: folderNumbers});
         }
+
     });
 
 </script>
