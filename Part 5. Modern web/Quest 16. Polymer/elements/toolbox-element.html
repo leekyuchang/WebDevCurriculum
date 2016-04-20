@@ -29,7 +29,7 @@
             <div class="size">
                 W:<input type="text" name="domwidth" value="35" class="domwidth">
 				H:<input type="text" name="domheight" value="35" class="domheight">
-                <button class="sizeBtn" on-click="shapedom">Size</button>
+                <button class="sizeBtn" on-click="sizedom">Size</button>
             </div>
             <div class="shape">
                 Square<input type="radio" class="square_radio" name="radioGroup" value="square" checked>
@@ -50,21 +50,35 @@
 
         createicon: function(e) {
             var iconNumbers = this.$$('#iconN').value;
-            document.querySelector('desktop-system-element').fire('createicon', {iconnumbers: iconNumbers});
+            var circle_radio = this.$$('.circle_radio');
+
+            var checked = '';
+            if(circle_radio.checked) {
+                checked = true;
+            } else {
+                checked = false;
+            }
+            document.querySelector('desktop-system-element').fire('createicon', {iconnumbers: iconNumbers, circle: checked});
         },
 
         createfolder: function(e) {
             var folderNumbers = this.$$('#folderN').value;
-            document.querySelector('desktop-system-element').fire('createfolder', {foldernumbers: folderNumbers});
+            var circle_radio = this.$$('.circle_radio');
+
+            var checked = '';
+            if(circle_radio.checked) {
+                checked = true;
+            } else {
+                checked = false;
+            }
+            document.querySelector('desktop-system-element').fire('createfolder', {foldernumbers: folderNumbers, circle: checked});
         },
 
-        shapedom: function(e) {
+        sizedom: function(e) {
             var domwidth = this.$$('.domwidth').value;
             var domheight = this.$$('.domheight').value;
             document.querySelector('desktop-system-element').fire('shapedom', {domwidth: domwidth, domheight: domheight});
         },
-
-
 
     });
 

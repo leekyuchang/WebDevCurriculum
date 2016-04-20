@@ -1,38 +1,29 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 
-<dom-module id="icon-folder-element">
+<dom-module id="folder-element">
     <template>
         <style>
-            .icondom {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 50px;
-            	height: 50px;
-                background-color: yellow;
-            }
 
-            .folderdom {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 50px;
-            	height: 50px;
-                background-color: skyblue;
-            }
+        .folderdom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            background-color: skyblue;
+        }
 
-            .windowdom {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 70px;
-            	height: 70px;
-                background-color: red;
-            }
+        .circle {
+            width: 50px;
+            height: 50px;
+            -moz-border-radius: 60px;
+            -webkit-border-radius: 60px;
+            border-radius: 60px;
+        }
 
         </style>
-        <div class="dom" on-down="dragstart" on-track="dragging" on-up="dragstop"></div>
+        <div class="dom folderdom" on-down="dragstart" on-track="dragging" on-up="dragstop"></div>
 
     </template>
 </dom-module>
@@ -40,12 +31,12 @@
 <script>
 
     Polymer({
-        is: "icon-folder-element",
+        is: "folder-element",
 
 
         ready: function() {
 
-            var dom = this.$$('.dom');
+            var folderdom = this.$$('.folderdom');
             var desktopDom = document.querySelector('desktop-system-element').querySelector('.desktopDom');
 
             this.drag = {
@@ -70,7 +61,6 @@
                 this.drag.y = e.detail.y;
                 this.drag.color = e.target.style.backgroundColor
                 this.drag.state = true;
-                console.log(this.drag.x, this.drag.y);
             }
             return false;
         },
@@ -81,7 +71,6 @@
                 e.target.style.backgroundColor = '#f0f';
                 this.diff.x = e.detail.x - this.drag.x;
                 this.diff.y = e.detail.y - this.drag.y;
-                console.log(this.diff.x, this.diff.y);
                 e.target.style.left = (Number(e.target.style.left.replace('px', '')) + this.diff.x) + 'px';
     			e.target.style.top = (Number(e.target.style.top.replace('px', '')) + this.diff.y) + 'px';
                 this.drag.x = e.detail.x;

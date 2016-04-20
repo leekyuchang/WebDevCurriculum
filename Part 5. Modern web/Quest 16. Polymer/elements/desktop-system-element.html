@@ -1,5 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="icon-folder-element.html">
+<link rel="import" href="icon-element.html">
+<link rel="import" href="folder-element.html">
+<link rel="import" href="window-element.html">
 
 <dom-module id="desktop-system-element">
     <template>
@@ -15,19 +17,11 @@
 
             }
 
-            .square {
+            /*.square {
                 width: 35px;
             	height: 35px;
                 background-color: yellow;
-            }
-
-            .circle {
-                width: 35px;
-            	height: 35px;
-                -moz-border-radius: 60px;
-                -webkit-border-radius: 60px;
-                border-radius: 60px;
-            }
+            }*/
 
         </style>
         <div class="desktopDom">
@@ -39,31 +33,59 @@
 
     Polymer({
         is: "desktop-system-element",
-        //
-        //
+
         ready: function() {
+
+            var initPosition = function(desktopdom, dom) {
+                var position = [
+                    Math.floor(Math.random() * (desktopdom.getBoundingClientRect().width - 50)),
+                    Math.floor(Math.random() * (desktopdom.getBoundingClientRect().height - 50))
+                ];
+                dom.style.left = (dom.getBoundingClientRect().left - desktopdom.getBoundingClientRect().left + position[0]) + 'px';
+                dom.style.top = (dom.getBoundingClientRect().top - desktopdom.getBoundingClientRect().top + position[1]) + 'px';
+            }
 
             this.addEventListener('createicon', function(e) {
                 var iconN = e.detail.iconnumbers;
-                // var folderN = e.detail.foldernumbers;
+                var circle = e.detail.circle;
                 var desktopDom = this.$$('.desktopDom');
                 for(var i=0; i < iconN; i++) {
-                    var icon = document.createElement('icon-folder-element');
-                    var icondom = icon.querySelector('.dom');
-                    icondom.className += " icondom";
-
+                    var icon = document.createElement('icon-element');
+                    var icondom = icon.querySelector('.icondom');
+                    if(circle) {
+                        icondom.classList.add("circle");
+                    }
                     Polymer.dom(desktopDom).appendChild(icon);
-                    var icondomPosition = [
-                        Math.floor(Math.random() * (desktopDom.getBoundingClientRect().width - 50)),
-                        Math.floor(Math.random() * (desktopDom.getBoundingClientRect().height - 50))
-                    ];
-                    icondom.style.left = (icondom.getBoundingClientRect().left - desktopDom.getBoundingClientRect().left + icondomPosition[0]) + 'px';
-                    icondom.style.top = (icondom.getBoundingClientRect().top - desktopDom.getBoundingClientRect().top + icondomPosition[1]) + 'px';
+                    initPosition(desktopDom, icondom);
                 }
             });
 
+            this.addEventListener('createfolder', function(e) {
+                var folderN = e.detail.foldernumbers;
+                var circle = e.detail.circle;
+                var desktopDom = this.$$('.desktopDom');
+                for(var i=0; i < folderN; i++) {
+                    var folder = document.createElement('folder-element');
+                    var folderdom = folder.querySelector('.folderdom');
+                    if(circle) {
+                        folderdom.classList.add("circle");
+                    }
+                    Polymer.dom(desktopDom).appendChild(folder);
+                    initPosition(desktopDom, folderdom);
 
-            this.addEventListener('shapedom', function(e) {
+                    var openwindow = function (e) {
+                        var win = document.createElement('window-element');
+                        var windowdom = win.querySelector('.windowdom');
+                        desktopDom.appendChild(windowdom);
+                        initPosition(desktopDom, windowdom);
+                        folder.removeEventListener('dblclick', openwindow);
+                    }
+                    folder.addEventListener('dblclick', openwindow);
+
+                }
+            });
+
+            this.addEventListener('sizedom', function(e) {
                 var domwidth = e.detail.domwidth + 'px';
                 var domheight = e.detail.domheight + 'px';
                 var dom = document.querySelectorAll('.dom');
@@ -73,39 +95,15 @@
                 }
             });
 
-            this.addEventListener('createfolder', function(e) {
-                var that = this;
-                var folderN = e.detail.foldernumbers;
-                var desktopDom = this.$$('.desktopDom');
-                for(var i=0; i < folderN; i++) {
-                    var folder = document.createElement('icon-folder-element');
-                    var folderdom = folder.querySelector('.dom');
-                    folderdom.className += " folderdom";
-                    Polymer.dom(desktopDom).appendChild(folder);
-                    var folderdomPosition = [
-                        Math.floor(Math.random() * (desktopDom.getBoundingClientRect().width - 50)),
-                        Math.floor(Math.random() * (desktopDom.getBoundingClientRect().height - 50))
-                    ];
-                    folderdom.style.left = (folderdom.getBoundingClientRect().left - desktopDom.getBoundingClientRect().left + folderdomPosition[0]) + 'px';
-                    folderdom.style.top = (folderdom.getBoundingClientRect().top - desktopDom.getBoundingClientRect().top + folderdomPosition[1]) + 'px';
-
-                    var openwindow = function (e) {
-                        var win = document.createElement('icon-folder-element');
-                        var windowdom = win.querySelector('.dom');
-                        windowdom.className += " windowdom";
-                        desktopDom.appendChild(windowdom);
-                        var windowdomPosition = [
-                            Math.floor(Math.random() * (desktopDom.getBoundingClientRect().width - 70)),
-                            Math.floor(Math.random() * (desktopDom.getBoundingClientRect().height - 70))
-                        ];
-                        windowdom.style.left = (windowdom.getBoundingClientRect().left - desktopDom.getBoundingClientRect().left + windowdomPosition[0]) + 'px';
-                        windowdom.style.top = (windowdom.getBoundingClientRect().top - desktopDom.getBoundingClientRect().top + windowdomPosition[1]) + 'px';
-                        folder.removeEventListener('dblclick', openwindow);
-                    }
-                    folder.addEventListener('dblclick', openwindow);
-
-                }
-            });
+            // this.addEventListener('shapedom', function(e) {
+            //     var domwidth = e.detail.domwidth + 'px';
+            //     var domheight = e.detail.domheight + 'px';
+            //     var dom = document.querySelectorAll('.dom');
+            //     for(var i=0; i < dom.length; i++) {
+            //         dom[i].style.width = domwidth;
+            //         dom[i].style.height = domheight;
+            //     }
+            // });
         }
     });
 
