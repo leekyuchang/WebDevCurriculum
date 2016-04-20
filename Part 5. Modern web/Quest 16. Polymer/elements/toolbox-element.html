@@ -58,7 +58,7 @@
             } else {
                 checked = false;
             }
-            document.querySelector('desktop-system-element').fire('createicon', {iconnumbers: iconNumbers, circle: checked});
+            this.fire('createicon', {iconnumbers: iconNumbers, circle: checked});
         },
 
         createfolder: function(e) {
@@ -71,14 +71,25 @@
             } else {
                 checked = false;
             }
-            document.querySelector('desktop-system-element').fire('createfolder', {foldernumbers: folderNumbers, circle: checked});
+            this.fire('createfolder', {foldernumbers: folderNumbers, circle: checked});
         },
 
         sizedom: function(e) {
-            var domwidth = this.$$('.domwidth').value;
-            var domheight = this.$$('.domheight').value;
-            document.querySelector('desktop-system-element').fire('shapedom', {domwidth: domwidth, domheight: domheight});
-        },
+            var domwidth = this.$$('.domwidth').value + 'px';
+            var domheight = this.$$('.domheight').value + 'px';
+            var dom = document.querySelectorAll('.dom');
+            for(var i=0; i < dom.length; i++) {
+                dom[i].style.width = domwidth;
+                dom[i].style.height = domheight;
+            }
+        }
+
+        // shapedom: function() {
+        //     var dom = document.querySelectorAll('.dom');
+        //     for(var i=0; i < dom.length; i++) {
+        //         dom.classList.add("circle");
+        //     }
+        // }
 
     });
 

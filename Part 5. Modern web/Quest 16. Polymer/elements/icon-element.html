@@ -22,7 +22,7 @@
             }
 
         </style>
-        <div class="dom icondom" on-down="dragstart" on-track="dragging" on-up="dragstop"></div>
+        <div class$="{{style}}" on-down="dragstart" on-track="dragging" on-up="dragstop"></div>
 
     </template>
 </dom-module>
@@ -32,11 +32,14 @@
     Polymer({
         is: "icon-element",
 
+        properties: {
+            "style": {
+                type: String,
+                value: "dom icondom"
+            }
+        },
 
         ready: function() {
-
-            var icondom = this.$$('.icondom');
-            var desktopDom = document.querySelector('desktop-system-element').querySelector('.desktopDom');
 
             this.drag = {
                 elem: null,

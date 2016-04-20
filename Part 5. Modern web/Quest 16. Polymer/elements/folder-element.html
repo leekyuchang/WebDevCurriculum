@@ -23,7 +23,7 @@
         }
 
         </style>
-        <div class="dom folderdom" on-down="dragstart" on-track="dragging" on-up="dragstop"></div>
+        <div class$="{{style}}" on-down="dragstart" on-track="dragging" on-up="dragstop" on-dblclick="openwindow"></div>
 
     </template>
 </dom-module>
@@ -33,11 +33,15 @@
     Polymer({
         is: "folder-element",
 
+        properties: {
+            "style": {
+                type: String,
+                value: "dom folderdom"
+            }
+        },
+
 
         ready: function() {
-
-            var folderdom = this.$$('.folderdom');
-            var desktopDom = document.querySelector('desktop-system-element').querySelector('.desktopDom');
 
             this.drag = {
                 elem: null,
@@ -83,8 +87,13 @@
                 this.drag.state = false;
                 e.target.style.backgroundColor = this.drag.color;
             }
-        }
+        },
 
+        openwindow: function(e) {
+            if(!this.querySelector('.windowdom')) {
+                this.fire('openwindow', {folderDom: this});
+            }
+        }
     });
 
 </script>

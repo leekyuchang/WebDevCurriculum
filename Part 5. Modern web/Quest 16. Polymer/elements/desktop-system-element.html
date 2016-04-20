@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="toolbox-element.html">
 <link rel="import" href="icon-element.html">
 <link rel="import" href="folder-element.html">
 <link rel="import" href="window-element.html">
@@ -20,6 +21,7 @@
         </style>
         <div class="desktopDom">
         </div>
+        <toolbox-element></toolbox-element>
     </template>
 </dom-module>
 
@@ -28,9 +30,54 @@
     Polymer({
         is: "desktop-system-element",
 
-        ready: function() {
+        listeners: {
+            createicon: 'createIcon',
+            createfolder: 'createFolder',
+            openwindow: 'openWindow'
+        },
 
-            var initPosition = function(desktopdom, dom) {
+        createIcon: function(e) {
+            var iconN = e.detail.iconnumbers;
+            var circle = e.detail.circle;
+            var desktopDom = this.$$('.desktopDom');
+            for(var i=0; i < iconN; i++) {
+                var icon = document.createElement('icon-element');
+                if(circle) {
+                    icon.setAttribute("style", "dom icondom circle");
+                }
+                var icondom = icon.querySelector('.icondom');
+                desktopDom.appendChild(icon);
+                this.initPosition(desktopDom, icondom);
+            }
+        },
+
+        createFolder: function(e) {
+            var that = this;
+            var folderN = e.detail.foldernumbers;
+            var circle = e.detail.circle;
+            var desktopDom = this.$$('.desktopDom');
+            for(var i=0; i < folderN; i++) {
+                var folder = document.createElement('folder-element');
+                if(circle) {
+                    folder.setAttribute("style", "dom folderdom circle");
+                }
+                var folderdom = folder.querySelector('.folderdom');
+                Polymer.dom(desktopDom).appendChild(folder);
+                this.initPosition(desktopDom, folderdom);
+            }
+        },
+
+        openWindow: function(e) {
+            var folderdom = e.detail.folderDom;
+            var desktopDom = this.$$('.desktopDom');
+            var win = document.createElement('window-element');
+            var windowdom = win.querySelector('.windowdom');
+            folderdom.appendChild(windowdom);
+            this.initPosition(desktopDom, windowdom);
+        },
+
+        ready: function() {
+            this.initPosition = function(desktopdom, dom) {
                 var position = [
                     Math.floor(Math.random() * (desktopdom.getBoundingClientRect().width - 50)),
                     Math.floor(Math.random() * (desktopdom.getBoundingClientRect().height - 50))
@@ -38,69 +85,7 @@
                 dom.style.left = (dom.getBoundingClientRect().left - desktopdom.getBoundingClientRect().left + position[0]) + 'px';
                 dom.style.top = (dom.getBoundingClientRect().top - desktopdom.getBoundingClientRect().top + position[1]) + 'px';
             }
-
-            this.addEventListener('createicon', function(e) {
-                var iconN = e.detail.iconnumbers;
-                var circle = e.detail.circle;
-                var desktopDom = this.$$('.desktopDom');
-                for(var i=0; i < iconN; i++) {
-                    var icon = document.createElement('icon-element');
-                    var icondom = icon.querySelector('.icondom');
-                    if(circle) {
-                        icondom.classList.add("circle");
-                    }
-                    Polymer.dom(desktopDom).appendChild(icon);
-                    initPosition(desktopDom, icondom);
-                }
-            });
-
-            this.addEventListener('createfolder', function(e) {
-                var folderN = e.detail.foldernumbers;
-                var circle = e.detail.circle;
-                var desktopDom = this.$$('.desktopDom');
-                for(var i=0; i < folderN; i++) {
-                    var folder = document.createElement('folder-element');
-                    var folderdom = folder.querySelector('.folderdom');
-                    if(circle) {
-                        folderdom.classList.add("circle");
-                    }
-                    Polymer.dom(desktopDom).appendChild(folder);
-                    initPosition(desktopDom, folderdom);
-
-                    var openwindow = function (e) {
-                        var win = document.createElement('window-element');
-                        var windowdom = win.querySelector('.windowdom');
-                        desktopDom.appendChild(windowdom);
-                        initPosition(desktopDom, windowdom);
-                        folder.removeEventListener('dblclick', openwindow);
-                    }
-                    folder.addEventListener('dblclick', openwindow);
-
-                }
-            });
-
-            this.addEventListener('sizedom', function(e) {
-                var domwidth = e.detail.domwidth + 'px';
-                var domheight = e.detail.domheight + 'px';
-                var dom = document.querySelectorAll('.dom');
-                for(var i=0; i < dom.length; i++) {
-                    dom[i].style.width = domwidth;
-                    dom[i].style.height = domheight;
-                }
-            });
-
-            // this.addEventListener('shapedom', function(e) {
-            //     var domwidth = e.detail.domwidth + 'px';
-            //     var domheight = e.detail.domheight + 'px';
-            //     var dom = document.querySelectorAll('.dom');
-            //     for(var i=0; i < dom.length; i++) {
-            //         dom[i].style.width = domwidth;
-            //         dom[i].style.height = domheight;
-            //     }
-            // });
         }
     });
-
-
 
 </script>
