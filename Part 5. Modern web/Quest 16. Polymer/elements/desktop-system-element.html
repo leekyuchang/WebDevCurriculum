@@ -43,7 +43,8 @@
             for(var i=0; i < iconN; i++) {
                 var icon = document.createElement('icon-element');
                 if(circle) {
-                    icon.setAttribute("style", "dom icondom circle");
+                    icon.circle = true;
+                    // icon.setAttribute("style", "dom icondom circle");
                 }
                 var icondom = icon.querySelector('.icondom');
                 desktopDom.appendChild(icon);
@@ -59,6 +60,7 @@
             for(var i=0; i < folderN; i++) {
                 var folder = document.createElement('folder-element');
                 if(circle) {
+                    // folder.circle = true;
                     folder.setAttribute("style", "dom folderdom circle");
                 }
                 var folderdom = folder.querySelector('.folderdom');
