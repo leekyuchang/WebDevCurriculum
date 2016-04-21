@@ -60,11 +60,11 @@
             for(var i=0; i < folderN; i++) {
                 var folder = document.createElement('folder-element');
                 if(circle) {
-                    // folder.circle = true;
-                    folder.setAttribute("style", "dom folderdom circle");
+                    folder.circle = true;
+                    // folder.setAttribute("style", "dom folderdom circle");
                 }
                 var folderdom = folder.querySelector('.folderdom');
-                Polymer.dom(desktopDom).appendChild(folder);
+                desktopDom.appendChild(folder);
                 this.initPosition(desktopDom, folderdom);
             }
         },

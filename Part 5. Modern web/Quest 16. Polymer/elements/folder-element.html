@@ -14,7 +14,7 @@
             background-color: skyblue;
         }
 
-        .circle {
+        :host([circle]) .folderdom {
             position: absolute;
             top: 0;
             left: 0;
@@ -27,7 +27,8 @@
         }
 
         </style>
-        <div class$="{{style}}" on-down="dragstart" on-track="dragging" on-up="dragstop" on-dblclick="openwindow"></div>
+        <!-- <div class$="{{style}}" on-down="dragstart" on-track="dragging" on-up="dragstop" on-dblclick="openwindow"></div> -->
+        <div class="dom folderdom" on-down="dragstart" on-track="dragging" on-up="dragstop" on-dblclick="openwindow"></div>
 
     </template>
 </dom-module>
@@ -38,9 +39,9 @@
         is: "folder-element",
 
         properties: {
-            "style": {
-                type: String,
-                value: "dom folderdom"
+            "circle": {
+                type: Boolean,
+                reflectToAttribute: true
             }
         },
 
