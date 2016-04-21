@@ -23,11 +23,18 @@
 
 .sketchboard {
     position: absolute;
-    top: 70px;
+    top: 0px;
     left: 0;
     width: 100%;
-    height: 480px;
+    height: 550px;
     background-color: #FCFCFC;
+}
+
+.svgclass {
+    position: absolute;
+    top: 70px;
+    width: 600px;
+    height: 480px;
 }
 
 .toolbox {
@@ -57,4 +64,20 @@ button {
     font-size: 20px;
     padding: 0;
     margin: 10px;
+}
+
+.circle {
+    r: 35;
+    fill: green;
+}
+
+.square {
+    width: 70px;
+    height: 70px;
+    fill: green;
+}
+
+.triangle {
+    fill: green;
+    stroke: green;
 }
