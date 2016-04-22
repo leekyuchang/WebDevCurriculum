@@ -31,7 +31,7 @@
 }
 
 .svgclass {
-    position: absolute;
+    position: relative;
     top: 50px;
     width: 600px;
     height: 600px;
@@ -67,17 +67,20 @@ button {
 }
 
 .circle {
+    position: absolute;
     r: 35;
     fill: green;
 }
 
 .square {
+    position: absolute;
     width: 70px;
     height: 70px;
     fill: green;
 }
 
 .triangle {
+    position: absolute;
     fill: green;
     stroke: green;
 }

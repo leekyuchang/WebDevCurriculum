@@ -124,15 +124,13 @@ var Shapes = function(shape) {
         break;
     }
     this.dom = input;
+    this._bindEvents();
 };
 
 Shapes.prototype._initialize = function() {
     this._setDom();
-	this._bindEvents();
 };
 
-
-    (Math.sqrt(3))/2*30
 
 Shapes.prototype._setDom = function() {
 
@@ -170,5 +168,73 @@ Shapes.prototype._setDom = function() {
 };
 
 Shapes.prototype._bindEvents = function() {
+    var that = this;
+
+    // var targetdom = null;
+    // console.log(this.dom);
+    this.dom.addEventListener('click', function(ee) {
+        var selectedTarget = document.getElementById('selected');
+        if(selectedTarget) {
+            selectedTarget.removeAttribute('id');
+        }
+        var targetdom = that.dom;
+        that.dom.setAttribute('id', 'selected');
+        document.addEventListener('keydown', function(e) {
+
+            console.log(targetdom);
+            var keyCode = e.keyCode;
+
+            if (e.keyCode == '38') {
+                // up arrow
+                targetdom.style.fill = 'pink';
+            }
+            else if (e.keyCode == '40') {
+                // down arrow
+                targetdom.style.fill = 'yellow';
+            }
+            else if (e.keyCode == '37') {
+                // left arrow
+                targetdom.style.fill = 'blue';
+            }
+            else if (e.keyCode == '39') {
+                // right arrow
+                targetdom.style.fill = 'black';
+            } else if (e.keyCode == '8') {
+                // delete
+                console.log('delete');
+                targetdom.parentNode.removeChild(targetdom);
+            }
+        });
+
+    });
+
+
+
+
+
+    // this.dom.addEventListener('keydown', function(e) {
+    //     that.dom.dispatchEvent(new Event('moveleft'));
+    // });
+    //
+    // this.dom.addEventListener('keydown', function(e) {
+    //     that.dom.dispatchEvent(new Event('moveright'));
+    // });
+    //
+    // this.dom.addEventListener('keydown', function(e) {
+    //     that.dom.dispatchEvent(new Event('movedown'));
+    // });
+    //
+    // this.dom.addEventListener('keydown', function(e) {
+    //     that.dom.dispatchEvent(new Event('moveup'));
+    // });
 
 };
+
+
+
+// key code
+// delete: 8
+// left: 0x25 (37)
+// right: 0x27 (39)
+// down: 0x28 (40)
+// up: 0x26 (38)

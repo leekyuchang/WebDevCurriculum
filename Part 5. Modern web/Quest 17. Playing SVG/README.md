@@ -11,8 +11,8 @@
     - 이미지의 왜곡이나 손상 없이 다양한 해상도와 픽셀 밀도에 대응이 가능
     -
 * 키보드 이벤트
-  * `onkeypress`
-  * `onkeydown` / `onkeyup`
+  * `onkeypress` - 글씨가 써질때 이벤트 발생
+  * `onkeydown` / `onkeyup` - 키를 누르거나 땔때 이벤트 발생
   * keyCode
 
 ## Resources
