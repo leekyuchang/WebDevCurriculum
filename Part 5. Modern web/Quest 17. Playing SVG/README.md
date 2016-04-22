@@ -9,7 +9,6 @@
   * SVG 포맷(Scalable Vector Graphics)
     - 2차원 벡터 그래픽을 표현하기 위한 XML 기반의 벡터 이미지 형식
     - 이미지의 왜곡이나 손상 없이 다양한 해상도와 픽셀 밀도에 대응이 가능
-    -
 * 키보드 이벤트
   * `onkeypress` - 글씨가 써질때 이벤트 발생
   * `onkeydown` / `onkeyup` - 키를 누르거나 땔때 이벤트 발생

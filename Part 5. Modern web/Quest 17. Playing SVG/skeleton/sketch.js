@@ -35,6 +35,35 @@ System.prototype._bindEvents = function() {
         var triangledom = new Shapes('triangle');
         that.sketchboard.svg.appendChild(triangledom.dom);
     });
+
+    // document.addEventListener('keydown', function(e) {
+    //     var targetdom = document.getElementById('selected');
+    //     var keyCode = e.keyCode;
+    //
+    //     if (e.keyCode == '38') {
+    //         // up arrow
+    //         targetdom.style.fill = 'pink';
+    //         targetdom.style.
+    //     }
+    //     else if (e.keyCode == '40') {
+    //         // down arrow
+    //         targetdom.style.fill = 'yellow';
+    //     }
+    //     else if (e.keyCode == '37') {
+    //         // left arrow
+    //         targetdom.style.fill = 'blue';
+    //     }
+    //     else if (e.keyCode == '39') {
+    //         // right arrow
+    //         targetdom.style.fill = 'black';
+    //     } else if (e.keyCode == '8') {
+    //         // delete
+    //         targetdom.parentNode.removeChild(targetdom);
+    //     }
+    //     document.addEventListener('keyup', function(ee) {
+    //         targetdom.style.fill = 'green';
+    //     });
+    // });
 };
 
 
@@ -170,63 +199,85 @@ Shapes.prototype._setDom = function() {
 Shapes.prototype._bindEvents = function() {
     var that = this;
 
-    // var targetdom = null;
-    // console.log(this.dom);
+
+    function targetfunction(targetClassName, move) {
+
+        // if (targetClassName === "circle") {
+        //     // if (move === 'up') {
+        //     //
+        //     // } else if (move === 'down') {
+        //     //
+        //     // } else if (move === 'left') {
+        //     //
+        //     // } else if (move === 'right') {
+        //     //
+        //     // } else if (move === 'delete') {
+        //     //
+        //     // }
+        //     transform="translate(75,25)"
+        // } else if (targetClassName === "square") {
+        //
+        // }else if (targetClassName === "triangle") {
+        //
+        // }
+        console.log('Haalloong');
+    }
+
+
     this.dom.addEventListener('click', function(ee) {
         var selectedTarget = document.getElementById('selected');
         if(selectedTarget) {
             selectedTarget.removeAttribute('id');
         }
-        var targetdom = that.dom;
         that.dom.setAttribute('id', 'selected');
-        document.addEventListener('keydown', function(e) {
-
-            console.log(targetdom);
-            var keyCode = e.keyCode;
-
-            if (e.keyCode == '38') {
-                // up arrow
-                targetdom.style.fill = 'pink';
-            }
-            else if (e.keyCode == '40') {
-                // down arrow
-                targetdom.style.fill = 'yellow';
-            }
-            else if (e.keyCode == '37') {
-                // left arrow
-                targetdom.style.fill = 'blue';
-            }
-            else if (e.keyCode == '39') {
-                // right arrow
-                targetdom.style.fill = 'black';
-            } else if (e.keyCode == '8') {
-                // delete
-                console.log('delete');
-                targetdom.parentNode.removeChild(targetdom);
-            }
-        });
-
     });
 
 
+    document.addEventListener('keydown', function(e) {
+        var targetdom = document.getElementById('selected');
+        var targetClass = targetdom.className.baseVal;
 
+        var keyCode = e.keyCode;
 
+        if (e.keyCode == '38') {
+            // up arrow
+            targetdom.style.fill = 'pink';
+            document.querySelector('.').y.baseVal.value -= 7;
+            // console.log(targetdom.cx.baseVal.value);
+            // console.log(targetdom.cx.baseVal.value);
+            // targetdom.cx.baseVal.value += 1;
+            // if (targetClass === 'circle') {
+            //     targetdom.cy.baseVal.value -= 7;
+            // } else if (targetClass === 'square') {
+            //     targetdom.y.baseVal.value -= 7;
+            // } else if (targetClass === 'triangle') {
+            //     console.log('not yet');
+            // }
+            targetdom.setAttribute('transform','translate(30,100)');
+        } else if (e.keyCode == '40') {
+            // down arrow
+            targetdom.style.fill = 'yellow';
+            targetfunction(targetClass, 'down');
 
-    // this.dom.addEventListener('keydown', function(e) {
-    //     that.dom.dispatchEvent(new Event('moveleft'));
-    // });
-    //
-    // this.dom.addEventListener('keydown', function(e) {
-    //     that.dom.dispatchEvent(new Event('moveright'));
-    // });
-    //
-    // this.dom.addEventListener('keydown', function(e) {
-    //     that.dom.dispatchEvent(new Event('movedown'));
-    // });
-    //
-    // this.dom.addEventListener('keydown', function(e) {
-    //     that.dom.dispatchEvent(new Event('moveup'));
-    // });
+        } else if (e.keyCode == '37') {
+            // left arrow
+            targetdom.style.fill = 'blue';
+            targetfunction(targetClass, 'left');
+
+        } else if (e.keyCode == '39') {
+            // right arrow
+            targetdom.style.fill = 'black';
+            targetfunction(targetClass, 'right');
+
+        } else if (e.keyCode == '8') {
+            // delete
+            targetdom.parentNode.removeChild(targetdom);
+            targetfunction(targetClass, 'deletedom');
+        }
+        document.addEventListener('keyup', function(ee) {
+            targetdom.style.fill = 'green';
+        });
+    });
 
 };
 
