@@ -111,14 +111,17 @@ Toolbox.prototype._bindEvents = function() {
 var Shapes = function(shape) {
     this._initialize();
 
-    if(shape === 'circle') {
-        var input = this.circle;
-    } else if (shape === 'square') {
-        var input = this.square;
-    } else if (shape === 'triangle') {
-        var input = this.triangle;
-    } else {
-        var input = 'error'
+    var input;
+    switch(shape){
+      case 'circle':
+        input = this.circle;
+        break;
+      case 'square':
+        input = this.square;
+        break;
+      case 'triangle':
+        input = this.triangle;
+        break;
     }
     this.dom = input;
 };
@@ -128,16 +131,16 @@ Shapes.prototype._initialize = function() {
 	this._bindEvents();
 };
 
+
+    (Math.sqrt(3))/2*30
+
 Shapes.prototype._setDom = function() {
 
     var svgurl =  "http://www.w3.org/2000/svg";
     var pos = [
-        Math.floor(Math.random()*(530-70+1)+70),
-        Math.floor(Math.random()*(410-70+1)+70)
-        // Math.floor(Math.random() * (600 - 70)),
-        // Math.floor(Math.random() * (480 - 70))
+        Math.floor(Math.random()*(530-70)+70),
+        Math.floor(Math.random()*(530-70)+70)
     ];
-
 
     // Circle
     this.circle = document.createElementNS(svgurl, "circle");
@@ -152,36 +155,20 @@ Shapes.prototype._setDom = function() {
     this.square.setAttributeNS(null, "y", pos[1]);
 
 
-    // var num = String(position[0],position[0]+30 position[0]+30,position[0]+30 position[0]/2,position[0]);
-    var num = String("0,30 30,30 15,0");
-    // var num = String();
-    var a = pos[0];
-    var b = pos[0]+30;
-    var c = pos[0]/2;
-    var numm = String(a + ',' + b + ' ' + b + ',' + b + ' ' + c + ',' + a);
-    console.log(numm);
     // Triangle
-    this.triangle = document.createElementNS(svgurl, "polyline");
+    var a  = pos[0];
+    var b  = pos[1];
+    var c = pos[0]+70;
+    var d = pos[0]+35;
+    var e = pos[1]-(Math.sqrt(3))/2*70;
+    var points = String(a + ',' + b + ' ' + c + ',' + b + ' ' + d + ',' + e);
+    this.triangle = document.createElementNS(svgurl, "polygon");
     this.triangle.classList.add('triangle');
+    this.triangle.setAttributeNS(null, "points", points);
     // this.triangle.setAttributeNS(null, "points", "0,30 30,30 15,0");
-    this.triangle.setAttributeNS(null, "points", numm);
-    // this.triangle.setAttributeNS(null, "points", position[0],position[0]+30 position[0]+30,position[0]+30 position[0]/2,position[0]);
 
-    // create position -> random  event!!!!!
 };
 
 Shapes.prototype._bindEvents = function() {
 
 };
-
-
-
-
-// function goo(icon, desktop){
-// 		var coord_icon = [
-// 			Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().width - 50)),
-// 			Math.floor(Math.random() * (desktop.dom.getBoundingClientRect().height - 50))
-// 		];
-// 		icon.dom.style.left = (icon.dom.getBoundingClientRect().left - desktop.dom.getBoundingClientRect().left + coord_icon[0]) + 'px';
-// 		icon.dom.style.top = (icon.dom.getBoundingClientRect().top - desktop.dom.getBoundingClientRect().top + coord_icon[1]) + 'px';
-// 	}

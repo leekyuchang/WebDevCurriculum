@@ -2,7 +2,7 @@
 .system {
     position: relative;
     width: 600px;
-    height: 700px;
+    height: 750px;
     background-color: gray;
     border: 0.1px solid #D0D2D2;
 }
@@ -14,9 +14,9 @@
     width: 100%;
     background-color: #44BE5E;
 
-    font-size: 40px;
-    height: 70px;
-    line-height: 70px;
+    font-size: 34px;
+    height: 50px;
+    line-height: 50px;
     color: #FCFCFC;
     text-align: center;
 }
@@ -26,23 +26,23 @@
     top: 0px;
     left: 0;
     width: 100%;
-    height: 550px;
+    height: 650px;
     background-color: #FCFCFC;
 }
 
 .svgclass {
     position: absolute;
-    top: 70px;
+    top: 50px;
     width: 600px;
-    height: 480px;
+    height: 600px;
 }
 
 .toolbox {
     position: absolute;
-    top: 550px;
+    top: 650px;
     left: 0;
     width: 100%;
-    height: 150px;
+    height: 100px;
     background-color: #389F49;
 }
 
