@@ -24,17 +24,74 @@ System.prototype._bindEvents = function() {
 
     this.toolbox.dom.addEventListener('createCircle', function() {
         var circledom = new Shapes('circle');
-        that.sketchboard.dom.appendChild(circledom.outerdom);
+        that.sketchboard.contentdom.appendChild(circledom.outerdom);
     });
 
     this.toolbox.dom.addEventListener('createSquare', function() {
         var squaredom = new Shapes('square');
-        that.sketchboard.dom.appendChild(squaredom.outerdom);
+        that.sketchboard.contentdom.appendChild(squaredom.outerdom);
     });
 
     this.toolbox.dom.addEventListener('createTriangle', function() {
         var triangledom = new Shapes('triangle');
-        that.sketchboard.dom.appendChild(triangledom.outerdom);
+        that.sketchboard.contentdom.appendChild(triangledom.outerdom);
+    });
+
+
+    // create mousewindowdom
+    this.sketchboard.contentdom.addEventListener('mousedown', function(e) {
+        that.isMouseDown = true;
+        that.selectwindowdom = new Shapes('drag');
+        that.sketchboard.contentdom.appendChild(that.selectwindowdom.selectwindow);
+
+        that.mouseCoord = [e.clientX, e.clientY];
+        that.selectwindowdom.selectwindow.style.top = that.mouseCoord[1] - 60 + 'px';
+        that.selectwindowdom.selectwindow.style.left = that.mouseCoord[0]  - 10 + 'px';
+
+    });
+
+    this.sketchboard.contentdom.addEventListener('mousemove', function(e) {
+        if(that.isMouseDown) {
+            var diff = [
+				e.clientX - that.mouseCoord[0],
+				e.clientY - that.mouseCoord[1]
+			];
+			that.mouseCoord = [e.clientX, e.clientY];
+			that.selectwindowdom.selectwindow.style.width = (Number(that.selectwindowdom.selectwindow.style.width.replace('px', '')) + diff[0]) + 'px';
+			that.selectwindowdom.selectwindow.style.height = (Number(that.selectwindowdom.selectwindow.style.height.replace('px', '')) + diff[1]) + 'px';
+
+        }
+    });
+
+    that.sketchboard.contentdom.addEventListener('mouseup', function() {
+        that.isMouseDown = false;
+
+
+        // var selecteddom =
+        var allouterdom = document.querySelectorAll('.outerdom');
+
+        var dragX = parseInt(that.selectwindowdom.selectwindow.style.left, 10);
+        var dragY = parseInt(that.selectwindowdom.selectwindow.style.top, 10);
+        var dragW = parseInt(that.selectwindowdom.selectwindow.style.width, 10);
+        var dragH = parseInt(that.selectwindowdom.selectwindow.style.height, 10);
+        var dragR = dragX + dragW;
+        var dragB = dragY + dragH;
+        // console.log('left:' + dragX + ' top:' + dragY + ' R:' + dragR + ' B:' + dragB);
+
+        for(var i = 0; i < allouterdom.length; i++) {
+            var outerdomX = parseInt(allouterdom[i].style.left, 10);
+            var outerdomY = parseInt(allouterdom[i].style.top, 10);
+            var outerdomR = outerdomX + 70;
+            var outerdomB = outerdomY + 70;
+            // console.log('left:' + outerdomX + ' top:' + outerdomY + ' R:' + outerdomR + ' B:' + outerdomB);
+
+            if(dragX < outerdomX && dragY < outerdomY && dragR > outerdomR && dragB > outerdomB) {
+                // console.log(allouterdom[i]);
+                allouterdom[i].classList.add('selected');
+            }
+        }
+
+        this.removeChild(that.selectwindowdom.selectwindow);
     });
 
 };
@@ -125,9 +182,14 @@ var Shapes = function(shape) {
       case 'triangle':
         input = this.triangle;
         break;
+      case 'drag':
+        input = this.selectwindow;
+        break;
     }
     this.dom = input;
-    this.svg.appendChild(this.dom);
+    if(input !== this.selectwindow) {
+        this.svg.appendChild(this.dom);
+    }
     this._bindEvents();
 };
 
@@ -156,76 +218,111 @@ Shapes.prototype._setDom = function() {
     this.outerdom.style.top = position[1] + 'px';
 
     // Circle
-    this.circle = document.createElementNS(svgurl, "circle");
+    this.circle = document.createElementNS(svgurl, 'circle');
     this.circle.classList.add('circle');
-    this.circle.setAttribute("cx", 35); // 원중심 위치
-    this.circle.setAttribute("cy", 35);
+    this.circle.classList.add('svgdom');
+    this.circle.setAttribute('cx', 35); // 원중심 위치
+    this.circle.setAttribute('cy', 35);
 
     // Square
-    this.square = document.createElementNS(svgurl, "rect");
+    this.square = document.createElementNS(svgurl, 'rect');
     this.square.classList.add('square');
-    this.square.setAttribute("x", 0); // 00부터 거리
-    this.square.setAttribute("y", 0);
+    this.circle.classList.add('svgdom');
+    this.square.setAttribute('x', 0); // 00부터 거리
+    this.square.setAttribute('y', 0);
 
     // Triangle
-    this.triangle = document.createElementNS(svgurl, "polygon");
+    this.triangle = document.createElementNS(svgurl, 'polygon');
     this.triangle.classList.add('triangle');
-    this.triangle.setAttributeNS(null, "points", "0,70 70,70 35,0");
+    this.circle.classList.add('svgdom');
+    this.triangle.setAttributeNS(null, 'points', '0,70 70,70 35,0');
+
+    // selectwindow
+    this.selectwindow = document.createElement('div');
+    this.selectwindow.classList.add('selectwindow');
+    // var x = event.clientX;
+    // var y = event.clientY;
+    // this.selectwindow.style.top = y - 60 + 'px';
+    // this.selectwindow.style.left = x  - 10 + 'px';
 
 };
 
 Shapes.prototype._bindEvents = function() {
     var that = this;
 
-
-    this.dom.addEventListener('click', function(ee) {
-        var selectedTarget = document.getElementById('selected');
-        if(selectedTarget) {
-            selectedTarget.removeAttribute('id');
-        }
-        that.dom.setAttribute('id', 'selected');
-    });
-
+    // console.log(this.outerdom);
+    // this.outerdom.addEventListener('click', function(e) {
+    //     console.log('Hi');
+    //     var selecteddom = document.querySelectorAll('selected');
+    //     console.log(selecteddom);
+    //     for(var i = 0; i < selecteddom.length; i++) {
+    //         var targetdom = selecteddom[i].querySelector('svgdom');
+    //         console.log(targetdom);
+    //     }
+    // });
 
     document.addEventListener('keydown', function(e) {
-        var targetdom = document.getElementById('selected');
+        var selecteddom = document.querySelectorAll('.selected');
+        // console.log(selecteddom);
+        // for(var i = 0; i < selecteddom.length; i++) {
+        //     var targetdom = selecteddom[i].querySelector('.svgdom');
+        //     // console.log(targetdom);
+        // }
+
         var keyCode = e.keyCode;
 
         if (e.keyCode == '38') {
             // up arrow
-            targetdom.style.fill = 'rgb(105, 205, 51)';
-            var y = parseInt(targetdom.parentNode.parentNode.style.top, 10);
-            targetdom.parentNode.parentNode.style.top = y - 10 + 'px';
+            // targetdom.style.fill = 'rgb(105, 205, 51)';
+            for(var j =0; j < selecteddom.length; j++) {
+                var y = parseInt(selecteddom[j].style.top, 10);
+                selecteddom[j].style.top = y - 10 + 'px';
+            }
 
         } else if (e.keyCode == '40') {
             // down arrow
-            targetdom.style.fill = 'rgb(105, 205, 51)';
-            var y = parseInt(targetdom.parentNode.parentNode.style.top, 10);
-            targetdom.parentNode.parentNode.style.top = y + 10 + 'px';
+            // targetdom.style.fill = 'rgb(105, 205, 51)';
+            for(var j =0; j < selecteddom.length; j++) {
+                var y = parseInt(selecteddom[j].style.top, 10);
+                selecteddom[j].style.top = y + 10 + 'px';
+            }
+            // var y = parseInt(targetdom.parentNode.parentNode.style.top, 10);
+            // targetdom.parentNode.parentNode.style.top = y + 10 + 'px';
 
         } else if (e.keyCode == '37') {
             // left arrow
-            targetdom.style.fill = 'rgb(105, 205, 51)';
-            var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
-            targetdom.parentNode.parentNode.style.left = x - 10 + 'px';
+            // targetdom.style.fill = 'rgb(105, 205, 51)';
+            for(var j =0; j < selecteddom.length; j++) {
+                var x = parseInt(selecteddom[j].style.left, 10);
+                selecteddom[j].style.left = x - 10 + 'px';
+            }
+            // var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
+            // targetdom.parentNode.parentNode.style.left = x - 10 + 'px';
 
         } else if (e.keyCode == '39') {
             // right arrow
-            targetdom.style.fill = 'rgb(105, 205, 51)';
-            var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
-            targetdom.parentNode.parentNode.style.left = x + 10 + 'px';
+            // targetdom.style.fill = 'rgb(105, 205, 51)';
+            for(var j =0; j < selecteddom.length; j++) {
+                var x = parseInt(selecteddom[j].style.left, 10);
+                selecteddom[j].style.left = x + 10 + 'px';
+            }
+            // var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
+            // targetdom.parentNode.parentNode.style.left = x + 10 + 'px';
 
         } else if (e.keyCode == '8') {
             // delete
-            targetdom.parentNode.removeChild(targetdom);
+            console.log(targetdom);
+            // targetdom.parentNode.removeChild(targetdom);
         }
 
     });
 
     document.addEventListener('keyup', function(ee) {
-        var targetdom = document.getElementById('selected');
-        targetdom.style.fill = 'green';
+        // var targetdom = document.getElementById('selected');
+        // targetdom.style.fill = 'green';
     });
+
+    // this.mousewindow.addEventListener('');
 
 };
 

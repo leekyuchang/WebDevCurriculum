@@ -73,7 +73,6 @@ button {
     left: 0;
     width: 70px;
     height: 70px;
-    /*background-color: #389F49;*/
 }
 
 .svgclass {
@@ -101,4 +100,12 @@ button {
     position: absolute;
     fill: green;
     stroke: green;
+}
+
+.selectwindow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-style: dotted;
+    border-width: 1px;
 }
