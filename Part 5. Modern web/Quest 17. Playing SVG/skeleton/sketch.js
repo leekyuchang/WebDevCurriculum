@@ -21,56 +21,29 @@ System.prototype._setDom = function() {
 
 System.prototype._bindEvents = function() {
     var that = this;
+
     this.toolbox.dom.addEventListener('createCircle', function() {
         var circledom = new Shapes('circle');
-        that.sketchboard.svg.appendChild(circledom.dom);
+        that.sketchboard.dom.appendChild(circledom.outerdom);
     });
 
     this.toolbox.dom.addEventListener('createSquare', function() {
         var squaredom = new Shapes('square');
-        that.sketchboard.svg.appendChild(squaredom.dom);
+        that.sketchboard.dom.appendChild(squaredom.outerdom);
     });
 
     this.toolbox.dom.addEventListener('createTriangle', function() {
         var triangledom = new Shapes('triangle');
-        that.sketchboard.svg.appendChild(triangledom.dom);
+        that.sketchboard.dom.appendChild(triangledom.outerdom);
     });
 
-    // document.addEventListener('keydown', function(e) {
-    //     var targetdom = document.getElementById('selected');
-    //     var keyCode = e.keyCode;
-    //
-    //     if (e.keyCode == '38') {
-    //         // up arrow
-    //         targetdom.style.fill = 'pink';
-    //         targetdom.style.
-    //     }
-    //     else if (e.keyCode == '40') {
-    //         // down arrow
-    //         targetdom.style.fill = 'yellow';
-    //     }
-    //     else if (e.keyCode == '37') {
-    //         // left arrow
-    //         targetdom.style.fill = 'blue';
-    //     }
-    //     else if (e.keyCode == '39') {
-    //         // right arrow
-    //         targetdom.style.fill = 'black';
-    //     } else if (e.keyCode == '8') {
-    //         // delete
-    //         targetdom.parentNode.removeChild(targetdom);
-    //     }
-    //     document.addEventListener('keyup', function(ee) {
-    //         targetdom.style.fill = 'green';
-    //     });
-    // });
 };
-
 
 
 
 var Sketchboard = function() {
     this._initialize();
+
 };
 
 Sketchboard.prototype._initialize = function() {
@@ -86,10 +59,11 @@ Sketchboard.prototype._setDom = function() {
     this.topdom.classList.add('topdom');
     this.topdom.innerHTML = "Sketchboard";
 
-    this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    this.svg.classList.add('svgclass');
+    this.contentdom = document.createElement('div');
+    this.contentdom.classList.add('content');
+
     this.dom.appendChild(this.topdom);
-    this.dom.appendChild(this.svg);
+    this.dom.appendChild(this.contentdom);
 };
 
 Sketchboard.prototype._bindEvents = function() {
@@ -153,6 +127,7 @@ var Shapes = function(shape) {
         break;
     }
     this.dom = input;
+    this.svg.appendChild(this.dom);
     this._bindEvents();
 };
 
@@ -163,65 +138,44 @@ Shapes.prototype._initialize = function() {
 
 Shapes.prototype._setDom = function() {
 
+    this.outerdom = document.createElement('div');
+    this.outerdom.classList.add('outerdom');
+
+    this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    this.svg.classList.add('svgclass');
+    this.outerdom.appendChild(this.svg);
+
     var svgurl =  "http://www.w3.org/2000/svg";
-    var pos = [
+
+	var position = [
         Math.floor(Math.random()*(530-70)+70),
         Math.floor(Math.random()*(530-70)+70)
-    ];
+	];
+
+    this.outerdom.style.left = position[0] + 'px';
+    this.outerdom.style.top = position[1] + 'px';
 
     // Circle
     this.circle = document.createElementNS(svgurl, "circle");
     this.circle.classList.add('circle');
-    this.circle.setAttributeNS(null, "cx", pos[0]);
-    this.circle.setAttributeNS(null, "cy", pos[1]);
+    this.circle.setAttribute("cx", 35); // 원중심 위치
+    this.circle.setAttribute("cy", 35);
 
     // Square
     this.square = document.createElementNS(svgurl, "rect");
     this.square.classList.add('square');
-    this.square.setAttributeNS(null, "x", pos[0]);
-    this.square.setAttributeNS(null, "y", pos[1]);
-
+    this.square.setAttribute("x", 0); // 00부터 거리
+    this.square.setAttribute("y", 0);
 
     // Triangle
-    var a  = pos[0];
-    var b  = pos[1];
-    var c = pos[0]+70;
-    var d = pos[0]+35;
-    var e = pos[1]-(Math.sqrt(3))/2*70;
-    var points = String(a + ',' + b + ' ' + c + ',' + b + ' ' + d + ',' + e);
     this.triangle = document.createElementNS(svgurl, "polygon");
     this.triangle.classList.add('triangle');
-    this.triangle.setAttributeNS(null, "points", points);
-    // this.triangle.setAttributeNS(null, "points", "0,30 30,30 15,0");
+    this.triangle.setAttributeNS(null, "points", "0,70 70,70 35,0");
 
 };
 
 Shapes.prototype._bindEvents = function() {
     var that = this;
-
-
-    function targetfunction(targetClassName, move) {
-
-        // if (targetClassName === "circle") {
-        //     // if (move === 'up') {
-        //     //
-        //     // } else if (move === 'down') {
-        //     //
-        //     // } else if (move === 'left') {
-        //     //
-        //     // } else if (move === 'right') {
-        //     //
-        //     // } else if (move === 'delete') {
-        //     //
-        //     // }
-        //     transform="translate(75,25)"
-        // } else if (targetClassName === "square") {
-        //
-        // }else if (targetClassName === "triangle") {
-        //
-        // }
-        console.log('Haalloong');
-    }
 
 
     this.dom.addEventListener('click', function(ee) {
@@ -235,52 +189,45 @@ Shapes.prototype._bindEvents = function() {
 
     document.addEventListener('keydown', function(e) {
         var targetdom = document.getElementById('selected');
-        var targetClass = targetdom.className.baseVal;
-
         var keyCode = e.keyCode;
 
         if (e.keyCode == '38') {
             // up arrow
-            targetdom.style.fill = 'pink';
-            document.querySelector('.').y.baseVal.value -= 7;
-            // console.log(targetdom.cx.baseVal.value);
-            // console.log(targetdom.cx.baseVal.value);
-            // targetdom.cx.baseVal.value += 1;
-            // if (targetClass === 'circle') {
-            //     targetdom.cy.baseVal.value -= 7;
-            // } else if (targetClass === 'square') {
-            //     targetdom.y.baseVal.value -= 7;
-            // } else if (targetClass === 'triangle') {
-            //     console.log('not yet');
-            // }
-            targetdom.setAttribute('transform','translate(30,100)');
+            targetdom.style.fill = 'rgb(105, 205, 51)';
+            var y = parseInt(targetdom.parentNode.parentNode.style.top, 10);
+            targetdom.parentNode.parentNode.style.top = y - 10 + 'px';
+
         } else if (e.keyCode == '40') {
             // down arrow
-            targetdom.style.fill = 'yellow';
-            targetfunction(targetClass, 'down');
+            targetdom.style.fill = 'rgb(105, 205, 51)';
+            var y = parseInt(targetdom.parentNode.parentNode.style.top, 10);
+            targetdom.parentNode.parentNode.style.top = y + 10 + 'px';
 
         } else if (e.keyCode == '37') {
             // left arrow
-            targetdom.style.fill = 'blue';
-            targetfunction(targetClass, 'left');
+            targetdom.style.fill = 'rgb(105, 205, 51)';
+            var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
+            targetdom.parentNode.parentNode.style.left = x - 10 + 'px';
 
         } else if (e.keyCode == '39') {
             // right arrow
-            targetdom.style.fill = 'black';
-            targetfunction(targetClass, 'right');
+            targetdom.style.fill = 'rgb(105, 205, 51)';
+            var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
+            targetdom.parentNode.parentNode.style.left = x + 10 + 'px';
 
         } else if (e.keyCode == '8') {
             // delete
             targetdom.parentNode.removeChild(targetdom);
-            targetfunction(targetClass, 'deletedom');
         }
-        document.addEventListener('keyup', function(ee) {
-            targetdom.style.fill = 'green';
-        });
+
+    });
+
+    document.addEventListener('keyup', function(ee) {
+        var targetdom = document.getElementById('selected');
+        targetdom.style.fill = 'green';
     });
 
 };
-
 
 
 // key code

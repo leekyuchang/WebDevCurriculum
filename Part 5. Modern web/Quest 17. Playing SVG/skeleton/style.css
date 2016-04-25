@@ -7,6 +7,15 @@
     border: 0.1px solid #D0D2D2;
 }
 
+.sketchboard {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 650px;
+    background-color: #FCFCFC;
+}
+
 .topdom {
     position: absolute;
     top: 0;
@@ -21,17 +30,8 @@
     text-align: center;
 }
 
-.sketchboard {
+.content {
     position: absolute;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: 650px;
-    background-color: #FCFCFC;
-}
-
-.svgclass {
-    position: relative;
     top: 50px;
     width: 600px;
     height: 600px;
@@ -64,6 +64,24 @@ button {
     font-size: 20px;
     padding: 0;
     margin: 10px;
+}
+
+
+.outerdom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
+    /*background-color: #389F49;*/
+}
+
+.svgclass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
 }
 
 .circle {
