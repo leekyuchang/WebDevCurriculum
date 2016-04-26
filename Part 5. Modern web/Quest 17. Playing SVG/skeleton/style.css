@@ -1,3 +1,4 @@
+div:focus {outline: none}
 
 .system {
     position: relative;
@@ -108,4 +109,9 @@ button {
     left: 0;
     border-style: dotted;
     border-width: 1px;
+}
+
+.selected {
+    border-style: dotted;
+    border-width: 2px;
 }

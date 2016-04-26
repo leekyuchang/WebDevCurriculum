@@ -17,6 +17,7 @@ System.prototype._setDom = function() {
     this.sketchboard = new Sketchboard();
     this.dom.appendChild(this.sketchboard.dom);
 
+    this.shapedom = [];
 };
 
 System.prototype._bindEvents = function() {
@@ -25,30 +26,29 @@ System.prototype._bindEvents = function() {
     this.toolbox.dom.addEventListener('createCircle', function() {
         var circledom = new Shapes('circle');
         that.sketchboard.contentdom.appendChild(circledom.outerdom);
+        that.shapedom.push(circledom);
     });
 
     this.toolbox.dom.addEventListener('createSquare', function() {
         var squaredom = new Shapes('square');
         that.sketchboard.contentdom.appendChild(squaredom.outerdom);
+        that.shapedom.push(squaredom);
     });
 
     this.toolbox.dom.addEventListener('createTriangle', function() {
         var triangledom = new Shapes('triangle');
         that.sketchboard.contentdom.appendChild(triangledom.outerdom);
+        that.shapedom.push(triangledom);
     });
-
 
     // create mousewindowdom
     this.sketchboard.contentdom.addEventListener('mousedown', function(e) {
         that.isMouseDown = true;
-
-        var selectedom = document.querySelectorAll('.selected');
-        if(selectedom.length !== 0) {
-            for(var i = 0; i < selectedom.length; i++) {
-                selectedom[i].classList.remove('selected');
-            }
+        var shapes = that.shapedom;
+        for(var i =0; i < shapes.length; i++) {
+            shapes[i].selected = false;
+            shapes[i].outerdom.classList.remove('selected');
         }
-
 
         that.selectwindowdom = new Shapes('drag');
         that.sketchboard.contentdom.appendChild(that.selectwindowdom.selectwindow);
@@ -56,7 +56,6 @@ System.prototype._bindEvents = function() {
         that.mouseCoord = [e.clientX, e.clientY];
         that.selectwindowdom.selectwindow.style.top = that.mouseCoord[1] - 60 + 'px';
         that.selectwindowdom.selectwindow.style.left = that.mouseCoord[0]  - 10 + 'px';
-
     });
 
     this.sketchboard.contentdom.addEventListener('mousemove', function(e) {
@@ -73,14 +72,12 @@ System.prototype._bindEvents = function() {
         }
     });
 
-    that.sketchboard.contentdom.addEventListener('mouseup', function(e) {
+    this.sketchboard.contentdom.addEventListener('mouseup', function(e) {
         that.isMouseDown = false;
         var mouseupCoord = [e.clientX, e.clientY];
         var mouseX = mouseupCoord[0] - 10;
         var mouseY = mouseupCoord[1] - 60;
-
-        var allouterdom = document.querySelectorAll('.outerdom');
-        // console.log(mouseX, mouseY);
+        var allouterdom = that.shapedom;
 
         var dragX = parseInt(that.selectwindowdom.selectwindow.style.left, 10);
         var dragY = parseInt(that.selectwindowdom.selectwindow.style.top, 10);
@@ -90,21 +87,53 @@ System.prototype._bindEvents = function() {
         var dragB = dragY + dragH;
         // console.log('left:' + dragX + ' top:' + dragY + ' R:' + dragR + ' B:' + dragB);
         for(var i = 0; i < allouterdom.length; i++) {
-            var outerdomX = parseInt(allouterdom[i].style.left, 10);
-            var outerdomY = parseInt(allouterdom[i].style.top, 10);
+            var outerdomX = parseInt(allouterdom[i].outerdom.style.left, 10);
+            var outerdomY = parseInt(allouterdom[i].outerdom.style.top, 10);
             var outerdomR = outerdomX + 70;
             var outerdomB = outerdomY + 70;
             // console.log('left:' + outerdomX + ' top:' + outerdomY + ' R:' + outerdomR + ' B:' + outerdomB);
 
-            if (outerdomX < mouseX && mouseX < outerdomR && outerdomY < mouseY && mouseY < outerdomB) {
-                allouterdom[i].classList.add('selected');
-            }
-            if(dragX < outerdomX && dragY < outerdomY && dragR > outerdomR && dragB > outerdomB) {
-                allouterdom[i].classList.add('selected');
+            if((dragX < outerdomX && dragY < outerdomY && dragR > outerdomR && dragB > outerdomB) || (outerdomX < mouseX && mouseX < outerdomR && outerdomY < mouseY && mouseY < outerdomB)) {
+                allouterdom[i].outerdom.classList.add('selected');
+                allouterdom[i].selected = true;
             }
         }
-
         this.removeChild(that.selectwindowdom.selectwindow);
+    });
+
+    this.sketchboard.contentdom.addEventListener('keydown', function(e) {
+        var keyCode = e.keyCode;
+        var selecteddom = that.shapedom.filter(function(s) {
+            return s.selected;
+        });
+
+        if(keyCode == '38') {
+            selecteddom.forEach(function(s) {
+                s._move('up');
+            });
+        } else if (keyCode == '40') {
+            // down arrow
+            selecteddom.forEach(function(s) {
+                s._move('down');
+            });
+
+        } else if (keyCode == '37') {
+            // left arrow
+            selecteddom.forEach(function(s) {
+                s._move('left');
+            });
+
+        } else if (keyCode == '39') {
+            // right arrow
+            selecteddom.forEach(function(s) {
+                s._move('right');
+            });
+        } else if (keyCode == '8') {
+            // delete
+            selecteddom.forEach(function(s) {
+                s._move('delete');
+            });
+        }
     });
 
 };
@@ -131,6 +160,7 @@ Sketchboard.prototype._setDom = function() {
 
     this.contentdom = document.createElement('div');
     this.contentdom.classList.add('content');
+    this.contentdom.tabIndex = '1';
 
     this.dom.appendChild(this.topdom);
     this.dom.appendChild(this.contentdom);
@@ -176,6 +206,7 @@ Toolbox.prototype._bindEvents = function() {
     this.trianglebtn.addEventListener('click', function(e) {
         that.dom.dispatchEvent(new Event('createTriangle'));
     });
+
 };
 
 
@@ -204,6 +235,7 @@ var Shapes = function(shape) {
         this.svg.appendChild(this.dom);
     }
     this._bindEvents();
+    this.selected = false;
 };
 
 Shapes.prototype._initialize = function() {
@@ -253,71 +285,37 @@ Shapes.prototype._setDom = function() {
     // selectwindow
     this.selectwindow = document.createElement('div');
     this.selectwindow.classList.add('selectwindow');
+
 };
 
 Shapes.prototype._bindEvents = function() {
     var that = this;
 
-    // this.outerdom.addEventListener('click', function(e) {
-    //     console.log(2);
-    //     var selecteddom = document.querySelectorAll('.selected');
-    //     if(selectedom !== null) {
-    //         for(var i = 0; i < selecteddom.length; i++) {
-    //             selecteddom[i].classList.remove('selected');
-    //         }
-    //     }
-    //     this.classList.add('selected');
-    // });
-
-    var keyfunc = function(e) {
-        var selecteddom = document.querySelectorAll('.selected');
-        var keyCode = e.keyCode;
-
-        if (e.keyCode == '38') {
-                // up arrow
-                // selecteddom.childNode..style.fill = 'rgb(105, 205, 51)';
-            for(var j =0; j < selecteddom.length; j++) {
-                var y = parseInt(selecteddom[j].style.top, 10);
-                selecteddom[j].style.top = y - 10 + 'px';
-                console.log(1);
-            }
-
-        } else if (e.keyCode == '40') {
-            // down arrow
-            // targetdom.style.fill = 'rgb(105, 205, 51)';
-            for(var j =0; j < selecteddom.length; j++) {
-                var y = parseInt(selecteddom[j].style.top, 10);
-                selecteddom[j].style.top = y + 10 + 'px';
-            }
-
-        } else if (e.keyCode == '37') {
-            // left arrow
-            // targetdom.style.fill = 'rgb(105, 205, 51)';
-            for(var j =0; j < selecteddom.length; j++) {
-                var x = parseInt(selecteddom[j].style.left, 10);
-                selecteddom[j].style.left = x - 10 + 'px';
-            }
-
-        } else if (e.keyCode == '39') {
-            // right arrow
-            // targetdom.style.fill = 'rgb(105, 205, 51)';
-            for(var j =0; j < selecteddom.length; j++) {
-                var x = parseInt(selecteddom[j].style.left, 10);
-                selecteddom[j].style.left = x + 10 + 'px';
-            }
-
-        } else if (e.keyCode == '8') {
-            // delete
-            for(var j =0; j < selecteddom.length; j++) {
-                selecteddom[j].parentNode.removeChild(selecteddom[j]);
-            }
-        }
-    }
-    document.addEventListener('keydown', keyfunc);
-
-
-
-    document.addEventListener('keyup', function(ee) {
-    });
-
 };
+
+
+Shapes.prototype._move = function(arrow) {
+    var dom = this.outerdom;
+    var x = parseInt(dom.style.left, 10);
+    var y = parseInt(dom.style.top, 10);
+    if (arrow === 'up') {
+        // up arrow
+        dom.style.top = y - 10 + 'px';
+
+    } else if (arrow === 'down') {
+        // down arrow
+        dom.style.top = y + 10 + 'px';
+
+    } else if (arrow === 'left') {
+        // left arrow
+        dom.style.left = x - 10 + 'px';
+
+    } else if (arrow === 'right') {
+        // right arrow
+        dom.style.left = x + 10 + 'px';
+
+    } else if (arrow === 'delete') {
+        // delete
+        dom.parentNode.removeChild(dom);
+    }
+}
