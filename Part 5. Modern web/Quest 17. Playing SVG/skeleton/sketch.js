@@ -41,6 +41,15 @@ System.prototype._bindEvents = function() {
     // create mousewindowdom
     this.sketchboard.contentdom.addEventListener('mousedown', function(e) {
         that.isMouseDown = true;
+
+        var selectedom = document.querySelectorAll('.selected');
+        if(selectedom.length !== 0) {
+            for(var i = 0; i < selectedom.length; i++) {
+                selectedom[i].classList.remove('selected');
+            }
+        }
+
+
         that.selectwindowdom = new Shapes('drag');
         that.sketchboard.contentdom.appendChild(that.selectwindowdom.selectwindow);
 
@@ -51,6 +60,7 @@ System.prototype._bindEvents = function() {
     });
 
     this.sketchboard.contentdom.addEventListener('mousemove', function(e) {
+
         if(that.isMouseDown) {
             var diff = [
 				e.clientX - that.mouseCoord[0],
@@ -63,12 +73,14 @@ System.prototype._bindEvents = function() {
         }
     });
 
-    that.sketchboard.contentdom.addEventListener('mouseup', function() {
+    that.sketchboard.contentdom.addEventListener('mouseup', function(e) {
         that.isMouseDown = false;
+        var mouseupCoord = [e.clientX, e.clientY];
+        var mouseX = mouseupCoord[0] - 10;
+        var mouseY = mouseupCoord[1] - 60;
 
-
-        // var selecteddom =
         var allouterdom = document.querySelectorAll('.outerdom');
+        // console.log(mouseX, mouseY);
 
         var dragX = parseInt(that.selectwindowdom.selectwindow.style.left, 10);
         var dragY = parseInt(that.selectwindowdom.selectwindow.style.top, 10);
@@ -77,7 +89,6 @@ System.prototype._bindEvents = function() {
         var dragR = dragX + dragW;
         var dragB = dragY + dragH;
         // console.log('left:' + dragX + ' top:' + dragY + ' R:' + dragR + ' B:' + dragB);
-
         for(var i = 0; i < allouterdom.length; i++) {
             var outerdomX = parseInt(allouterdom[i].style.left, 10);
             var outerdomY = parseInt(allouterdom[i].style.top, 10);
@@ -85,8 +96,10 @@ System.prototype._bindEvents = function() {
             var outerdomB = outerdomY + 70;
             // console.log('left:' + outerdomX + ' top:' + outerdomY + ' R:' + outerdomR + ' B:' + outerdomB);
 
+            if (outerdomX < mouseX && mouseX < outerdomR && outerdomY < mouseY && mouseY < outerdomB) {
+                allouterdom[i].classList.add('selected');
+            }
             if(dragX < outerdomX && dragY < outerdomY && dragR > outerdomR && dragB > outerdomB) {
-                // console.log(allouterdom[i]);
                 allouterdom[i].classList.add('selected');
             }
         }
@@ -240,43 +253,33 @@ Shapes.prototype._setDom = function() {
     // selectwindow
     this.selectwindow = document.createElement('div');
     this.selectwindow.classList.add('selectwindow');
-    // var x = event.clientX;
-    // var y = event.clientY;
-    // this.selectwindow.style.top = y - 60 + 'px';
-    // this.selectwindow.style.left = x  - 10 + 'px';
-
 };
 
 Shapes.prototype._bindEvents = function() {
     var that = this;
 
-    // console.log(this.outerdom);
     // this.outerdom.addEventListener('click', function(e) {
-    //     console.log('Hi');
-    //     var selecteddom = document.querySelectorAll('selected');
-    //     console.log(selecteddom);
-    //     for(var i = 0; i < selecteddom.length; i++) {
-    //         var targetdom = selecteddom[i].querySelector('svgdom');
-    //         console.log(targetdom);
+    //     console.log(2);
+    //     var selecteddom = document.querySelectorAll('.selected');
+    //     if(selectedom !== null) {
+    //         for(var i = 0; i < selecteddom.length; i++) {
+    //             selecteddom[i].classList.remove('selected');
+    //         }
     //     }
+    //     this.classList.add('selected');
     // });
 
-    document.addEventListener('keydown', function(e) {
+    var keyfunc = function(e) {
         var selecteddom = document.querySelectorAll('.selected');
-        // console.log(selecteddom);
-        // for(var i = 0; i < selecteddom.length; i++) {
-        //     var targetdom = selecteddom[i].querySelector('.svgdom');
-        //     // console.log(targetdom);
-        // }
-
         var keyCode = e.keyCode;
 
         if (e.keyCode == '38') {
-            // up arrow
-            // targetdom.style.fill = 'rgb(105, 205, 51)';
+                // up arrow
+                // selecteddom.childNode..style.fill = 'rgb(105, 205, 51)';
             for(var j =0; j < selecteddom.length; j++) {
                 var y = parseInt(selecteddom[j].style.top, 10);
                 selecteddom[j].style.top = y - 10 + 'px';
+                console.log(1);
             }
 
         } else if (e.keyCode == '40') {
@@ -286,8 +289,6 @@ Shapes.prototype._bindEvents = function() {
                 var y = parseInt(selecteddom[j].style.top, 10);
                 selecteddom[j].style.top = y + 10 + 'px';
             }
-            // var y = parseInt(targetdom.parentNode.parentNode.style.top, 10);
-            // targetdom.parentNode.parentNode.style.top = y + 10 + 'px';
 
         } else if (e.keyCode == '37') {
             // left arrow
@@ -296,8 +297,6 @@ Shapes.prototype._bindEvents = function() {
                 var x = parseInt(selecteddom[j].style.left, 10);
                 selecteddom[j].style.left = x - 10 + 'px';
             }
-            // var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
-            // targetdom.parentNode.parentNode.style.left = x - 10 + 'px';
 
         } else if (e.keyCode == '39') {
             // right arrow
@@ -306,30 +305,19 @@ Shapes.prototype._bindEvents = function() {
                 var x = parseInt(selecteddom[j].style.left, 10);
                 selecteddom[j].style.left = x + 10 + 'px';
             }
-            // var x = parseInt(targetdom.parentNode.parentNode.style.left, 10);
-            // targetdom.parentNode.parentNode.style.left = x + 10 + 'px';
 
         } else if (e.keyCode == '8') {
             // delete
-            console.log(targetdom);
-            // targetdom.parentNode.removeChild(targetdom);
+            for(var j =0; j < selecteddom.length; j++) {
+                selecteddom[j].parentNode.removeChild(selecteddom[j]);
+            }
         }
+    }
+    document.addEventListener('keydown', keyfunc);
 
-    });
+
 
     document.addEventListener('keyup', function(ee) {
-        // var targetdom = document.getElementById('selected');
-        // targetdom.style.fill = 'green';
     });
 
-    // this.mousewindow.addEventListener('');
-
 };
-
-
-// key code
-// delete: 8
-// left: 0x25 (37)
-// right: 0x27 (39)
-// down: 0x28 (40)
-// up: 0x26 (38)
