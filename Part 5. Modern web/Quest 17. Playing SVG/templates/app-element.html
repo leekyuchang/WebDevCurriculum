@@ -20,7 +20,7 @@
 
         </style>
         <div class="system">
-            <top-element></top-element>
+            <top-element numbers="{{numbers::value-changed}}"></top-element>
             <contents-element shapes="{{shapes}}"></contents-element>
             <toolbox-element></toolbox-element>
         </div>
@@ -36,8 +36,14 @@
                 shapes: {
                     type: Array,
                     notify: true,
-                    value: []
+                    value: [],
+                    // observer: '_shapesChanged'
                 },
+
+                numbers: {
+                    type: Number,
+                    value: 0
+                }
             },
 
             listeners: {
@@ -48,26 +54,35 @@
 
             ready: function() {
                 var that = this;
-
             },
 
             createC: function(e) {
                 var circlesvg = document.createElement("circle-element");
                 this.shapes.push(circlesvg);
+                this.numbers = this.shapes.length;
                 this.$$("contents-element").querySelector(".contents").appendChild(circlesvg);
             },
 
             createS: function(e) {
                 var squaresvg = document.createElement("square-element");
                 this.shapes.push(squaresvg);
+                this.numbers = this.shapes.length;
                 this.$$("contents-element").querySelector(".contents").appendChild(squaresvg);
             },
 
             createT: function(e) {
                 var trianglesvg = document.createElement("triangle-element");
                 this.shapes.push(trianglesvg);
+                this.numbers = this.shapes.length;
                 this.$$("contents-element").querySelector(".contents").appendChild(trianglesvg);
-            }
+            },
+
+            // _shapesChanged: function() {
+            //     this.numbers = this.shapes.length;
+            //     console.log(this.shapes.length);
+            //     console.log(this.numbers);
+            // }
+
         });
 
     </script>
