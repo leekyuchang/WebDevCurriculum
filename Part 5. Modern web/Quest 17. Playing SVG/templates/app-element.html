@@ -43,8 +43,7 @@
             listeners: {
                 "createCircle": "createC",
                 "createSquare": "createS",
-                "createTriangle": "createT",
-                "KEYDOWN": "moveSVG"
+                "createTriangle": "createT"
             },
 
             ready: function() {
@@ -68,12 +67,7 @@
                 var trianglesvg = document.createElement("triangle-element");
                 this.shapes.push(trianglesvg);
                 this.$$("contents-element").querySelector(".contents").appendChild(trianglesvg);
-            },
-
-            moveSVG: function(e) {
-                var keyCode = e.keyCode;
-
-            },
+            }
         });
 
     </script>
