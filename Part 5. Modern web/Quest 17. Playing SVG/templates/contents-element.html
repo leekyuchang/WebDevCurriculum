@@ -35,8 +35,9 @@
 
                 shapes: {
                     type: Array,
-                    notify: true,
-                    value: []
+                    // notify: true,
+                    value: [],
+                    observer: "_shapesChanged"
                 },
 
                 selectedShapes: {
@@ -191,6 +192,11 @@
                 this.position.top = 0;
                 this.position.bottom = 0;
 
+            },
+
+            _shapesChanged: function() {
+                this.cshapes = this.shapes;
+                console.log(this.shapes);
             }
 
         });

@@ -20,7 +20,7 @@
 
         </style>
         <div class="system">
-            <top-element numbers="{{numbers::value-changed}}"></top-element>
+            <top-element numbers="{{numbers}}"></top-element>
             <contents-element shapes="{{shapes}}"></contents-element>
             <toolbox-element></toolbox-element>
         </div>
@@ -77,11 +77,7 @@
                 this.$$("contents-element").querySelector(".contents").appendChild(trianglesvg);
             },
 
-            // _shapesChanged: function() {
-            //     this.numbers = this.shapes.length;
-            //     console.log(this.shapes.length);
-            //     console.log(this.numbers);
-            // }
+
 
         });
 

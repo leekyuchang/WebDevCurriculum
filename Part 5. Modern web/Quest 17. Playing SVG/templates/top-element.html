@@ -37,7 +37,7 @@
         </style>
         <div class="top">
             <div class="topdom">Sketchboard</div>
-            <div class="currentsvg" numbers="{{numbers}}"></div>
+            <div class="currentsvg"></div>
         </div>
 
     </template>
@@ -51,13 +51,19 @@
 
                 numbers: {
                     type: Number,
+                    observer: "_numbersChanged"
                 }
 
             },
 
             ready: function() {
                 // this.$$(".currentsvg").innerHTML = "Current SVG: " + this.numbers;
+            },
+
+            _numbersChanged: function() {
+                this.$$(".currentsvg").innerHTML = "Current SVG: " + this.numbers;
             }
+
         });
 
     </script>
