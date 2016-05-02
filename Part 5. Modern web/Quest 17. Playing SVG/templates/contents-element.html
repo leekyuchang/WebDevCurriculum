@@ -1,0 +1,199 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shapes/dragwindow-element.html">
+
+<dom-module id="contents-element">
+    <template>
+
+        <style>
+            :host .contents {
+                position: absolute;;
+                top: 100px;
+                left: 0;
+                width: 600px;
+                height: 500px;
+                background-color: #EAEAEA;
+            }
+
+            div:focus {
+                outline: none
+            }
+
+        </style>
+
+        <div class="contents" on-keydown="keydownfunction" tabindex="0" on-down="dragstart" on-track="dragging" on-up="dragstop">
+            <dragwindow-element></dragwindow-element>
+        </div>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "contents-element",
+
+            properties: {
+
+                shapes: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                },
+
+                selectedShapes: {
+                    type: Array,
+                    value: []
+                },
+
+                position: {
+                    type: Object,
+                    value: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                },
+
+                drag: {
+                    type: Object,
+                    value: {
+                        x: 0,
+                        y: 0,
+                        state: false
+                    }
+                },
+
+                diff: {
+                    type: Object,
+                    value: {
+                        x: 0,
+                        y: 0
+                    }
+                },
+            },
+
+            ready: function() {
+                this.$$(".contents").focus();
+
+                this.dom = this.$$("dragwindow-element").querySelector(".dragwindow");
+                this.dom.style.display = "none";
+            },
+
+            keydownfunction: function(e) {
+                this.fire("KEYDOWN");
+            },
+
+            dragstart: function(e) {
+                if(!this.drag.state) {
+                    this.drag.state = true;
+
+                    for(var i =0; i < this.shapes.length; i++) {
+                        this.shapes[i].querySelector(".outerdom").classList.remove("selected");
+                        this.shapes[i].selected = false;
+
+                    }
+                    if(this.selectedShapes.length> 0) {
+                        this.selectedShapes.splice(0,this.selectedShapes.length);
+                    }
+
+                    this.dom.style.display = "block";
+                    this.dom.style.left = e.detail.x -10 + "px";
+                    this.dom.style.top = e.detail.y - 110 + "px";
+                    this.drag.x = e.detail.x;
+                    this.drag.y = e.detail.y;
+
+                    this.position.left = e.detail.x -10;
+                    this.position.top = e.detail.y - 110;
+                }
+                return false;
+            },
+
+            dragging: function(e) {
+                if (this.drag.state) {
+
+                    this.diff.x = e.detail.x - this.drag.x;
+                    this.diff.y = e.detail.y - this.drag.y;
+                    this.dom.style.width = this.diff.x + "px";
+                    this.dom.style.height = this.diff.y + "px";
+                }
+            },
+
+            dragstop: function(e) {
+                var that = this;
+                if (this.drag.state) {
+                    this.drag.state = false;
+                    this.position.right = this.position.left + this.diff.x;
+                    this.position.bottom  = this.position.top + this.diff.y;
+
+                    var left = this.position.left;
+                    var right = this.position.right;
+                    var top = this.position.top;
+                    var bottom = this.position.bottom;
+
+                    for(var i = 0; i < this.shapes.length; i++) {
+                        var dleft = parseInt(this.shapes[i].querySelector(".outerdom").style.left, 10);
+                        var dtop = parseInt(this.shapes[i].querySelector(".outerdom").style.top, 10);
+                        var dright = parseInt(dleft, 10) + 70;
+                        var dbottom = parseInt(dtop, 10) + 70;
+
+                        if((left < dleft && right > dright && top < dtop && bottom > dbottom) ||
+                        (left > dleft && right < dright && top > dtop && bottom < dbottom)) {
+                            this.shapes[i].querySelector(".outerdom").classList.add("selected");
+                            this.selectedShapes.push(this.shapes[i]);
+
+                        }
+                    }
+                    // init properties
+                    this.initproperties();
+                }
+            },
+
+            keydownfunction: function(e) {
+                var keyCode = e.keyCode;
+                if(this.selectedShapes.length > 0) {
+                    for(var i = 0; i < this.selectedShapes.length; i++) {
+                        this.selectedShapes[i].selected = true;
+                        var s = this.selectedShapes[i]
+                        if(keyCode == '38') {
+                            s._move('up');
+                        } else if (keyCode == '40') {
+                            // down arrow
+                            s._move('down');
+                        } else if (keyCode == '37') {
+                            // left arrow
+                            s._move('left');
+                        } else if (keyCode == '39') {
+                            // right arrow
+                            s._move('right');
+                        } else if (keyCode == '16') {
+                            // delete
+                            s._move('delete');
+                        }
+                    }
+                }
+
+            },
+
+            initproperties: function() {
+                // init this.dom.style
+                this.dom.style.display = "none";
+                this.dom.style.width = 0;
+                this.dom.style.height = 0;
+
+                // init properties
+                this.drag.x = 0;
+                this.drag.y = 0;
+                this.diff.x = 0;
+                this.diff.y = 0;
+
+                this.position.left = 0;
+                this.position.right = 0;
+                this.position.top = 0;
+                this.position.bottom = 0;
+
+            }
+
+        });
+
+    </script>
+</dom-module>

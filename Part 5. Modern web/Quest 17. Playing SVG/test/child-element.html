@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="child-element">
+    <template>
+
+        <style>
+
+        </style>
+        child<input type="text" value="{{obj.name::input}}"><br />
+        child<div>{{obj.name}}</div>
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "child-element",
+
+            properties: {
+                obj: {
+                    type: Object,
+                    notify: true
+                }
+            },
+
+            ready: function() {
+
+            },
+
+
+
+        });
+
+    </script>
+</dom-module>

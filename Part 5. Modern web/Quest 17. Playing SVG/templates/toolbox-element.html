@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="circlebtn-element.html">
+<link rel="import" href="squarebtn-element.html">
+<link rel="import" href="trianglebtn-element.html">
+
+<dom-module id="toolbox-element">
+    <template>
+
+        <style>
+            .toolbox {
+
+                position: absolute;
+                top: 600px;
+                left: 0;
+                width: 600px;
+                height: 150px;
+                background-color: #44BE5E;
+
+            }
+
+            .btns {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+        </style>
+        <div class="toolbox">
+            <div class="btns">
+                <circlebtn-element></circlebtn-element>
+                <squarebtn-element></squarebtn-element>
+                <trianglebtn-element></trianglebtn-element>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "toolbox-element"
+
+            // ready: function() {
+            //     var that = this;
+            // }
+
+        });
+
+    </script>
+</dom-module>

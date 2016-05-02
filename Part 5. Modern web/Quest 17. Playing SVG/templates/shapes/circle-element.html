@@ -1,0 +1,95 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<dom-module id="circle-element">
+    <template>
+
+        <style>
+
+        .outerdom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 70px;
+            height: 70px;
+        }
+
+        </style>
+        <div class="outerdom circle">
+            <svg width="70" height="70">
+                <circle cx="35" cy="35" r="35" fill="green" />
+            </svg>
+        </div>
+    </template>
+
+    <script>
+
+        Polymer({
+
+            is: "circle-element",
+
+            properties: {
+                selected: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+
+            position: {
+                type: Object,
+                notify: true,
+                value: {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                }
+            },
+
+            ready: function() {
+                var that = this;
+                this.selected = false;
+
+                var position = [
+                    Math.floor(Math.random()*(600-70)),
+                    Math.floor(Math.random()*(500-70))
+            	];
+                var outerdom = this.$$(".outerdom");    /// [!!!!] direct element style 방법 찾기
+                outerdom.style.left = position[0] + "px";
+                outerdom.style.top = position[1] + "px";
+
+                this.position.left = position[0];
+                this.position.right = position[0] + 70;
+                this.position.top = position[1];
+                this.position.bottom = position[1] + 70;
+            },
+
+            _move: function(arrow) {
+                var dom = this.$$(".outerdom");
+                var x = parseInt(dom.style.left, 10);
+                var y = parseInt(dom.style.top, 10);
+                switch(arrow){
+                    case "up":
+                        dom.style.top = y - 10 + 'px';
+                        break;
+                    case "down":
+                        dom.style.top = y + 10 + 'px';
+                        break;
+                    case "left":
+                        dom.style.left = x - 10 + 'px';
+                        break;
+                    case "right":
+                        dom.style.left = x + 10 + 'px';
+                        break;
+                    case "delete":
+                        Polymer.dom(this.root).removeChild(dom);
+                        break;
+                }
+            },
+
+        });
+
+
+
+    </script>
+</dom-module>
