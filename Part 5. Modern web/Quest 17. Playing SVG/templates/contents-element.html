@@ -1,6 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shapes/dragwindow-element.html">
 
+<link rel="import" href="shapes/circle-element.html">
+<link rel="import" href="shapes/square-element.html">
+<link rel="import" href="shapes/triangle-element.html">
+<link rel="import" href="toolbox-element.html">
+
 <dom-module id="contents-element">
     <template>
 
@@ -23,6 +28,8 @@
         <div class="contents" on-keydown="keydownfunction" tabindex="0" on-down="dragstart" on-track="dragging" on-up="dragstop">
             <dragwindow-element></dragwindow-element>
         </div>
+        <toolbox-element></toolbox-element>
+
 
     </template>
 
@@ -35,14 +42,13 @@
 
                 shapes: {
                     type: Array,
-                    // notify: true,
                     value: [],
-                    observer: "_shapesChanged"
                 },
 
-                selectedShapes: {
-                    type: Array,
-                    value: []
+                numbers: {
+                    type: Number,
+                    value: 0,
+                    notify: true
                 },
 
                 position: {
@@ -80,21 +86,42 @@
                 this.dom.style.display = "none";
             },
 
-            keydownfunction: function(e) {
-                this.fire("KEYDOWN");
+            listeners: {
+                "createCircle": "createC",
+                "createSquare": "createS",
+                "createTriangle": "createT"
+            },
+
+            createC: function(e) {
+                var circlesvg = document.createElement("circle-element");
+                this.$$(".contents").appendChild(circlesvg);
+                this.shapes.push(circlesvg);
+                this.numbers += 1;
+            },
+
+            createS: function(e) {
+                var squaresvg = document.createElement("square-element");
+                this.$$(".contents").appendChild(squaresvg);
+                this.shapes.push(squaresvg);
+                this.numbers += 1;
+            },
+
+            createT: function(e) {
+                var trianglesvg = document.createElement("triangle-element");
+                this.$$(".contents").appendChild(trianglesvg);
+                this.shapes.push(trianglesvg);
+                this.numbers += 1;
             },
 
             dragstart: function(e) {
+
                 if(!this.drag.state) {
                     this.drag.state = true;
 
+                    // init shapes selected
                     for(var i =0; i < this.shapes.length; i++) {
                         this.shapes[i].querySelector(".outerdom").classList.remove("selected");
                         this.shapes[i].selected = false;
-
-                    }
-                    if(this.selectedShapes.length> 0) {
-                        this.selectedShapes.splice(0,this.selectedShapes.length);
                     }
 
                     this.dom.style.display = "block";
@@ -111,7 +138,6 @@
 
             dragging: function(e) {
                 if (this.drag.state) {
-
                     this.diff.x = e.detail.x - this.drag.x;
                     this.diff.y = e.detail.y - this.drag.y;
                     this.dom.style.width = this.diff.x + "px";
@@ -137,42 +163,64 @@
                         var dright = parseInt(dleft, 10) + 70;
                         var dbottom = parseInt(dtop, 10) + 70;
 
+                        // compare shape, dragwindowdom
                         if((left < dleft && right > dright && top < dtop && bottom > dbottom) ||
                         (left > dleft && right < dright && top > dtop && bottom < dbottom)) {
                             this.shapes[i].querySelector(".outerdom").classList.add("selected");
-                            this.selectedShapes.push(this.shapes[i]);
-
+                            this.shapes[i].selected = true;
                         }
                     }
+
                     // init properties
                     this.initproperties();
                 }
             },
 
             keydownfunction: function(e) {
+                var that = this;
                 var keyCode = e.keyCode;
-                if(this.selectedShapes.length > 0) {
-                    for(var i = 0; i < this.selectedShapes.length; i++) {
-                        this.selectedShapes[i].selected = true;
-                        var s = this.selectedShapes[i]
-                        if(keyCode == '38') {
-                            s._move('up');
-                        } else if (keyCode == '40') {
-                            // down arrow
-                            s._move('down');
-                        } else if (keyCode == '37') {
-                            // left arrow
-                            s._move('left');
-                        } else if (keyCode == '39') {
-                            // right arrow
-                            s._move('right');
-                        } else if (keyCode == '16') {
-                            // delete
-                            s._move('delete');
-                        }
-                    }
-                }
+                var selecteddom = this.shapes.filter(function(s, index) {
+                    return s.selected;
+                });
 
+                switch(keyCode){
+                    case 38:
+                        // up arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('up');
+                        });
+                        break;
+                    case 40:
+                        // down arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('down');
+                        });
+                        break;
+                    case 37:
+                        // left arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('left');
+                        });
+                        break;
+                    case 39:
+                        // right arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('right');
+                        });
+                        break;
+                    case 16:
+
+                        var arr = this.shapes;
+                        var i;
+                        for (i = arr.length - 1; i >= 0; i -= 1) {
+                            if (arr[i].querySelector(".outerdom").classList.contains("selected")) {
+                                this.$$(".contents").removeChild(arr[i]);
+                                arr.splice(i, 1);
+                                this.numbers -= 1;
+                            }
+                        }
+                        break;
+                }
             },
 
             initproperties: function() {
@@ -192,11 +240,6 @@
                 this.position.top = 0;
                 this.position.bottom = 0;
 
-            },
-
-            _shapesChanged: function() {
-                this.cshapes = this.shapes;
-                console.log(this.shapes);
             }
 
         });

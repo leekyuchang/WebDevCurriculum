@@ -1,10 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="top-element.html">
 <link rel="import" href="contents-element.html">
-<link rel="import" href="toolbox-element.html">
-<link rel="import" href="shapes/circle-element.html">
-<link rel="import" href="shapes/square-element.html">
-<link rel="import" href="shapes/triangle-element.html">
+
+
 
 
 <dom-module id="app-element">
@@ -21,8 +19,8 @@
         </style>
         <div class="system">
             <top-element numbers="{{numbers}}"></top-element>
-            <contents-element shapes="{{shapes}}"></contents-element>
-            <toolbox-element></toolbox-element>
+            <contents-element numbers="{{numbers}}"></contents-element>
+
         </div>
 
     </template>
@@ -33,52 +31,15 @@
             is: "app-element",
 
             properties: {
-                shapes: {
-                    type: Array,
-                    notify: true,
-                    value: [],
-                    // observer: '_shapesChanged'
-                },
 
                 numbers: {
-                    type: Number,
-                    value: 0
+                    type: Number
                 }
-            },
-
-            listeners: {
-                "createCircle": "createC",
-                "createSquare": "createS",
-                "createTriangle": "createT"
             },
 
             ready: function() {
                 var that = this;
-            },
-
-            createC: function(e) {
-                var circlesvg = document.createElement("circle-element");
-                this.shapes.push(circlesvg);
-                this.numbers = this.shapes.length;
-                this.$$("contents-element").querySelector(".contents").appendChild(circlesvg);
-            },
-
-            createS: function(e) {
-                var squaresvg = document.createElement("square-element");
-                this.shapes.push(squaresvg);
-                this.numbers = this.shapes.length;
-                this.$$("contents-element").querySelector(".contents").appendChild(squaresvg);
-            },
-
-            createT: function(e) {
-                var trianglesvg = document.createElement("triangle-element");
-                this.shapes.push(trianglesvg);
-                this.numbers = this.shapes.length;
-                this.$$("contents-element").querySelector(".contents").appendChild(trianglesvg);
-            },
-
-
-
+            }
         });
 
     </script>
