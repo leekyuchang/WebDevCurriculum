@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<dom-module id="dragwindow-element">
+    <template>
+
+        <style>
+
+        .dragwindow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: dotted;
+            border-width: 1px;
+        }
+
+        </style>
+        <div class="dragwindow"></div>
+    </template>
+
+    <script>
+
+        Polymer({
+
+            is: "dragwindow-element",
+            //
+            properties: {
+                position: {
+                    type: Object,
+                    value: {
+                        width: 0,
+                        height: 0,
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        botton: 0
+                    }
+                }
+            },
+
+            ready: function() {
+                var that = this;
+                // this.$$(".dragwindow").style.width = this.widthW + "px";
+                // this.$$(".dragwindow").style.width = this.heightH + "px";
+            }
+
+        });
+
+
+
+    </script>
+</dom-module>

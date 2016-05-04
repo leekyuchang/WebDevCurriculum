@@ -1,0 +1,44 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+
+<dom-module id="squarebtn-element">
+    <template>
+
+        <style>
+
+            button {
+                background-color: #389F49;
+                border: 3px solid #FCFCFC;
+                color: #FCFCFC;
+                width: 120px;
+                height: 50px;
+                text-decoration: none;
+                font-size: 20px;
+                padding: 0;
+                margin: 10px;
+            }
+
+        </style>
+
+        <button class="squarebtn" on-down="createSquarebtn">Square</button>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "squarebtn-element",
+
+
+            ready: function() {
+                var that = this;
+            },
+
+            createSquarebtn: function() {
+                this.fire("createSquare");
+            }
+
+        });
+
+    </script>
+</dom-module>

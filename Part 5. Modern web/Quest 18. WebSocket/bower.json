@@ -1,0 +1,20 @@
+{
+  "name": "Quest 18. WebSocket",
+  "description": "",
+  "main": "",
+  "authors": [
+    "leekyuchang <kyuchang90@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/leekyuchang/WebDevCurriculum",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  }
+}

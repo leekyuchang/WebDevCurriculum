@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="top-element">
+    <template>
+
+        <style>
+            :host .top {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 600px;
+                height: 100px;
+                background-color: #44BE5E;
+            }
+
+            .topdom {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+
+                font-size: 46px;
+                height: 100px;
+                line-height: 100px;
+                color: #FCFCFC;
+                text-align: center;
+            }
+
+            .currentsvg {
+                position: absolute;
+                bottom: 0;
+                right: 16px;
+                font-size: 16px;
+                color: #FCFCFC;
+            }
+
+            .currentconnect {
+                position: absolute;
+                bottom: 0;
+                left: 16px;
+                font-size: 16px;
+                color: #FCFCFC;
+            }
+
+        </style>
+        <div class="top">
+            <div class="topdom">Sketchboard</div>
+            <div class="currentsvg"></div>
+            <div class="currentconnect"></div>
+        </div>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "top-element",
+
+            properties: {
+
+                numbers: {
+                    type: Number,
+                    observer: "_numbersChanged"
+                },
+
+                roomnumbers: {
+                    type: Number,
+                    observer: "_roomnumbersChanged"
+                }
+            },
+
+            ready: function() {
+            },
+
+            _numbersChanged: function() {
+                this.$$(".currentsvg").innerHTML = "Current SVG: " + this.numbers;
+            },
+
+            _roomnumbersChanged: function() {
+                this.$$(".currentconnect").innerHTML = "Current Room: " + this.roomnumbers;
+            }
+
+        });
+
+    </script>
+</dom-module>

@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="top-element.html">
+<link rel="import" href="contents-element.html">
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+
+<dom-module id="app-element">
+    <template>
+
+        <style>
+            :host .system {
+                position: relative;;
+                width: 600px;
+                height: 800px;
+                background-color: #EAEAEA;
+            }
+
+        </style>
+        <div class="system">
+            <top-element numbers="{{numbers}}" roomnumbers="{{roomnumbers}}"></top-element>
+            <contents-element numbers="{{numbers}}" roomnumbers="{{roomnumbers}}"></contents-element>
+        </div>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "app-element",
+
+            properties: {
+
+                numbers: {
+                    type: Number
+                },
+
+                roomnumbers: {
+                    type: Number,
+                }
+            },
+
+            ready: function() {
+                var that = this;
+
+            },
+
+        });
+
+    </script>
+</dom-module>

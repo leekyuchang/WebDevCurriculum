@@ -1,0 +1,44 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+
+<dom-module id="trianglebtn-element">
+    <template>
+
+        <style>
+
+            button {
+                background-color: #389F49;
+                border: 3px solid #FCFCFC;
+                color: #FCFCFC;
+                width: 120px;
+                height: 50px;
+                text-decoration: none;
+                font-size: 20px;
+                padding: 0;
+                margin: 10px;
+            }
+
+        </style>
+
+        <button class="trianglebtn" on-down="createTrianglebtn">Triangle</button>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "trianglebtn-element",
+
+
+            ready: function() {
+                var that = this;
+            },
+
+            createTrianglebtn: function() {
+                this.fire("createTriangle");
+            }
+
+        });
+
+    </script>
+</dom-module>

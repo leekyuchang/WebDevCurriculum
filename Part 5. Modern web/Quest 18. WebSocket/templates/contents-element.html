@@ -1,0 +1,414 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shapes/dragwindow-element.html">
+
+<link rel="import" href="shapes/circle-element.html">
+<link rel="import" href="shapes/square-element.html">
+<link rel="import" href="shapes/triangle-element.html">
+<link rel="import" href="toolbox-element.html">
+
+<dom-module id="contents-element">
+    <template>
+
+        <style>
+            :host .contents {
+                position: absolute;;
+                top: 100px;
+                left: 0;
+                width: 600px;
+                height: 500px;
+                background-color: #EAEAEA;
+            }
+
+            .joinroom {
+                position: absolute;;
+                top: 750px;
+                left: 0;
+                width: 600px;
+                height: 50px;
+                background-color: #EAEAEA;
+            }
+
+            div:focus {
+                outline: none
+            }
+
+        </style>
+
+        <div class="contents" on-keydown="keydownfunction" tabindex="0" on-down="dragstart" on-track="dragging" on-up="dragstop">
+            <dragwindow-element></dragwindow-element>
+        </div>
+        <toolbox-element id="circlebtn"></toolbox-element>
+        <div class="joinroom">
+            <input type="text" class="roomnumber">
+            <button class="roombtn" on-down="joinRoom">Join</button>
+        </div>
+
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: "contents-element",
+
+            properties: {
+
+                shapes: {
+                    type: Array,
+                    value: [],
+                },
+
+                numbers: {
+                    type: Number,
+                    value: 0,
+                    notify: true
+                },
+
+                roomnumbers: {
+                    type: Number,
+                    value: 0,
+                    notify: true
+                },
+
+                position: {
+                    type: Object,
+                    value: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                },
+
+                drag: {
+                    type: Object,
+                    value: {
+                        x: 0,
+                        y: 0,
+                        state: false
+                    }
+                },
+
+                diff: {
+                    type: Object,
+                    value: {
+                        x: 0,
+                        y: 0
+                    }
+                },
+            },
+
+            ready: function() {
+                var that = this;
+                this.$$(".contents").focus();
+
+                this.dom = this.$$("dragwindow-element").querySelector(".dragwindow");
+                this.dom.style.display = "none";
+
+
+                ////// Socket.io Start //////
+                this.socket = io();
+                this.socket.connect('http://localhost:8080');
+                this.socket.on('connect', function(data) {
+                    that.socket.emit('join', "Hello server from client");
+                });
+
+                this.socket.on('create', function(data) {
+                    switch(data.name){
+                        case "circle-element":
+                            that.createC(null, data);
+                            break;
+                        case "square-element":
+                            that.createS(null, data);
+                            break;
+                        case "triangle-element":
+                            that.createT(null, data);
+                            break;
+                    }
+                });
+
+                this.socket.on('select', function(data) {
+                    for(var i = 0; i < that.shapes.length; i++) {
+                        var n = data[i];
+                        if(n !== undefined) {
+                            that.shapes[n].querySelector(".outerdom").classList.add("selected");
+                            that.shapes[n].selected = true;
+                        }
+                    }
+                });
+
+                this.socket.on('unselect', function(data) {
+                    for(var i = 0; i < that.shapes.length; i++) {
+                        that.shapes[i].querySelector(".outerdom").classList.remove("selected");
+                        that.shapes[i].selected = false;
+                    }
+                });
+
+                this.socket.on('move', function(data) {
+                    that.keydownfunction(null, data);
+                });
+
+                ////// Socket.io End //////
+
+            },
+
+            listeners: {
+                "createCircle": "createC",
+                "createSquare": "createS",
+                "createTriangle": "createT"
+            },
+
+            joinRoom: function() {
+                var data = {
+                    id: this.socket.id,
+                    roomnum: this.$$(".roomnumber").value
+                }
+                this.roomnumbers = data.roomnum;
+                this.socket.emit("joinroom", data);
+                this.$$(".joinroom").style.display = "none";
+            },
+
+            createC: function(e, socketData) {
+                var circlesvg = document.createElement("circle-element");
+                this.$$(".contents").appendChild(circlesvg);
+                this.shapes.push(circlesvg);
+                this.numbers += 1;
+                var data = {
+                    name: "circle-element",
+                    roomnum: this.roomnumbers,
+                    id: this.socket.id,
+                    position: {
+                        left: circlesvg.pos.left,
+                        right: circlesvg.pos.right,
+                        top: circlesvg.pos.top,
+                        bottom: circlesvg.pos.bottom
+                    }
+                }
+                if (socketData.id === undefined) {
+                    this.socket.emit("createShape", data);
+
+                }
+                if (socketData.id !== undefined && socketData.id !== this.socket.id) {
+                    var outerdom = circlesvg.querySelector(".outerdom");
+                    outerdom.style.left = socketData.position.left + "px";
+                    outerdom.style.top = socketData.position.top + "px";
+                    // circlesvg.pos.left = socketData.position.left;
+                    // circlesvg.pos.top = socketData.position.top;
+                }
+            },
+
+            createS: function(e, socketData) {
+                var squaresvg = document.createElement("square-element");
+                this.$$(".contents").appendChild(squaresvg);
+                this.shapes.push(squaresvg);
+                this.numbers += 1;
+
+                var data = {
+                    name: "square-element",
+                    roomnum: this.roomnumbers,
+                    id: this.socket.id,
+                    position: {
+                        left: squaresvg.pos.left,
+                        right: squaresvg.pos.right,
+                        top: squaresvg.pos.top,
+                        bottom: squaresvg.pos.bottom
+                    }
+                }
+                if (socketData.id === undefined) {
+                    this.socket.emit("createShape", data);
+
+                }
+                if (socketData.id !== undefined && socketData.id !== this.socket.id) {
+                    var outerdom = squaresvg.querySelector(".outerdom");
+                    outerdom.style.left = socketData.position.left + "px";
+                    outerdom.style.top = socketData.position.top + "px";
+                }
+
+            },
+
+            createT: function(e, socketData) {
+                var trianglesvg = document.createElement("triangle-element");
+                this.$$(".contents").appendChild(trianglesvg);
+                this.shapes.push(trianglesvg);
+                this.numbers += 1;
+
+                var data = {
+                    name: "triangle-element",
+                    roomnum: this.roomnumbers,
+                    id: this.socket.id,
+                    position: {
+                        left: trianglesvg.pos.left,
+                        right: trianglesvg.pos.right,
+                        top: trianglesvg.pos.top,
+                        bottom: trianglesvg.pos.bottom
+                    }
+                }
+                if (socketData.id === undefined) {
+                    this.socket.emit("createShape", data);
+
+                }
+                if (socketData.id !== undefined && socketData.id !== this.socket.id) {
+                    var outerdom = trianglesvg.querySelector(".outerdom");
+                    outerdom.style.left = socketData.position.left + "px";
+                    outerdom.style.top = socketData.position.top + "px";
+                }
+            },
+
+            dragstart: function(e) {
+
+                if(!this.drag.state) {
+                    this.drag.state = true;
+
+                    // init shapes selected
+                    for(var i =0; i < this.shapes.length; i++) {
+                        this.shapes[i].querySelector(".outerdom").classList.remove("selected");
+                        this.shapes[i].selected = false;
+                    }
+
+                    this.socket.emit("unselectedShape", "unselected");
+
+                    this.dom.style.display = "block";
+                    this.dom.style.left = e.detail.x -10 + "px";
+                    this.dom.style.top = e.detail.y - 110 + "px";
+                    this.drag.x = e.detail.x;
+                    this.drag.y = e.detail.y;
+
+                    this.position.left = e.detail.x -10;
+                    this.position.top = e.detail.y - 110;
+                }
+                return false;
+            },
+
+            dragging: function(e) {
+                if (this.drag.state) {
+                    this.diff.x = e.detail.x - this.drag.x;
+                    this.diff.y = e.detail.y - this.drag.y;
+                    this.dom.style.width = this.diff.x + "px";
+                    this.dom.style.height = this.diff.y + "px";
+                }
+            },
+
+            dragstop: function(e) {
+                var that = this;
+                if (this.drag.state) {
+                    this.drag.state = false;
+                    this.position.right = this.position.left + this.diff.x;
+                    this.position.bottom  = this.position.top + this.diff.y;
+
+                    var left = this.position.left;
+                    var right = this.position.right;
+                    var top = this.position.top;
+                    var bottom = this.position.bottom;
+
+                    var num = [];
+
+                    for(var i = 0; i < this.shapes.length; i++) {
+                        var dleft = parseInt(this.shapes[i].querySelector(".outerdom").style.left, 10);
+                        var dtop = parseInt(this.shapes[i].querySelector(".outerdom").style.top, 10);
+                        var dright = parseInt(dleft, 10) + 70;
+                        var dbottom = parseInt(dtop, 10) + 70;
+
+                        // compare shape, dragwindowdom
+                        if((left < dleft && right > dright && top < dtop && bottom > dbottom) ||
+                        (left > dleft && right < dright && top > dtop && bottom < dbottom)) {
+                            this.shapes[i].querySelector(".outerdom").classList.add("selected");
+                            this.shapes[i].selected = true;
+                            num.push(i);
+                        }
+                    }
+
+                    var data = {
+                        nums: num,
+                        roomnum: this.roomnumbers,
+                        id: this.socket.id
+                    };
+
+                    this.socket.emit("selectedShape", data);
+                    // init properties
+                    this.initproperties();
+                }
+            },
+
+
+            keydownfunction: function(e, socketData) {
+                var that = this;
+                if(e !== null) {
+                    var keyCode = e.keyCode;
+                }
+                var selecteddom = this.shapes.filter(function(s) {
+                    return s.selected;
+                });
+
+                var data = {
+                    key: keyCode,
+                    roomnum: this.roomnumbers,
+                    id: this.socket.id
+                };
+                if (socketData.id === undefined) {
+                    this.socket.emit("moveShape", data);
+                }
+
+                switch(keyCode || socketData.key){
+                    case 38:
+                        // up arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('up');
+                        });
+                        break;
+                    case 40:
+                        // down arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('down');
+                        });
+                        break;
+                    case 37:
+                        // left arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('left');
+                        });
+                        break;
+                    case 39:
+                        // right arrow
+                        selecteddom.forEach(function(s) {
+                            s._move('right');
+                        });
+                        break;
+                    case 16:
+
+                        var arr = this.shapes;
+                        var i;
+                        for (i = arr.length - 1; i >= 0; i -= 1) {
+                            if (arr[i].querySelector(".outerdom").classList.contains("selected")) {
+                                this.$$(".contents").removeChild(arr[i]);
+                                arr.splice(i, 1);
+                                this.numbers -= 1;
+                            }
+                        }
+                        break;
+                }
+                // }
+            },
+
+            initproperties: function() {
+                // init this.dom.style
+                this.dom.style.display = "none";
+                this.dom.style.width = 0;
+                this.dom.style.height = 0;
+
+                // init properties
+                this.drag.x = 0;
+                this.drag.y = 0;
+                this.diff.x = 0;
+                this.diff.y = 0;
+
+                this.position.left = 0;
+                this.position.right = 0;
+                this.position.top = 0;
+                this.position.bottom = 0;
+
+            }
+
+        });
+
+    </script>
+</dom-module>
