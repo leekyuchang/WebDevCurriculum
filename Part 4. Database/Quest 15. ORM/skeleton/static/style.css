@@ -4,7 +4,7 @@
 }
 
 #Notepad {
-	width: 800px;
+	width: 850px;
 }
 
 .notepad-inst {
@@ -13,7 +13,7 @@
 
 .notepad-inst .login {
 	display: flex;
-	height: 50px;
+	height: 70px;
 }
 
 .notepad-inst .menu {
