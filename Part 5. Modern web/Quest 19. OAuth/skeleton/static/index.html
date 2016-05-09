@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="/static/notepad.js"></script>
+	<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+	<div id="Notepad">
+	</div>
+
+	<div class="templates" style="display: none;">
+		<div class="notepad-inst">
+			<section class="login"></section>
+			<section class="menu"></section>
+			<section class="tabs"></section>
+			<section class="memo-form"></section>
+		</div>
+
+		<div class="login-inst">
+			<form action="/login" method="POST" class="login-form" style="display: none">
+			        <input type="text" name="username" class="username" placeholder="username">
+			        <input type="password" name="password" class="password" placeholder="Password">
+			        <button type="submit" class="loginbutton">Login</button>
+			</form>
+
+			<form action="/googlelogin" method="GET" class="google-form" style="display: none">
+				<button type="submit" class="googlebtn">Google</button>
+			</form>
+
+			<form action="/join" method="POST" class="join-form" style="display: none">
+				<input type="text" name="username" class="username" placeholder="username">
+				<input type="password" name="password" class="password" placeholder="Password">
+				<button type="submit" class="joinbutton">join</button>
+			</form>
+
+			<form action="/logout" method="POST" class="logout-form" style="display: none">
+			    <button type="submit" class="logoutbutton">Logout</button>
+			</form>
+
+		</div>
+
+		<div class="menu-inst">
+			<button class="new">New</button>
+			<button class="load">Load</button>
+		</div>
+
+		<div class="tab-inst">
+			<span class="name tabname"></span>
+			<button class="close">x</button>
+		</div>
+
+		<div class="memo-form-inst">
+			<input type="text" class="name" />
+			<textarea class="content"></textarea>
+			<button class="save">Save</button>
+		</div>
+	</div>
+
+	<script>
+		var notepad = new Notepad(document.querySelector('#Notepad'));
+	</script>
+</body>
+</html>
