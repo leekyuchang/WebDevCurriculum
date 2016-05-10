@@ -12,9 +12,14 @@ var express = require('express'),
 	app = express();
 
 
-var CLIENT_ID = '1096402756754-sg32a9hupi805a0fic6f3mslafrhmr8j.apps.googleusercontent.com';
-var CLIENT_SECRET = 'lAM8Jda8nc0Cj0zNy-nVudQK';
-var REDIRECT_URL = 'http://localhost:8080/oauth2callback';
+// var CLIENT_ID = '1096402756754-sg32a9hupi805a0fic6f3mslafrhmr8j.apps.googleusercontent.com';
+// var CLIENT_SECRET = 'lAM8Jda8nc0Cj0zNy-nVudQK';
+// var REDIRECT_URL = 'http://localhost:8080/oauth2callback';
+
+var secreteData = JSON.parse(fs.readFileSync(path.join(__dirname, '/secrete/secrete.json'), 'utf-8'));
+var CLIENT_ID = secreteData.CLIENT_ID;
+var CLIENT_SECRET = secreteData.CLIENT_SECRET;
+var REDIRECT_URL = secreteData.REDIRECT_URL;
 
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
