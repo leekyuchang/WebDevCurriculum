@@ -1,0 +1,67 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="weekday-element">
+
+    <template>
+
+        <style>
+            .weekday-outer {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 70px;
+                background-color: rgb(154, 184, 246);
+            }
+
+            .weekday-inner-ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .weekday-inner-li {
+                /*display: inline-block;*/
+                display: list-item;
+                text-align: center;
+                float: left;
+                width: 14.28571%;
+                line-height: 70px;
+                font-size: 20px;
+                color: black;
+
+            }
+
+            .sunday {
+                color: red;
+            }
+
+        </style>
+
+        <div class="weekday-outer">
+            <ul class="weekday-inner-ul">
+                <li class="weekday-inner-li sunday">Sunday</li>
+                <li class="weekday-inner-li monday">Monday</li>
+                <li class="weekday-inner-li tuesday">Tuesday</li>
+                <li class="weekday-inner-li wedenesday">Wedenesday</li>
+                <li class="weekday-inner-li thursday">Thursday</li>
+                <li class="weekday-inner-li friday">Friday</li>
+                <li class="weekday-inner-li saturday">Saturday</li>
+            </ul>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+          is: "weekday-element",
+
+          ready: function() {
+
+          }
+
+
+        });
+    </script>
+
+</dom-module>

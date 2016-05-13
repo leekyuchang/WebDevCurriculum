@@ -1,0 +1,153 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="test-days-element">
+
+    <template>
+
+        <style>
+
+            .daysContainer {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .calendarContents {
+                border-top: 1px solid black;
+                border-right: 1px solid black;
+                width: calc(100%/7 - 1.333px);
+                height: 20%;
+                background-color: rgb(242, 240, 245);
+            }
+
+
+        </style>
+
+        <div class="daysContainer">
+            <template class="daysclass" is="dom-repeat" items="{{days}}">
+                <div class="calendarContents" on-down="showDate">
+                    <span id="nowDate">{{item}}</span>
+                </div>
+            </template>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "test-days-element",
+
+            properties: {
+                dayn: {
+                    type: Number
+                },
+
+                inputYM: {
+                    type: Object,
+                    value: {
+                        year: 2016,
+                        month: 6
+                    }
+                },
+
+                currentYear: {
+                    type: Number,
+                },
+
+                currentMonth: {
+                    type: Number,
+                },
+
+            },
+
+            attached: function() {
+
+            },
+
+            ready: function() {
+
+            },
+
+            calDaysInMonth: function(year, month) {
+                var startDay = new Date(year, month-1, 1);
+                var endDay = new Date(year, month, 1);
+                var cal = (endDay - startDay) / (1000 * 60 * 60 * 24);
+                return cal;
+            },
+
+            setDaysArr: function(arr) {
+                var startW = this.startWeekname(this.year, this.month);
+                var endN = this.calDaysInMonth(this.year, this.month);
+                var endDayName = this.endWeekname(this.year, this.month);
+
+                for(var j = 0; j < startW; j++) {
+                    arr.push(null);
+                }
+                for(var i = 0; i < endN; i++) {
+                    arr.push(i+1);
+                }
+
+                for(var k = endDayName; k < 6; k++) {
+                    arr.push(null);
+                }
+            },
+
+            startWeekname: function(year, month) {
+                var weekName = new Date(year, month - 1, 1);
+                return weekName.getDay();
+            },
+
+            endWeekname: function(year, month) {
+                var weekName = new Date(year, month - 1, this.calDaysInMonth(this.year, this.month));
+                return weekName.getDay();
+            },
+
+
+            observers: [
+                'currentDayChanged(currentYear, currentMonth)'
+            ],
+
+            currentDayChanged: function(currentYear, currentMonth) {
+                this.month = this.currentMonth;
+                this.year = this.currentYear;
+
+                var tmpArr = new Array();
+                this.setDaysArr(tmpArr);
+                this.days = tmpArr;
+
+                var startname = this.startWeekname(this.year, this.month);
+                var totladay = this.calDaysInMonth(this.year, this.month);
+
+                if ( (startname === 5 && totladay > 30) || (startname === 6 && totladay > 29)) {
+                    var nodes = Polymer.dom(this.root).querySelectorAll(".calendarContents");
+                    for (var i = 0; i < nodes.length; i++) {
+                        nodes[i].style.height = "16.6666%";
+                    }
+                }else if (startname === 0 && totladay === 28) {
+                    var nodes = Polymer.dom(this.root).querySelectorAll(".calendarContents");
+                    for (var i = 0; i < nodes.length; i++) {
+                        nodes[i].style.height = "25%";
+                    }
+                } else {
+                    var nodes = Polymer.dom(this.root).querySelectorAll(".calendarContents");
+                    for (var i = 0; i < nodes.length; i++) {
+                        nodes[i].style.height = "20%";
+                    }
+                }
+            },
+
+            showDate: function(e) {
+                if (e.target.innerText !== null) {
+                    console.log(e.target.innerText);
+                }
+            },
+
+        });
+    </script>
+
+</dom-module>

@@ -1,0 +1,55 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="calendar-elements/weekday-element.html">
+<link rel="import" href="calendar-elements/month-element.html">
+<link rel="import" href="calendar-elements/test-month-element.html">
+
+<dom-module id="calendar-layout-element">
+
+    <template>
+
+        <style>
+            .calendar-layout {
+                position: absolute;
+                top: 220px;
+                left: 0;
+                width: 80%;
+                height: calc(100% - 220px);
+                background-color: rgb(255, 238, 189);
+            }
+        </style>
+
+        <div class="calendar-layout">
+            <weekday-element></weekday-element>
+            <!-- <month-element></month-element> -->
+            <test-month-element year="{{year}}" month="{{month}}"></test-month-element>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "calendar-layout-element",
+
+            properties: {
+
+                year: {
+                    type: Number,
+                },
+
+                month: {
+                    type: Number,
+                }
+            },
+
+            attached: function() {
+                // console.log("calendar-layout-element " + this.year, this.month);
+            },
+
+            ready: function() {
+
+            }
+
+        });
+    </script>
+
+</dom-module>

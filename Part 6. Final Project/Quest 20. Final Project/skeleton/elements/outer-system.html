@@ -1,0 +1,64 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="top-element.html">
+<link rel="import" href="toolbox-element.html">
+<link rel="import" href="calendar-layout-element.html">
+<link rel="import" href="todo-layout-element.html">
+
+<dom-module id="outer-system">
+
+    <template>
+
+        <style>
+            :host div {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgb(224, 227, 246);
+            }
+        </style>
+
+        <div>
+            <top-element></top-element>
+            <toolbox-element year="{{year}}" month="{{month}}"></toolbox-element>
+            <calendar-layout-element year="{{year}}" month="{{month}}"></calendar-layout-element>
+            <todo-layout-element></todo-layout-element>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "outer-system",
+
+            properties: {
+
+                year: {
+                    type: Number,
+                },
+
+                month: {
+                    type: Number,
+                }
+            },
+
+            ready: function() {
+                // console.log("outersystem " + this.year, this.month);
+            },
+
+            listeners: {
+                "moveToday": "goToday"
+            },
+
+            goToday: function(e) {
+                var now = new Date();
+                this.year = now.getFullYear();
+                this.month = now.getMonth() + 1;
+            }
+
+
+        });
+    </script>
+
+</dom-module>

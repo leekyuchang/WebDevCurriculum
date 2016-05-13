@@ -1,0 +1,113 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="toolbox-element">
+
+    <template>
+
+        <style>
+            .toolboxContainer {
+                display: flex;
+                flex-direction: row;
+                position: absolute;
+                top: 120px;
+                left: 0;
+                width: 100%;
+                height: 100px;
+                background-color: rgb(158, 227, 255);
+            }
+
+            .moveBtn {
+                position: absolute;
+                top: 15px;
+                left: 170px;
+            }
+
+            button {
+                margin: 0 10px;
+                font-size: 50px;
+            }
+
+            .currentDay {
+                display: flex;
+                margin: 20px 10px;
+                font-size: 50px;
+            }
+
+            .nowYear {
+                margin: 0 5px;
+            }
+
+            .nowMonth {
+                margin: 0 5px;
+            }
+
+
+        </style>
+
+        <div class="toolboxContainer">
+            <div class="currentDay">
+                <div class="nowYear">{{year}}</div>
+                <div class="nowMonth">{{month}}</div>
+            </div>
+            <div class="moveBtn">
+                <button type="button" name="button" class="changeMonthBtn beforeMonth" on-down="beforeMonth"><</button>
+                <button type="button" name="button" class="changeMonthBtn afterMonth"  on-down="afterMonth">></button>
+                <button type="button" name="button" class="changeMonthBtn todayBtn"  on-down="moveToday">Today</button>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "toolbox-element",
+
+        properties: {
+            year: {
+                type: Number,
+                notify: true,
+                // observer: "yearChanged"
+            },
+
+            month: {
+                type: Number,
+                notify: true,
+                // observer: "monthChanged"
+            },
+
+        },
+
+        ready: function() {
+            var now = new Date();
+            this.year = now.getFullYear();
+            this.month = now.getMonth() + 1;
+        },
+
+
+        beforeMonth: function() {
+            if (this.month === 1) {
+                this.month = 12;
+                this.year -= 1;
+            } else {
+                this.month -= 1;
+            }
+        },
+
+
+        afterMonth: function() {
+            if(this.month === 12) {
+                this.month = 1;
+                this.year += 1;
+            } else {
+                this.month += 1;
+            }
+        },
+
+        moveToday: function() {
+            this.fire("moveToday");
+        }
+
+        });
+    </script>
+
+</dom-module>
