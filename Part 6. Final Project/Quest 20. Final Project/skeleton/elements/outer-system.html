@@ -3,13 +3,16 @@
 <link rel="import" href="toolbox-element.html">
 <link rel="import" href="calendar-layout-element.html">
 <link rel="import" href="todo-layout-element.html">
+<link rel="import" href="login-join-elements/login-element.html">
+<link rel="import" href="login-join-elements/join-element.html">
+
 
 <dom-module id="outer-system">
 
     <template>
 
         <style>
-            :host div {
+            :host .systemContainer {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -19,7 +22,7 @@
             }
         </style>
 
-        <div>
+        <div class="systemContainer">
             <top-element></top-element>
             <toolbox-element year="{{year}}" month="{{month}}"></toolbox-element>
             <calendar-layout-element year="{{year}}" month="{{month}}"></calendar-layout-element>
@@ -48,14 +51,27 @@
             },
 
             listeners: {
-                "moveToday": "goToday"
+                "moveToday": "goToday",
+                "clickLoginBtn": "Login",
+                "clickJoinBtn": "Join"
             },
 
             goToday: function(e) {
                 var now = new Date();
                 this.year = now.getFullYear();
                 this.month = now.getMonth() + 1;
+            },
+
+            Login: function() {
+                var loginDom = document.createElement("login-element");
+                this.$$(".systemContainer").appendChild(loginDom);
+            },
+
+            Join: function() {
+
             }
+
+
 
 
         });

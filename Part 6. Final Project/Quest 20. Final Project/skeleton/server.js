@@ -56,13 +56,12 @@ var Todo = sequelize.define('todo', {
     duedate: {
         type: Sequelize.DATE
     },
-    important: {
-        type: Sequelize.ENUM,
-        values: ['low', 'middle', 'high']
-    },
+    // important: {
+    //     type: Sequelize.ENUM,
+    //     values: ['low', 'middle', 'high']
+    // },
     userid: {
         type: Sequelize.INTEGER,
-        // allowNull: false,
         references: { model: User, key: 'userid'}
     }
 });
@@ -76,7 +75,7 @@ app.get('/', function (req, res) {
 });
 
 
-
+// router
 
 
 ///////

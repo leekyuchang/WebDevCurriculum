@@ -1,0 +1,123 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="login-element">
+
+    <template>
+
+        <style>
+            .loginContainer {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba( 0, 0, 0, 0.5 );
+            }
+
+            .loginForm {
+                position: absolute;
+                top: calc(50% - 250px);
+                left: calc(50% - 300px);
+                width: 500px;
+                height: 400px;
+                background-color: rgb(179, 255, 147);
+            }
+
+            .googleForm {
+                position: absolute;
+                top: 30px;
+                left: 100px;
+                width: 300px;
+                height: 70px;
+            }
+
+            .googlebtn {
+                border: none;
+                padding: 0;
+            }
+
+            button {
+                background-color: Transparent;
+                padding: 0;
+                border: none;
+            }
+
+            button:focus {outline:0;}
+
+            .googleImg {
+                width: 300px;
+                height: 70px;
+            }
+
+            .orSpan {
+
+            }
+
+            .loginInputForm {
+                position: absolute;
+                top: 140px;
+                left: 100px;
+
+            }
+
+            .loginInput {
+                margin-bottom: 10px;
+            }
+
+            input[type=text] {
+                width: 300px;
+                height: 60px;
+                border: none;
+            }
+
+            input::-webkit-input-placeholder {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .loginBtn {
+                position: absolute;
+                top: 150px;
+                right: 100px;
+                width: 60px;
+                height: 40px;
+                border: 1px solid black;
+            }
+
+
+        </style>
+
+        <div class="loginContainer">
+            <div class="loginForm">
+
+                <form method="GET" class="googleForm">
+                    <button type="submit" class="googlebtn">
+                        <img src="../../img/google.png" alt="googleLogin" class="googleImg">
+                    </button>
+			    </form>
+
+                <form action="/login" method="POST" class="loginInputForm">
+                    <input type="text" name="idInput" class="loginInput idInput" placeholder="ID">
+                    <input type="text" name="passwordInput" class="loginInput passwordInput" placeholder="PASSWORD">
+                    <button type="submit" class="loginBtn">Login</button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+          is: "login-element",
+
+          ready: function() {
+
+          },
+
+
+        });
+    </script>
+
+</dom-module>

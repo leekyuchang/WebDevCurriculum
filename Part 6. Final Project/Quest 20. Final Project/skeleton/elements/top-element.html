@@ -18,8 +18,19 @@
                 margin-left: 20px;
             }
 
+            .loginJoinBtn {
+                position: absolute;
+                top: 40px;
+                left: 350px;
+            }
+
             h1 {
                 font-size: 3em;
+            }
+
+            button {
+                font-size: 30px;
+                margin: 0 10px;
             }
         </style>
 
@@ -27,13 +38,32 @@
             <div class="appname">
                 <h1>Calendar App</h1>
             </div>
+            <div class="loginJoinBtn">
+                <button class="loginBtn" on-down="login">Login</button>
+                <button class="joinBtn" on-down="join">Join</button>
+            </div>
         </div>
 
     </template>
 
     <script>
         Polymer({
-          is: "top-element",
+            is: "top-element",
+
+            ready: function() {
+
+            },
+
+            login: function() {
+                this.fire("clickLoginBtn");
+            },
+
+            join: function() {
+                this.fire("clickJoinBtn");
+            }
+
+
+
         });
     </script>
 
