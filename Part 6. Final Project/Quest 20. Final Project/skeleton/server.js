@@ -40,7 +40,7 @@ var User = sequelize.define('user', {
     password: {
         type: Sequelize.STRING
     },
-    email: {
+    useremail: {
 		type: Sequelize.STRING
 	}
 });
@@ -48,7 +48,8 @@ var User = sequelize.define('user', {
 var Todo = sequelize.define('todo', {
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+		autoIncrement: true
     },
     todoname: {
         type: Sequelize.STRING
@@ -74,8 +75,151 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+//addtodo
+app.post('/addtodo', function(req, res) {
+	if(req.session.username) {
+		var uname = req.session.username;
+		var uid = req.session.userid;
+		var data = req.body;
+		var todo = data.todoname;
 
-// router
+		Todo.create({
+			userid: uid,
+			todoname: todo
+		}).then(function(result) {
+			res.json(result.todoname);
+			// res.send('addtodo');
+		});
+	}
+});
+
+// deletetodo  // delete
+app.delete('/deletetodo/:todoname', function(req, res) {
+	if(req.session.username) {
+		var todoname = req.params.todoname;
+		var uid = req.session.userid;
+		var uname = req.session.username;
+
+		Todo.destroy({
+			where: {
+				todoname: todoname,
+				userid: uid
+			}
+		}).then(function(result) {
+			res.json(result);
+		});
+	}
+});
+
+//addtododate  // update
+app.put('/todo/:todoname/:duedate', function(req, res) {
+	if(req.session.username) {
+		var todoname = req.params.todoname;
+		var duedate = req.params.duedate;
+		var uid = req.session.userid;
+		var uname = req.session.username;
+
+		Todo.findOne({
+			where: {
+				todoname: todoname,
+				userid: uid
+			},
+			attributes: ['id', 'todoname', 'duedate', 'userid']
+		}).then(function(result) {
+			result.updateAttributes({
+				duedate: duedate
+			}).then(function(update) {
+				res.json(update);
+			});
+		});
+	}
+});
+
+// login
+app.post('/login', function(req, res) {
+	var data = req.body;
+	var uname = data.username;
+	var sha2pwd = crypto.createHash('sha256').update(data.password).digest('base64');
+
+	User.findOne({
+		where: {
+			username: uname,
+		},
+		attributes: ['username', 'password', 'userid', 'useremail']
+	}).then(function(result) {
+		if(result) {
+			if(result.password == sha2pwd) {
+				req.session.username = result.username;
+				req.session.userid = result.userid;
+				req.session.save(function() {
+					res.redirect('/');
+				});
+			} else {
+				// username is right but pwd is wrong.
+				res.redirect('/');
+			}
+		} else {
+			// username is wrong.
+			res.redirect('/');
+		}
+	});
+});
+
+// join
+app.post('/join', function(req, res) {
+	if(!req.session.username) {
+		var data = req.body;
+		var uname = data.username;
+		var email = data.email;
+		var sha2pwd = crypto.createHash('sha256').update(data.password).digest('base64');
+
+		User.findOrCreate({
+			where: {
+				username: uname
+			},
+			defaults: {
+				password: sha2pwd,
+				useremail: email
+			}
+		}).spread(function(result, created) {
+
+			if(created === true) {
+				// created === true
+				req.session.username = result.username;
+				req.session.userid = result.userid;
+				req.session.save(function() {
+					res.redirect('/');
+				});
+			} else {
+				// res.json(result);
+				// created === false
+				res.send("false");
+			}
+        });
+	} else {
+		res.redirect('/');
+	}
+});
+
+// logined
+app.post('/logined', function(req, res) {
+	if(req.session.username) {
+
+
+
+	}
+});
+
+// logout
+app.get('/logout', function(req, res) {
+	if(req.session.username) {
+		req.session.destroy(function() {
+			res.redirect('/');
+		});
+	} else {
+		res.redirect('/');
+	}
+});
 
 
 ///////
@@ -86,115 +230,7 @@ var server = app.listen(8080, function () {
 
 
 
-//
-// app.get('/load', function(req, res) {
-// 	var user = req.session.username;
-//     var userid = req.session.userid;
-//     var Onenotename = req.query.name;
-//
-// 	Note.findOne({
-// 		where: {
-// 			userid: userid,
-// 			name: Onenotename
-// 		},
-// 		attributes: ['id', 'name', 'content']
-// 	}).then(function(result) {
-// 		result.updateAttributes({
-// 			tabopen: true
-// 		}).then(function(result) {
-// 			res.json(result);
-// 		});
-//     });
-// });
-//
-//
-// app.post('/save', function(req, res) {
-// 	if (req.session.username) {
-// 		var data = JSON.parse(JSON.stringify(req.body));
-// 		data.id = Number(data.id);
-//
-// 		Note.findOne({
-// 			where: {
-// 				id: data.id
-// 			}
-// 		}).then(function(result) {
-// 			result.updateAttributes({
-// 				name: data.name,
-// 				content: data.content,
-// 				tabopen: true
-// 			});
-// 	    });
-// 		res.send('success');
-// 	}
-// });
-//
-//
-// app.post('/addtab', function(req, res) {
-// 	var data = JSON.parse(JSON.stringify(req.body));
-// 	data.id = Number(data.id);
-//
-// 	Note.findOne({
-// 		where: {
-// 			id: data.id,
-// 			name: data.name
-// 		},
-// 		attributes: ['id', 'name', 'content']
-// 	}).then(function(result) {
-// 		if (result !== null) {
-// 			result.updateAttributes({
-// 				tabopen: true
-// 			}).then(function(result) {
-// 				res.json(result);
-// 			});
-// 		} else if (result == null) {
-// 			Note.create({
-// 				id: data.id,
-// 				name: data.name,
-// 				content: data.content,
-// 				userid: req.session.userid,
-// 				tabopen: true
-// 			});
-// 			res.send('good');
-// 		}
-//     });
-//
-// });
-//
-// app.get('/closetab', function(req, res) {
-//
-// 	//  tab name == New tab 이면 delete
-// 	var tabid = req.query.id;
-// 	Note.findOne({
-// 		where: {
-// 			id: tabid
-// 		}
-// 	}).then(function(result) {
-//
-// 		if (result !== null) {
-// 			result.updateAttributes({
-// 				tabopen: false
-// 			});
-// 		}
-// 		res.send('success');
-// 	});
-// });
-//
-//
-// //Join
-// app.post('/join', function(req, res) {
-// 	var sha2pwd = crypto.createHash('sha256').update(req.body.password).digest('base64');
-// 	User.create({
-//         username: req.body.username,
-//         password: sha2pwd
-//     }).then(function(result) {
-// 		req.session.username = result.username;
-// 		req.session.userid = result.userid;
-// 		req.session.save(function() {
-// 			res.redirect('/');
-// 		});
-//     });
-// });
-//
+
 // // Login check
 // app.get('/logined', function(req, res) {
 // 	if (req.session.username) {
@@ -211,44 +247,4 @@ var server = app.listen(8080, function () {
 // 	} else {
 // 		res.send('false');
 // 	}
-// });
-//
-// app.post('/login', function(req, res) {
-// 	var data = JSON.parse(JSON.stringify(req.body));
-// 	var uname = data.username;
-// 	// var pwd = data.password;
-// 	var sha2pwd = crypto.createHash('sha256').update(data.password).digest('base64');
-// 	User.findOne({
-//         where: {username: uname},
-//         attributes: ['username', 'password', 'userid']
-//     }).then(function(result) {
-//         if(result) {
-//             if(result.password == sha2pwd) {
-//                 req.session.username = result.username;
-//                 req.session.userid = result.userid;
-// 				req.session.save(function() {
-// 					res.redirect('/');
-// 				});
-//             } else {
-//                 // username is right but pwd is wrong.
-// 				res.redirect('/');
-//             }
-//         } else {
-//             // username is wrong.
-// 			res.redirect('/');
-//         }
-//         // res.redirect('/');
-//     });
-// });
-//
-// app.post('/logout', function(req, res) {
-// 	req.session.destroy(function() {
-// 		res.redirect('/');
-// 	});
-//
-// });
-//
-//
-// var server = app.listen(8080, function () {
-// 	console.log('Server started!');
 // });

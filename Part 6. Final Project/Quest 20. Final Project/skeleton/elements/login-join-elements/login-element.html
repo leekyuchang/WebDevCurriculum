@@ -14,7 +14,7 @@
                 background-color: rgba( 0, 0, 0, 0.5 );
             }
 
-            .loginForm {
+            .loginFormContainer {
                 position: absolute;
                 top: calc(50% - 250px);
                 left: calc(50% - 300px);
@@ -23,9 +23,14 @@
                 background-color: rgb(179, 255, 147);
             }
 
+            .loginForm {
+                position: absolute;
+                top: 50px;
+            }
+
             .googleForm {
                 position: absolute;
-                top: 30px;
+                top: 0;
                 left: 100px;
                 width: 300px;
                 height: 70px;
@@ -55,9 +60,8 @@
 
             .loginInputForm {
                 position: absolute;
-                top: 140px;
+                top: 100px;
                 left: 100px;
-
             }
 
             .loginInput {
@@ -78,7 +82,7 @@
             .loginBtn {
                 position: absolute;
                 top: 150px;
-                right: 100px;
+                right: 0;
                 width: 60px;
                 height: 40px;
                 border: 1px solid black;
@@ -87,20 +91,23 @@
 
         </style>
 
-        <div class="loginContainer">
-            <div class="loginForm">
+        <div class="loginContainer" on-down="closeContainer">
 
-                <form method="GET" class="googleForm">
-                    <button type="submit" class="googlebtn">
-                        <img src="../../img/google.png" alt="googleLogin" class="googleImg">
-                    </button>
-			    </form>
+            <div class="loginFormContainer">
 
-                <form action="/login" method="POST" class="loginInputForm">
-                    <input type="text" name="idInput" class="loginInput idInput" placeholder="ID">
-                    <input type="text" name="passwordInput" class="loginInput passwordInput" placeholder="PASSWORD">
-                    <button type="submit" class="loginBtn">Login</button>
-                </form>
+                <div class="loginForm">
+                    <form method="GET" class="googleForm">
+                        <button type="submit" class="googlebtn">
+                            <img src="../../img/google.png" alt="googleLogin" class="googleImg">
+                        </button>
+    			    </form>
+
+                    <form action="/login" method="POST" class="loginInputForm">
+                        <input type="text" name="idInput" class="loginInput idInput" placeholder="ID">
+                        <input type="text" name="passwordInput" class="loginInput passwordInput" placeholder="PASSWORD">
+                        <button type="submit" class="loginBtn">Login</button>
+                    </form>
+                </div>
 
             </div>
 
@@ -110,12 +117,24 @@
 
     <script>
         Polymer({
-          is: "login-element",
+            is: "login-element",
 
-          ready: function() {
+            ready: function() {
 
-          },
+            },
 
+
+            closeContainer: function(event) {
+                // Why event.stopPropagation doesn't work???????? //
+                // var loginContainer = this.$$(".loginContainer");
+                // if(event.target == loginContainer) {
+                //     this.fire("closeContainer");
+                // }
+                event.preventDefault();
+                // event.cancelBubble = true;
+                this.fire("closeContainer");
+                //event.stopPropagation();
+            }
 
         });
     </script>

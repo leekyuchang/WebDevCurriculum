@@ -53,7 +53,8 @@
             listeners: {
                 "moveToday": "goToday",
                 "clickLoginBtn": "Login",
-                "clickJoinBtn": "Join"
+                "clickJoinBtn": "Join",
+                "closeContainer": "closeLogin"
             },
 
             goToday: function(e) {
@@ -69,8 +70,12 @@
 
             Join: function() {
 
-            }
+            },
 
+            closeLogin: function(e) {
+                var loginDom = this.$$("login-element");
+                this.$$(".systemContainer").removeChild(loginDom);
+            }
 
 
 
