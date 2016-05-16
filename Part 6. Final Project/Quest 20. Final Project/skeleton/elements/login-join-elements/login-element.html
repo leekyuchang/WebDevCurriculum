@@ -91,7 +91,7 @@
 
         </style>
 
-        <div class="loginContainer" on-down="closeContainer">
+        <div class="loginContainer" on-down="closeLoginContainer">
 
             <div class="loginFormContainer">
 
@@ -124,16 +124,12 @@
             },
 
 
-            closeContainer: function(event) {
+            closeLoginContainer: function(event) {
                 // Why event.stopPropagation doesn't work???????? //
-                // var loginContainer = this.$$(".loginContainer");
-                // if(event.target == loginContainer) {
-                //     this.fire("closeContainer");
-                // }
-                event.preventDefault();
-                // event.cancelBubble = true;
-                this.fire("closeContainer");
-                //event.stopPropagation();
+                var loginContainer = this.$$(".loginContainer");
+                if(event.target == loginContainer) {
+                    this.fire("closeLoginContainer");
+                }
             }
 
         });

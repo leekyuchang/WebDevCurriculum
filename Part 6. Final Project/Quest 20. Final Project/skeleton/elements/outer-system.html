@@ -54,7 +54,8 @@
                 "moveToday": "goToday",
                 "clickLoginBtn": "Login",
                 "clickJoinBtn": "Join",
-                "closeContainer": "closeLogin"
+                "closeLoginContainer": "closeLogin",
+                "closeJoinContainer": "closeJoin"
             },
 
             goToday: function(e) {
@@ -69,13 +70,21 @@
             },
 
             Join: function() {
+                var joinDom = document.createElement("join-element");
+                this.$$(".systemContainer").appendChild(joinDom);
 
             },
 
             closeLogin: function(e) {
                 var loginDom = this.$$("login-element");
                 this.$$(".systemContainer").removeChild(loginDom);
+            },
+
+            closeJoin: function(e) {
+                var joinDom = this.$$("join-element");
+                this.$$(".systemContainer").removeChild(joinDom);
             }
+
 
 
 

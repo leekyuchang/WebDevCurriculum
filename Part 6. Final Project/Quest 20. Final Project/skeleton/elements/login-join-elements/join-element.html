@@ -7,27 +7,110 @@
         <style>
             .joinContainer {
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 300px;
-                height: 400px;
-                background-color: rgb(247, 207, 157);
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba( 0, 0, 0, 0.5 );
             }
 
-            .joginForm {
+            .joinFormContainer {
+                position: absolute;
+                top: calc(50% - 250px);
+                left: calc(50% - 300px);
+                width: 500px;
+                height: 500px;
+                background-color: rgb(179, 255, 147);
+            }
 
+            .joinForm {
+                position: absolute;
+                top: 50px;
+            }
+
+            .googleForm {
+                position: absolute;
+                top: 0;
+                left: 100px;
+                width: 300px;
+                height: 70px;
+            }
+
+            .googlebtn {
+                border: none;
+                padding: 0;
+            }
+
+            button {
+                background-color: Transparent;
+                padding: 0;
+                border: none;
+            }
+
+            button:focus {outline:0;}
+
+            .googleImg {
+                width: 300px;
+                height: 70px;
+            }
+
+            .orSpan {
+
+            }
+
+            .joinInputForm {
+                position: absolute;
+                top: 100px;
+                left: 100px;
+            }
+
+            .joinInput {
+                margin-bottom: 10px;
+            }
+
+            input[type=text] {
+                width: 300px;
+                height: 60px;
+                border: none;
+            }
+
+            input::-webkit-input-placeholder {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .joinBtn {
+                position: absolute;
+                top: 230px;
+                right: 0;
+                width: 60px;
+                height: 40px;
+                border: 1px solid black;
             }
 
 
         </style>
 
-        <div class="joinContainer">
+        <div class="joinContainer" on-down="closeJoinContainer">
 
-            <div class="joginForm"></div>
-            <!-- <form action="/addtodo" method="POST" class="todoInputForm">
-                <input type="text" name="todo" class="todoInput" placeholder="todo">
-                <button type="submit" class="todoAdd">Add</button>
-            </form> -->
+            <div class="joinFormContainer">
+
+                <div class="joinForm">
+                    <form method="GET" class="googleForm">
+                        <button type="submit" class="googlebtn">
+                            <img src="../../img/google.png" alt="googleLogin" class="googleImg">
+                        </button>
+    			    </form>
+
+                    <form action="/join" method="POST" class="joinInputForm">
+                        <input type="text" name="idInput" class="joinInput idInput" placeholder="ID">
+                        <input type="text" name="passwordInput" class="joinInput passwordInput" placeholder="PASSWORD">
+                        <input type="text" name="emailInput" class="joinInput emailInput" placeholder="e-mail">
+                        <button type="submit" class="joinBtn">Join</button>
+                    </form>
+                </div>
+
+            </div>
 
         </div>
 
@@ -35,12 +118,20 @@
 
     <script>
         Polymer({
-          is: "join-element",
+            is: "join-element",
 
-          ready: function() {
+            ready: function() {
 
-          },
+            },
 
+
+            closeJoinContainer: function(event) {
+                // Why event.stopPropagation doesn't work???????? //
+                var joinContainer = this.$$(".joinContainer");
+                if(event.target == joinContainer) {
+                    this.fire("closeJoinContainer");
+                }
+            }
 
         });
     </script>
