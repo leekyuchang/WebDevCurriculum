@@ -1,0 +1,50 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="login-check-element">
+
+    <template>
+
+        <style>
+
+        </style>
+
+        <iron-ajax
+            id="ajax"
+            url="http://localhost:8080/logincheck"
+            handle-as="text"
+            on-Response="handleResponse">
+        </iron-ajax>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "login-check-element",
+
+            properties: {
+                logined: {
+                    type: Boolean,
+                    value: false,
+                    notify: true,
+                }
+            },
+
+            ready: function() {
+
+                this.$.ajax.generateRequest();
+            },
+
+            handleResponse: function(response) {
+                var res = response.detail.response;
+                if(res === "true") {
+                    this.logined = true;
+                } else if (res === "false") {
+                    this.logined = false;
+                }
+            }
+
+        });
+    </script>
+
+</dom-module>

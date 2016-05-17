@@ -1,10 +1,12 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html"> -->
 <link rel="import" href="top-element.html">
 <link rel="import" href="toolbox-element.html">
 <link rel="import" href="calendar-layout-element.html">
 <link rel="import" href="todo-layout-element.html">
 <link rel="import" href="login-join-elements/login-element.html">
 <link rel="import" href="login-join-elements/join-element.html">
+<link rel="import" href="login-join-elements/login-check-element.html">
 
 
 <dom-module id="outer-system">
@@ -23,10 +25,12 @@
         </style>
 
         <div class="systemContainer">
-            <top-element></top-element>
+            <top-element logined="[[logined]]"></top-element>
             <toolbox-element year="{{year}}" month="{{month}}"></toolbox-element>
             <calendar-layout-element year="{{year}}" month="{{month}}"></calendar-layout-element>
             <todo-layout-element></todo-layout-element>
+
+            <login-check-element logined="{{logined}}"></login-check-element>
         </div>
 
     </template>
@@ -36,6 +40,10 @@
             is: "outer-system",
 
             properties: {
+
+                logined: {
+                    type: Boolean,
+                },
 
                 year: {
                     type: Number,
@@ -47,7 +55,7 @@
             },
 
             ready: function() {
-                // console.log("outersystem " + this.year, this.month);
+
             },
 
             listeners: {
@@ -83,10 +91,7 @@
             closeJoin: function(e) {
                 var joinDom = this.$$("join-element");
                 this.$$(".systemContainer").removeChild(joinDom);
-            }
-
-
-
+            },
 
         });
     </script>

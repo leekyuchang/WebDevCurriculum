@@ -103,9 +103,9 @@
     			    </form>
 
                     <form action="/join" method="POST" class="joinInputForm">
-                        <input type="text" name="idInput" class="joinInput idInput" placeholder="ID">
-                        <input type="text" name="passwordInput" class="joinInput passwordInput" placeholder="PASSWORD">
-                        <input type="text" name="emailInput" class="joinInput emailInput" placeholder="e-mail">
+                        <input type="text" name="username" class="joinInput idInput" placeholder="ID">
+                        <input type="text" name="password" class="joinInput passwordInput" placeholder="PASSWORD">
+                        <input type="text" name="useremail" class="joinInput emailInput" placeholder="e-mail">
                         <button type="submit" class="joinBtn">Join</button>
                     </form>
                 </div>
@@ -123,6 +123,54 @@
             ready: function() {
 
             },
+
+            // this.logins.dom.addEventListener('loginCheck', function(e) {
+        	// 	if(e.trueOrfalse !== 'false') {
+        	// 		that.logins.logouttmpl.style.display = 'block';
+        	// 		var tab = JSON.parse(e.trueOrfalse);
+        	// 		for(var i = 0; i < tab.length; i++) {
+        	// 			that.tabs.loadTab(tab[i].name);
+        	// 		}
+        	// 	} else if (e.trueOrfalse === 'false') {
+        	// 		that.logins.logintmpl.style.display = 'block';
+        	// 		that.logins.jointmpl.style.display = 'block';
+        	// 	}
+        	// });
+
+        	// var ev = new Event('loginCheck');
+        	// ev.req = new XMLHttpRequest();
+        	// ev.req.open('GET', '/logined');
+        	// ev.req.onreadystatechange = function() {
+        	// 	if (ev.req.readyState == 4) {
+        	// 		if (ev.req.status == 200) {
+        	// 			ev.trueOrfalse = ev.req.responseText;
+        	// 			that.dom.dispatchEvent(ev);
+        	// 		}
+        	// 	}
+        	// };
+        	// ev.req.send(null);
+
+
+            // this.memoForm.dom.addEventListener('saveTab', function(e) {
+        	// 	e.data.id = that.tabs.selectedTab.data.id;
+        	// 	var req = new XMLHttpRequest();
+        	// 	req.open('POST', '/save');
+        	// 	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        	// 	req.body = '';
+        	// 	req.body += 'id=' + e.data.id + '&';
+        	// 	req.body += 'name=' + e.data.name + '&';
+        	// 	req.body += 'content=' + e.data.content;
+        	// 	req.onreadystatechange = function (aEvt) {
+        	// 		if (req.readyState == 4) {
+        	// 			if(req.status == 200) {
+        	// 				that.tabs.selectedTab.saveData(e.data);
+        	// 			} else {
+        	// 				console.log('error');
+        	// 			}
+        	// 		}
+        	// 	};
+        	// 	req.send(req.body);
+        	// });
 
 
             closeJoinContainer: function(event) {

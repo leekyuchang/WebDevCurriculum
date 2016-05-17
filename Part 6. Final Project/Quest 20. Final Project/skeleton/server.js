@@ -170,7 +170,7 @@ app.post('/join', function(req, res) {
 	if(!req.session.username) {
 		var data = req.body;
 		var uname = data.username;
-		var email = data.email;
+		var email = data.useremail;
 		var sha2pwd = crypto.createHash('sha256').update(data.password).digest('base64');
 
 		User.findOrCreate({
@@ -202,11 +202,11 @@ app.post('/join', function(req, res) {
 });
 
 // logined
-app.post('/logined', function(req, res) {
+app.get('/logincheck', function(req, res) {
 	if(req.session.username) {
-
-
-
+		res.send("true");
+	} else {
+		res.send("false");
 	}
 });
 

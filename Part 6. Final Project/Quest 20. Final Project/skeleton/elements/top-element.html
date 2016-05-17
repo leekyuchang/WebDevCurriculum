@@ -24,6 +24,12 @@
                 left: 350px;
             }
 
+            .logoutForm {
+                position: absolute;
+                top: 40px;
+                left: 550px;
+            }
+
             h1 {
                 font-size: 3em;
             }
@@ -36,11 +42,16 @@
 
         <div class="topelement">
             <div class="appname">
-                <h1>Calendar App</h1>
+                <h1 id="calname">Calendar App</h1>
             </div>
             <div class="loginJoinBtn">
                 <button class="loginBtn" on-down="login">Login</button>
                 <button class="joinBtn" on-down="join">Join</button>
+            </div>
+            <div class="logoutForm" method="GET" style="display: none">
+                <form action="/logout">
+                    <button class="logoutBtn">Logout</button>
+                </form>
             </div>
         </div>
 
@@ -50,8 +61,26 @@
         Polymer({
             is: "top-element",
 
+            properties: {
+                logined: {
+                    type: Boolean,
+                },
+
+                username: {
+                    type: String,
+                }
+            },
+
             ready: function() {
 
+            },
+
+            attached: function() {
+                if(this.logined === true) {
+                    this.$$(".loginJoinBtn").style.display = "none";
+                    this.$$(".logoutForm").style.display = "block";
+                    this.$.calname.innerHTML = this.username + "Calendar App";
+                }
             },
 
             login: function() {
@@ -60,10 +89,7 @@
 
             join: function() {
                 this.fire("clickJoinBtn");
-            }
-
-
-
+            },
         });
     </script>
 
