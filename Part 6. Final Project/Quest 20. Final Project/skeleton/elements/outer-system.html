@@ -63,7 +63,8 @@
                 "clickLoginBtn": "Login",
                 "clickJoinBtn": "Join",
                 "closeLoginContainer": "closeLogin",
-                "closeJoinContainer": "closeJoin"
+                "closeJoinContainer": "closeJoin",
+                // "dragstart": "dragS"
             },
 
             goToday: function(e) {
@@ -92,6 +93,10 @@
                 var joinDom = this.$$("join-element");
                 this.$$(".systemContainer").removeChild(joinDom);
             },
+
+            // dragS: function(e) {
+            //     console.log(e.detail.todoname);
+            // }
 
         });
     </script>

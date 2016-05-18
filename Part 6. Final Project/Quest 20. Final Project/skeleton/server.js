@@ -82,7 +82,6 @@ app.post('/addtodo', function(req, res) {
 		var uid = req.session.userid;
 		var data = req.body;
 		var todo = data.todoname;
-
 		Todo.create({
 			userid: uid,
 			todoname: todo

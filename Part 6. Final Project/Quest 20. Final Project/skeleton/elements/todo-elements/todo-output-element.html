@@ -1,37 +1,54 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="todo-element.html">
 
 <dom-module id="todo-output-element">
 
     <template>
 
         <style>
-            .todoOutputContainer {
-                position: absolute;
-                top: 0;
-                left: 0;
+
+            .todoContentContainer {
+                /*position: absolute;
+                top: 70px;
+                left: 0;*/
                 width: 100%;
-                height: 70px;
-                background-color: rgb(174, 237, 132);
+                height: calc(100% - 70px);
+                background-color: rgb(171, 247, 230);
             }
+
+            /*.todoRepeat {
+                position: absolute;
+                top: 70px;
+                left: 50px;
+            }*/
 
 
         </style>
 
         <div class="todoOutputContainer">
-
-
+            <template class="todoRepeat" is="dom-repeat" items="{{todos}}" as="todo">
+                <todo-element todo="{{todo}}"></todo-element>
+            </template>
         </div>
 
     </template>
 
     <script>
         Polymer({
-          is: "todo-output-element",
+            is: "todo-output-element",
 
-          ready: function() {
+            properties: {
+                todos: {
+                    type: Array,
+                    value: []
+                },
 
-          },
+            },
 
+            ready: function() {
+
+
+            },
 
         });
     </script>

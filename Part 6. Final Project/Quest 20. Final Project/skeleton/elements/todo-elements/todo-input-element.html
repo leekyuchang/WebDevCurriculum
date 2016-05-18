@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 
 <dom-module id="todo-input-element">
@@ -6,10 +7,11 @@
     <template>
 
         <style>
+
             .todoInputContainer {
-                position: absolute;
+                /*position: absolute;
                 top: 0;
-                left: 0;
+                left: 0;*/
                 width: 100%;
                 height: 70px;
                 background-color: rgb(177, 144, 250);
@@ -19,10 +21,18 @@
         </style>
 
         <div class="todoInputContainer">
-            <form action="/addtodo" method="POST" class="todoInputForm">
-                <input type="text" name="todo" class="todoInput" placeholder="todo">
-                <button type="submit" class="todoAdd">Add</button>
-            </form>
+
+            <iron-ajax
+                id="ajax"
+                method="POST"
+                url="http://localhost:8080/addtodo"
+                contenttype="application/x-www-form-urlencoded"
+                handle-as="json"
+                on-Response="handleResponse">
+            </iron-ajax>
+
+            <input type="text" name="todoname" class="todoInput" placeholder="todo">
+            <button type="submit" class="todoAdd" on-down="addtodo">Add</button>
 
         </div>
 
@@ -39,6 +49,23 @@
             ready: function() {
 
             },
+
+            // init input value
+            handleResponse: function(response) {
+                var res = response.detail.response;
+                this.$$(".todoInput").value = "";
+            },
+
+
+            // send to server & save in todos table
+            addtodo: function() {
+                var val = this.$$(".todoInput").value;
+                this.$.ajax.body = 'todoname=' + val;
+                this.$.ajax.generateRequest();
+
+                this.fire("addtodo", {todoname: val});
+            }
+
         });
     </script>
 

@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="todo-elements/todo-input-element.html">
-<link rel="import" href="todo-elements/todo-content-element.html">
+<link rel="import" href="todo-elements/todo-output-element.html">
 
 <dom-module id="todo-layout-element">
 
@@ -14,29 +14,58 @@
                 width: 25%;
                 height: calc(100% - 220px);
                 background-color: rgb(211, 252, 232);
-            }
-
+            },
 
         </style>
 
         <div class="todoContainer">
             <todo-input-element></todo-input-element>
-            <todo-content-element></todo-content-element>
-
+            <todo-output-element todos="{{todos}}"></todo-output-element>
         </div>
 
     </template>
 
     <script>
         Polymer({
-          is: "todo-layout-element",
+            is: "todo-layout-element",
 
-          ready: function() {
+            properties: {
+                todos: {
+                    type: Array,
+                    value: []
+                    // array type is essential init val.
+                }
+            },
 
-          },
+            ready: function() {
+
+            },
+
+            listeners: {
+                "addtodo": "_addtodo"
+            },
+
+            _addtodo: function(e) {
+                var val = e.detail.todoname;
+                this.push('todos', {todoname: val});
+            },
+
+
+
+
+            // input에서 입력 하면 db에 저장되고
+            // layout에 event fire되서 todos array에 push
+            // output에서 array만큼 todo를 dom repeat
+
 
 
         });
     </script>
 
 </dom-module>
+
+
+<!-- * todo-layout (add todo listen)
+        * todo-output (dom-repeat todo)
+            * todo (array)
+        * todo-input (add fire with value) -->
