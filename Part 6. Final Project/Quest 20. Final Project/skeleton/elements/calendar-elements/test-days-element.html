@@ -141,6 +141,19 @@
             ],
 
             currentDayChanged: function(currentYear, currentMonth) {
+
+                // if currentMonth is changed -> delete before event & get current event
+                ///
+                ///
+                ///
+                ///
+                ///
+                ///
+                ///
+                ///
+                ///
+                
+
                 this.month = this.currentMonth;
                 this.year = this.currentYear;
 
@@ -195,6 +208,7 @@
                     var bottom = top + this.daydom.wid;
                     var left = daydom[i].offsetLeft;
                     var right = left + this.daydom.hei;
+
                     if (b.left > left && right > b.left && top < b.top && b.top < bottom ) {
 
                         // add event in day of calendar
@@ -207,6 +221,7 @@
                         if (day < 10){
                             day = '0' + day;
                         }
+
                         var eventday = this.year + '-' + month + '-' + day;
                         this.$.ajax.body = 'todoname=' + b.todoname + '&duedate=' + eventday;
                         this.$.ajax.url = 'http://localhost:8080/updatetodo';

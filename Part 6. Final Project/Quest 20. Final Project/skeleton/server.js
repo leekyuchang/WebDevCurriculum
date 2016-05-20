@@ -204,10 +204,20 @@ app.post('/join', function(req, res) {
 // logined
 app.get('/logincheck', function(req, res) {
 	if(req.session.username) {
-		res.send("true");
+		var userid = req.session.userid;
+		// get all event
+		Note.findAll({
+			where: {
+				userid: userid,
+				// datatime currentmonth
+			}
+		}).then(function(result) {
+			res.json(result);
+		});
 	} else {
-		res.send("false");
+		res.send('false');
 	}
+
 });
 
 // logout
@@ -226,25 +236,3 @@ app.get('/logout', function(req, res) {
 var server = app.listen(8080, function () {
 	console.log('Server started!');
 });
-
-
-
-
-
-// // Login check
-// app.get('/logined', function(req, res) {
-// 	if (req.session.username) {
-// 		var userid = req.session.userid;
-// 		// tab data뿌리기
-// 		Note.findAll({
-// 			where: {
-// 				userid: userid,
-// 				tabopen: true
-// 			}
-// 		}).then(function(result) {
-// 			res.json(result);
-// 		});
-// 	} else {
-// 		res.send('false');
-// 	}
-// });
