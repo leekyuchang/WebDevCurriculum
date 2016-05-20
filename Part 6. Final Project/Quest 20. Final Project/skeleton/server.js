@@ -111,13 +111,14 @@ app.delete('/deletetodo/:todoname', function(req, res) {
 });
 
 //addtododate  // update
-app.put('/todo/:todoname/:duedate', function(req, res) {
+app.post('/updatetodo', function(req, res) {
 	if(req.session.username) {
-		var todoname = req.params.todoname;
-		var duedate = req.params.duedate;
+		var todoname = req.body.todoname
+		var duedate = req.body.duedate;
 		var uid = req.session.userid;
 		var uname = req.session.username;
 
+		console.log(req.body);
 		Todo.findOne({
 			where: {
 				todoname: todoname,

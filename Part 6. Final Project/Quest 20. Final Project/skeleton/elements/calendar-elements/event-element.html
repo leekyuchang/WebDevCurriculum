@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="event-element">
+
+    <template>
+
+        <style>
+            .eventContainer {
+                width: 100%;
+                height: 20px;
+                background-color: skyblue;
+                text-align: center;
+            }
+
+
+        </style>
+
+        <div class="eventContainer">{{todoname}}</div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "event-element",
+
+            properties: {
+                todoname : {
+                    type: String
+                }
+
+            },
+
+            attached: function() {
+
+            },
+
+            ready: function() {
+
+            },
+
+
+
+
+
+        });
+    </script>
+
+</dom-module>

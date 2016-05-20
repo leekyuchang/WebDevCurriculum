@@ -19,7 +19,7 @@
 
         <div class="calendar-layout">
             <weekday-element></weekday-element>
-            <test-month-element year="{{year}}" month="{{month}}"></test-month-element>
+            <test-month-element year="{{year}}" month="{{month}}" eve="{{eve}}"></test-month-element>
         </div>
 
     </template>
@@ -36,6 +36,10 @@
 
                 month: {
                     type: Number,
+                },
+
+                eve: {
+                    type: Object,
                 }
             },
 

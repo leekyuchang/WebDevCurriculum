@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="event-element.html">
 
 <dom-module id="test-days-element">
 
@@ -28,12 +30,24 @@
 
         </style>
 
+        <iron-ajax
+            id="ajax"
+            method="POST"
+            url="http://localhost:8080/updatetodo"
+            contenttype="application/x-www-form-urlencoded"
+            handle-as="json">
+        </iron-ajax>
+
         <div class="daysContainer">
             <template class="daysclass" is="dom-repeat" items="{{days}}">
                 <div class="calendarContents" on-down="showDate">
                     <span id="nowDate">{{item}}</span>
+
                 </div>
             </template>
+
+            <array-selector id="selector" items="{{days}}" selected="{{selected}}" multi toggle></array-selector>
+
         </div>
 
     </template>
@@ -62,6 +76,20 @@
                 currentMonth: {
                     type: Number,
                 },
+
+                currentEvent: {
+                    type: Object,
+                    value: {},
+                    observer: '_currentEventChanged'
+                },
+
+                daydom : {
+                    type: Object,
+                    value: {
+                        wid: (screen.width)/10.7142,
+                        hei: ((screen.height)-290)/5
+                    }
+                }
 
             },
 
@@ -127,6 +155,7 @@
                     var nodes = Polymer.dom(this.root).querySelectorAll(".calendarContents");
                     for (var i = 0; i < nodes.length; i++) {
                         nodes[i].style.height = "16.6666%";
+                        this.daydom.wid = ((screen.height)-290)/6;
                     }
                 }else if (startname === 0 && totladay === 28) {
                     var nodes = Polymer.dom(this.root).querySelectorAll(".calendarContents");
@@ -137,6 +166,7 @@
                     var nodes = Polymer.dom(this.root).querySelectorAll(".calendarContents");
                     for (var i = 0; i < nodes.length; i++) {
                         nodes[i].style.height = "20%";
+                        this.daydom.wid = ((screen.height)-290)/4;
                     }
                 }
             },
@@ -144,10 +174,46 @@
             showDate: function(e) {
                 if (e.target.innerText !== null) {
                     // console.log(e.target.innerText);
+                    // add event direct in calendar without todo layout
                 }
             },
 
+            _currentEventChanged: function(b) {
 
+                var daydom = document.querySelectorAll(".calendarContents");
+                var startname = this.startWeekname(this.year, this.month);
+                var month = this.month;
+
+                if(this.month < 10) {
+                    month = '0' + month;
+                }
+
+                for(var i =0; i < daydom.length; i++) {
+
+                    // compare //
+                    var top = daydom[i].offsetTop + 290;
+                    var bottom = top + this.daydom.wid;
+                    var left = daydom[i].offsetLeft;
+                    var right = left + this.daydom.hei;
+                    if (b.left > left && right > b.left && top < b.top && b.top < bottom ) {
+
+                        // add event in day of calendar
+                        var eventdom = document.createElement("event-element");
+                        eventdom.todoname = b.todoname;
+                        daydom[i].appendChild(eventdom);
+
+                        // database update
+                        var day = (i - startname + 1);
+                        if (day < 10){
+                            day = '0' + day;
+                        }
+                        var eventday = this.year + '-' + month + '-' + day;
+                        this.$.ajax.body = 'todoname=' + b.todoname + '&duedate=' + eventday;
+                        this.$.ajax.url = 'http://localhost:8080/updatetodo';
+                        this.$.ajax.generateRequest();
+                    }
+                }
+            }
 
         });
     </script>

@@ -27,11 +27,12 @@
         <div class="systemContainer">
             <top-element logined="[[logined]]"></top-element>
             <toolbox-element year="{{year}}" month="{{month}}"></toolbox-element>
-            <calendar-layout-element year="{{year}}" month="{{month}}"></calendar-layout-element>
+            <calendar-layout-element year="{{year}}" month="{{month}}" eve="{{eve}}"></calendar-layout-element>
             <todo-layout-element></todo-layout-element>
 
             <login-check-element logined="{{logined}}"></login-check-element>
         </div>
+
 
     </template>
 
@@ -51,6 +52,11 @@
 
                 month: {
                     type: Number,
+                },
+
+                eve: {
+                    type: Object,
+                    value: {}
                 }
             },
 
@@ -64,7 +70,7 @@
                 "clickJoinBtn": "Join",
                 "closeLoginContainer": "closeLogin",
                 "closeJoinContainer": "closeJoin",
-                // "dragstart": "dragS"
+                "sampledragEvent": "dragS",
             },
 
             goToday: function(e) {
@@ -94,9 +100,11 @@
                 this.$$(".systemContainer").removeChild(joinDom);
             },
 
-            // dragS: function(e) {
-            //     console.log(e.detail.todoname);
-            // }
+            dragS: function(e) {
+                this.eve = e.detail;
+            }
+
+
 
         });
     </script>

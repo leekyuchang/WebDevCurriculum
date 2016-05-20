@@ -35,16 +35,26 @@
                 font-size: 30px;
             }
 
+            .dragSample {
+                position: fixed;
+
+                /* calc days with, height */
+                width: 130px;
+                /*width: 10.714%;*/
+                height: 30px;
+                background-color: rgb(71, 123, 227);
+            }
+
         </style>
 
-        <!-- <div class="onetodoContainer" on-down="dragstart" on-track="dragging" on-up="dragstop"> -->
-        <!-- <div class="onetodoContainer" on-down="dragstart" on-track="dragging" on-up="dragstop" draggable="true"> -->
-        <div class="onetodoContainer" on-track="handleTrack">
+        <div class="onetodoContainer" on-down="dragstart" on-track="dragging" on-up="dragstop">
             <div class="todoInner">
                 <input type="checkbox" name="todo" class="todocheckbox" on-down="todoChecked">
                 <span class="todoname">{{todo.todoname}}</span>
             </div>
         </div>
+
+        <div class="dragSample" style="display: none"></div>
 
     </template>
 
@@ -78,6 +88,7 @@
                 };
 
                 this.tododom = this.$$(".onetodoContainer");
+                this.sampledom = this.$$(".dragSample");
             },
 
             todoChecked: function(e) {
@@ -86,71 +97,45 @@
                 this.$$(".todocheckbox").disabled = true;
             },
 
-            /// drag event -> date, todo name check
+            dragstart: function(e) {
+                if(!this.drag.state) {
+                    this.drag.state = true;
+                    this.tododom.style.opacity = '0.4';
+                    this.sampledom.style.display = "block";
+                    this.sampledom.style.left = e.detail.x - 65 + 'px';
+                    this.sampledom.style.top = e.detail.y - 15 + 'px';
+                    this.drag.x = e.detail.x;
+                    this.drag.y = e.detail.y;
+                }
+                return false;
+            },
 
-
-
-            handleTrack: function(e) {
-                switch(e.detail.state) {
-                    case 'start':
-
-                        this.tododom.style.opacity = '0.4';
-                        this.message = 'Tracking started!';
-                        console.log(this.message);
-                        break;
-                    case 'track':
-
-                        // e.detail.x + ', ' + e.detail.y;
-                        break;
-                    case 'end':
-                        this.message = 'Tracking ended!';
-                        console.log(this.message);
-                        break;
+            dragging: function(e) {
+                if (this.drag.state) {
+                    this.sampledom.style.backgroundColor = '#f0f';
+                    this.diff.x = e.detail.x - this.drag.x;
+                    this.diff.y = e.detail.y - this.drag.y;
+                    this.sampledom.style.left = (Number(this.sampledom.style.left.replace('px', '')) + this.diff.x) + 'px';
+                    this.sampledom.style.top = (Number(this.sampledom.style.top.replace('px', '')) + this.diff.y) + 'px';
+                    this.drag.x = e.detail.x;
+                    this.drag.y = e.detail.y;
                 }
             },
 
+            dragstop: function(e) {
+                if (this.drag.state) {
+                    this.drag.state = false;
+                    this.tododom.style.opacity = '1';
+                    this.sampledom.style.display = "none";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // dragstart: function(e) {
-            //     if(!this.drag.state) {
-            //         this.drag.state = true;
-            //         this.drag.x = e.detail.x;
-            //         this.drag.y = e.detail.y;
-            //     }
-            //     return false;
-            // },
-            //
-            // dragging: function(e) {
-            //     if (this.drag.state) {
-            //         this.tododom.style.backgroundColor = '#f0f';
-            //         this.diff.x = e.detail.x - this.drag.x;
-            //         this.diff.y = e.detail.y - this.drag.y;
-            //         this.tododom.style.left = (Number(this.tododom.style.left.replace('px', '')) + this.diff.x) + 'px';
-        	// 		this.tododom.style.top = (Number(this.tododom.style.top.replace('px', '')) + this.diff.y) + 'px';
-            //         this.drag.x = e.detail.x;
-            //         this.drag.y = e.detail.y;
-            //     }
-            // },
-            //
-            // dragstop: function(e) {
-            //     this.tododom = this.$$(".onetodoContainer");
-            //     if (this.drag.state) {
-            //         this.drag.state = false;
-            //     }
-            // }
+                    var todoName = this.todo.todoname;
+                    // var sampleLeft = Number(this.sampledom.style.left.replace('px', ''));
+                    // var sampleTop = Number(this.sampledom.style.top.replace('px', ''));
+                    var sampleLeft = e.detail.x;
+                    var sampleTop = e.detail.y;
+                    this.fire("sampledragEvent", {todoname: todoName, left: sampleLeft, top: sampleTop});
+                }
+            }
 
 
 

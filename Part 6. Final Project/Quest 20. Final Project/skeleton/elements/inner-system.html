@@ -1,0 +1,81 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<dom-module id="todo-element">
+
+    <template>
+
+        <style>
+
+
+        </style>
+
+        <div class="onetodoContainer" on-down="dragstart" on-track="dragging" on-up="dragstop">
+
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: "todo-element",
+
+            properties: {
+
+            },
+
+            ready: function() {
+
+
+            },
+
+
+
+            dragstart: function(e) {
+                console.log('Started!');
+                if(!this.drag.state) {
+                    this.drag.state = true;
+                    this.tododom.style.opacity = '0.4';
+                    this.sampledom.style.display = "block";
+                    console.log(this.sampledom.parentNode.parentNode.style.left);
+                    this.sampledom.style.left = (Number(this.sampledom.style.left.replace('px', '')) + e.detail.x) + 'px';
+                    this.sampledom.style.top = (Number(this.sampledom.style.top.replace('px', '')) + e.detail.y) + 'px';
+                    console.log(this.sampledom.style.left);
+                    // this.sampledom.style.left = e.detail.x + 'px';
+                    // this.sampledom.style.top = e.detail.y + 'px';
+
+                    this.drag.x = e.detail.x;
+                    this.drag.y = e.detail.y;
+                }
+                return false;
+            },
+
+            dragging: function(e) {
+                if (this.drag.state) {
+                    this.sampledom.style.backgroundColor = '#f0f';
+                    this.diff.x = e.detail.x - this.drag.x;
+                    this.diff.y = e.detail.y - this.drag.y;
+                    this.sampledom.style.left = (Number(this.sampledom.style.left.replace('px', '')) + this.diff.x) + 'px';
+                    this.sampledom.style.top = (Number(this.sampledom.style.top.replace('px', '')) + this.diff.y) + 'px';
+                    this.drag.x = e.detail.x;
+                    this.drag.y = e.detail.y;
+                }
+            },
+
+            dragstop: function(e) {
+                console.log('Ended!');
+                if (this.drag.state) {
+                    this.drag.state = false;
+                    this.tododom.style.opacity = '1';
+                    this.sampledom.style.display = "none";
+                    this.sampledom.style.left = "0";
+                    this.sampledom.style.top = "0";
+                }
+            }
+
+
+
+        });
+    </script>
+
+</dom-module>
