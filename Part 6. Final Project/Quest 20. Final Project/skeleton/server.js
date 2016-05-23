@@ -137,32 +137,37 @@ app.post('/updatetodo', function(req, res) {
 
 // login
 app.post('/login', function(req, res) {
-	var data = req.body;
-	var uname = data.username;
-	var sha2pwd = crypto.createHash('sha256').update(data.password).digest('base64');
+	if(!req.session.username) {
 
-	User.findOne({
-		where: {
-			username: uname,
-		},
-		attributes: ['username', 'password', 'userid', 'useremail']
-	}).then(function(result) {
-		if(result) {
-			if(result.password == sha2pwd) {
-				req.session.username = result.username;
-				req.session.userid = result.userid;
-				req.session.save(function() {
-					res.redirect('/');
-				});
-			} else {
-				// username is right but pwd is wrong.
-				res.redirect('/');
-			}
-		} else {
-			// username is wrong.
-			res.redirect('/');
-		}
-	});
+		var data = req.body;
+		var uname = data.username;
+		var sha2pwd = crypto.createHash('sha256').update(data.password).digest('base64');
+
+		User.findOne({
+			where: {
+				username: uname,
+			},
+			attributes: ['username', 'password', 'userid']
+			// attributes: ['username', 'password', 'userid', 'useremail']
+		}).then(function(result) {
+			console.log(result);
+			// if(result) {
+			// 	if(result.password == sha2pwd) {
+			// 		req.session.username = result.username;
+			// 		req.session.userid = result.userid;
+			// 		req.session.save(function() {
+			// 			res.redirect('/');
+			// 		});
+			// 	} else {
+			// 		// username is right but pwd is wrong.
+			// 		res.redirect('/');
+			// 	}
+			// } else {
+			// 	// username is wrong.
+			// 	res.redirect('/');
+			// }
+		});
+	}
 });
 
 // join
@@ -191,8 +196,6 @@ app.post('/join', function(req, res) {
 					res.redirect('/');
 				});
 			} else {
-				// res.json(result);
-				// created === false
 				res.send("false");
 			}
         });
@@ -206,19 +209,45 @@ app.get('/logincheck', function(req, res) {
 	if(req.session.username) {
 		var userid = req.session.userid;
 		// get all event
-		Note.findAll({
+		Todo.findAll({
 			where: {
 				userid: userid,
 				// datatime currentmonth
 			}
 		}).then(function(result) {
-			res.json(result);
+			// res.json(result);
+			res.send('true');
 		});
 	} else {
 		res.send('false');
 	}
-
 });
+
+// get event in currentMonth
+app.get('/getevent/:currentyear/:currentmonth', function(req, res) {
+	if(req.session.username) {
+		var year = req.params.currentyear;
+		var month = req.params.currentmonth;
+		var userid = req.session.userid;
+		// get all event
+		console.log(year, month);
+		res.json("!@#");
+		// Todo.findAll({
+		// 	where: {
+		// 		userid: userid,
+		//
+		// 		//// current month select
+		//
+		// 		// datatime currentmonth
+		// 	}
+		// }).then(function(result) {
+		// 	res.json(result);
+		// });
+	} else {
+		res.send('false');
+	}
+});
+
 
 // logout
 app.get('/logout', function(req, res) {

@@ -30,11 +30,15 @@
 
         </style>
 
-        <iron-ajax
+        <!-- <iron-ajax
             id="ajax"
             method="POST"
             url="http://localhost:8080/updatetodo"
             contenttype="application/x-www-form-urlencoded"
+            handle-as="json">
+        </iron-ajax> -->
+        <iron-ajax
+            id="ajax"
             handle-as="json">
         </iron-ajax>
 
@@ -45,8 +49,6 @@
 
                 </div>
             </template>
-
-            <array-selector id="selector" items="{{days}}" selected="{{selected}}" multi toggle></array-selector>
 
         </div>
 
@@ -89,6 +91,10 @@
                         wid: (screen.width)/10.7142,
                         hei: ((screen.height)-290)/5
                     }
+                },
+
+                totalSquare: {
+                    type: Number
                 }
 
             },
@@ -142,18 +148,6 @@
 
             currentDayChanged: function(currentYear, currentMonth) {
 
-                // if currentMonth is changed -> delete before event & get current event
-                ///
-                ///
-                ///
-                ///
-                ///
-                ///
-                ///
-                ///
-                ///
-                
-
                 this.month = this.currentMonth;
                 this.year = this.currentYear;
 
@@ -182,12 +176,32 @@
                         this.daydom.wid = ((screen.height)-290)/4;
                     }
                 }
+
+                // if currentMonth is changed -> delete before event dom & get current event (ajax)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // remove event dom  /// 함수로 만들기!!
+                var beforeEventDom = document.querySelectorAll("event-element");
+                for(var i = 0; i < beforeEventDom.length; i++) {
+                    beforeEventDom[i].parentElement.removeChild(beforeEventDom[i]);
+                }
+
+                // get event in current Month   /// 함수로 만들기!!
+                // this.$.ajax.url = 'http://localhost:8080/getevent/';
+                // this.$.ajax.params = {currentmonth: this.currentMonth, currentyear: this.currentYear};
+                // this.$.ajax.onResponse="handleResponse";
+                // this.$.ajax.generateRequest();
+
+
+
+
             },
 
             showDate: function(e) {
                 if (e.target.innerText !== null) {
                     // console.log(e.target.innerText);
                     // add event direct in calendar without todo layout
+
+
                 }
             },
 
@@ -223,11 +237,19 @@
                         }
 
                         var eventday = this.year + '-' + month + '-' + day;
+                        this.$.ajax.method = "POST";
+                        this.$.ajax.contenttype = "application/x-www-form-urlencoded";
                         this.$.ajax.body = 'todoname=' + b.todoname + '&duedate=' + eventday;
                         this.$.ajax.url = 'http://localhost:8080/updatetodo';
                         this.$.ajax.generateRequest();
                     }
                 }
+            },
+
+            handleResponse: function(response) {
+                var res = response.detail.response;
+                console.log(res);
+                console.log(response);
             }
 
         });
