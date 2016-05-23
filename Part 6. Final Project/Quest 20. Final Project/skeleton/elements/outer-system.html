@@ -25,12 +25,12 @@
         </style>
 
         <div class="systemContainer">
-            <top-element logined="[[logined]]"></top-element>
+            <top-element logined="[[logined]]" username="[[username]]"></top-element>
             <toolbox-element year="{{year}}" month="{{month}}"></toolbox-element>
             <calendar-layout-element year="{{year}}" month="{{month}}" eve="{{eve}}"></calendar-layout-element>
-            <todo-layout-element></todo-layout-element>
+            <todo-layout-element year="[[year]]" month="[[month]]"></todo-layout-element>
 
-            <login-check-element logined="{{logined}}"></login-check-element>
+            <login-check-element logined="{{logined}}" username="{{username}}"></login-check-element>
         </div>
 
 
@@ -44,6 +44,10 @@
 
                 logined: {
                     type: Boolean,
+                },
+
+                username: {
+                    type: String,
                 },
 
                 year: {
@@ -103,8 +107,6 @@
             dragS: function(e) {
                 this.eve = e.detail;
             }
-
-
 
         });
     </script>

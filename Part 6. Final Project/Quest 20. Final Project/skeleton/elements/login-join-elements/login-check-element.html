@@ -27,6 +27,12 @@
                     type: Boolean,
                     value: false,
                     notify: true,
+                },
+
+                username: {
+                    type: String,
+                    value: '',
+                    notify: true,
                 }
             },
 
@@ -37,8 +43,9 @@
 
             handleResponse: function(response) {
                 var res = response.detail.response;
-                if(res === "true") {
+                if(res !== "false") {
                     this.logined = true;
+                    this.username = res;
                 } else if (res === "false") {
                     this.logined = false;
                 }

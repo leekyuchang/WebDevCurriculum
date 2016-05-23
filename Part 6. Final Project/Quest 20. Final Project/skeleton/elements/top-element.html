@@ -27,7 +27,7 @@
             .logoutForm {
                 position: absolute;
                 top: 40px;
-                left: 550px;
+                left: 450px;
             }
 
             h1 {
@@ -42,7 +42,7 @@
 
         <div class="topelement">
             <div class="appname">
-                <h1 id="calname">Calendar App</h1>
+                <h1 id="calname">{{username}} Calendar App</h1>
             </div>
             <div class="loginJoinBtn">
                 <button class="loginBtn" on-down="login">Login</button>
@@ -68,6 +68,7 @@
 
                 username: {
                     type: String,
+                    // observers: "_usernameChanged"
                 }
             },
 
@@ -79,7 +80,6 @@
                 if(this.logined === true) {
                     this.$$(".loginJoinBtn").style.display = "none";
                     this.$$(".logoutForm").style.display = "block";
-                    this.$.calname.innerHTML = this.username + "Calendar App";
                 }
             },
 
@@ -90,6 +90,8 @@
             join: function() {
                 this.fire("clickJoinBtn");
             },
+
+
         });
     </script>
 

@@ -30,13 +30,13 @@
 
         </style>
 
-        <!-- <iron-ajax
-            id="ajax"
-            method="POST"
-            url="http://localhost:8080/updatetodo"
-            contenttype="application/x-www-form-urlencoded"
-            handle-as="json">
-        </iron-ajax> -->
+        <iron-ajax
+            id="ajaxx"
+            method="GET"
+            handle-as="json"
+            on-Response="handleResponse">
+        </iron-ajax>
+
         <iron-ajax
             id="ajax"
             handle-as="json">
@@ -178,32 +178,25 @@
                 }
 
                 // if currentMonth is changed -> delete before event dom & get current event (ajax)
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                // remove event dom  /// 함수로 만들기!!
                 var beforeEventDom = document.querySelectorAll("event-element");
                 for(var i = 0; i < beforeEventDom.length; i++) {
                     beforeEventDom[i].parentElement.removeChild(beforeEventDom[i]);
                 }
 
-                // get event in current Month   /// 함수로 만들기!!
-                // this.$.ajax.url = 'http://localhost:8080/getevent/';
-                // this.$.ajax.params = {currentmonth: this.currentMonth, currentyear: this.currentYear};
-                // this.$.ajax.onResponse="handleResponse";
-                // this.$.ajax.generateRequest();
+                var start = this.currentYear + '-' + this.currentMonth + '-' + '01';
+                var end = this.currentYear + '-' + this.currentMonth + '-' + totladay;
 
-
-
-
+                this.$.ajaxx.url="http://localhost:8080/getevent/" + start + "/" + end;
+                this.$.ajaxx.onResponse="handleResponse";
+                this.$.ajaxx.generateRequest();
             },
 
-            showDate: function(e) {
-                if (e.target.innerText !== null) {
-                    // console.log(e.target.innerText);
-                    // add event direct in calendar without todo layout
-
-
-                }
-            },
+            // showDate: function(e) {
+            //     if (e.target.innerText !== null) {
+            //         // console.log(e.target.innerText);
+            //         // add event direct in calendar without todo layout
+            //     }
+            // },
 
             _currentEventChanged: function(b) {
 
@@ -248,8 +241,24 @@
 
             handleResponse: function(response) {
                 var res = response.detail.response;
-                console.log(res);
-                console.log(response);
+                var todo = [];
+                // add calendar dom
+                for(var i = 0; i < res.length; i++) {
+                    var obj = {
+                        todoname: res[i].todoname,
+                        date: res[i].duedate.slice(8, 10)
+                    }
+                    todo.push(obj);
+                }
+
+                var daydom = document.querySelectorAll(".calendarContents");
+                for(var j = 0; j < todo.length; j++) {
+                    var n = Number(todo[j].date);
+                    var eventdom = document.createElement("event-element");
+                    eventdom.todoname = todo[j].todoname;
+                    daydom[n].appendChild(eventdom);
+                }
+
             }
 
         });

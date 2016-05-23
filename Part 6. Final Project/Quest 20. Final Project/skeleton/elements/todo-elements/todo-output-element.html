@@ -43,12 +43,31 @@
                     value: []
                 },
 
+                year: {
+                    type: Number,
+                },
+
+                month: {
+                    type: Number,
+                },
+
             },
 
             ready: function() {
-
-
             },
+
+            observers: [
+                'monthChanged(year, month)'
+            ],
+
+            monthChanged: function() {
+                var beforeEventDom = document.querySelectorAll("todo-element");
+                for(var i = 0; i < beforeEventDom.length; i++) {
+                    beforeEventDom[i].parentElement.removeChild(beforeEventDom[i]);
+                }
+            }
+
+
 
         });
     </script>

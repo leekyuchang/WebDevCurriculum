@@ -150,22 +150,21 @@ app.post('/login', function(req, res) {
 			attributes: ['username', 'password', 'userid']
 			// attributes: ['username', 'password', 'userid', 'useremail']
 		}).then(function(result) {
-			console.log(result);
-			// if(result) {
-			// 	if(result.password == sha2pwd) {
-			// 		req.session.username = result.username;
-			// 		req.session.userid = result.userid;
-			// 		req.session.save(function() {
-			// 			res.redirect('/');
-			// 		});
-			// 	} else {
-			// 		// username is right but pwd is wrong.
-			// 		res.redirect('/');
-			// 	}
-			// } else {
-			// 	// username is wrong.
-			// 	res.redirect('/');
-			// }
+			if(result) {
+				if(result.password == sha2pwd) {
+					req.session.username = result.username;
+					req.session.userid = result.userid;
+					req.session.save(function() {
+						res.redirect('/');
+					});
+				} else {
+					// username is right but pwd is wrong.
+					res.redirect('/');
+				}
+			} else {
+				// username is wrong.
+				res.redirect('/');
+			}
 		});
 	}
 });
@@ -209,14 +208,12 @@ app.get('/logincheck', function(req, res) {
 	if(req.session.username) {
 		var userid = req.session.userid;
 		// get all event
-		Todo.findAll({
+		User.findOne({
 			where: {
 				userid: userid,
-				// datatime currentmonth
 			}
 		}).then(function(result) {
-			// res.json(result);
-			res.send('true');
+			res.send(result.dataValues.username);
 		});
 	} else {
 		res.send('false');
@@ -224,25 +221,23 @@ app.get('/logincheck', function(req, res) {
 });
 
 // get event in currentMonth
-app.get('/getevent/:currentyear/:currentmonth', function(req, res) {
+app.get('/getevent/:startday/:endday', function(req, res) {
 	if(req.session.username) {
-		var year = req.params.currentyear;
-		var month = req.params.currentmonth;
+		var start = req.params.startday;
+		var end = req.params.endday;
 		var userid = req.session.userid;
 		// get all event
-		console.log(year, month);
-		res.json("!@#");
-		// Todo.findAll({
-		// 	where: {
-		// 		userid: userid,
-		//
-		// 		//// current month select
-		//
-		// 		// datatime currentmonth
-		// 	}
-		// }).then(function(result) {
-		// 	res.json(result);
-		// });
+		Todo.findAll({
+			where: {
+				userid: userid,
+				$and: [
+					{ duedate: {gte: start} },
+					{ duedate: {lt: end} }
+				]
+			}
+		}).then(function(result) {
+			res.json(result);
+		});
 	} else {
 		res.send('false');
 	}

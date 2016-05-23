@@ -66,13 +66,11 @@
             year: {
                 type: Number,
                 notify: true,
-                // observer: "yearChanged"
             },
 
             month: {
                 type: Number,
                 notify: true,
-                // observer: "monthChanged"
             },
 
         },
@@ -88,8 +86,6 @@
 
 
             // ajax
-
-
             if (this.month === 1) {
                 this.month = 12;
                 this.year -= 1;
@@ -101,9 +97,7 @@
 
         afterMonth: function() {
 
-
             // ajax
-
             if(this.month === 12) {
                 this.month = 1;
                 this.year += 1;
@@ -115,8 +109,6 @@
         moveToday: function() {
 
             // ajax
-
-
             this.fire("moveToday");
         }
 

@@ -18,9 +18,17 @@
 
         </style>
 
+
+        <iron-ajax
+            id="ajaxx"
+            method="GET"
+            handle-as="json"
+            on-Response="handleResponse">
+        </iron-ajax>
+
         <div class="todoContainer">
             <todo-input-element></todo-input-element>
-            <todo-output-element todos="{{todos}}"></todo-output-element>
+            <todo-output-element todos="{{todos}}" year="[[year]]" month="[[month]]"></todo-output-element>
         </div>
 
     </template>
@@ -34,7 +42,15 @@
                     type: Array,
                     value: []
                     // array type is essential init val.
-                }
+                },
+
+                year: {
+                    type: Number,
+                },
+
+                month: {
+                    type: Number,
+                },
             },
 
             ready: function() {
@@ -50,16 +66,38 @@
                 this.push('todos', {todoname: val});
             },
 
+            observers: [
+                'monthChanged(year, month)'
+            ],
+
+            monthChanged: function(year, month) {
+                // console.log(this.year, this.month);
+                var totladay = this.calDaysInMonth(this.year, this.month);
+                var start = this.year + '-' + this.month + '-' + '01';
+                var end = this.year + '-' + this.month + '-' + totladay;
+
+                this.$.ajaxx.url="http://localhost:8080/getevent/" + start + "/" + end;
+                this.$.ajaxx.onResponse="handleResponse";
+                this.$.ajaxx.generateRequest();
+
+            },
+
+            calDaysInMonth: function(year, month) {
+                var startDay = new Date(year, month-1, 1);
+                var endDay = new Date(year, month, 1);
+                var cal = (endDay - startDay) / (1000 * 60 * 60 * 24);
+                return cal;
+            },
 
 
+            handleResponse: function(response) {
 
-            // input에서 입력 하면 db에 저장되고
-            // layout에 event fire되서 todos array에 push
-            // output에서 array만큼 todo를 dom repeat
-            // drag N drop into calendar
-            // modify db date
-
-
+                var res = response.detail.response;
+                // add calendar dom
+                for(var i = 0; i < res.length; i++) {
+                    this.push('todos', {todoname: res[i].todoname});
+                }
+            }
 
         });
     </script>
