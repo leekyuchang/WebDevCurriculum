@@ -41,7 +41,6 @@
                 todos: {
                     type: Array,
                     value: []
-                    // array type is essential init val.
                 },
 
                 year: {
@@ -71,7 +70,6 @@
             ],
 
             monthChanged: function(year, month) {
-                // console.log(this.year, this.month);
                 var totladay = this.calDaysInMonth(this.year, this.month);
                 var start = this.year + '-' + this.month + '-' + '01';
                 var end = this.year + '-' + this.month + '-' + totladay;

@@ -142,8 +142,6 @@
                     this.sampledom.style.display = "none";
 
                     var todoName = this.todo.todoname;
-                    // var sampleLeft = Number(this.sampledom.style.left.replace('px', ''));
-                    // var sampleTop = Number(this.sampledom.style.top.replace('px', ''));
                     var sampleLeft = e.detail.x;
                     var sampleTop = e.detail.y;
                     this.fire("sampledragEvent", {todoname: todoName, left: sampleLeft, top: sampleTop});
