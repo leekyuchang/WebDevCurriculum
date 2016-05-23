@@ -16,6 +16,10 @@
                 background-color: rgb(250, 87, 42);
             }
 
+            .duedatenotnulltodo {
+                background-color: rgb(250, 87, 42);
+            }
+
             input[type=checkbox] {
                 width: 25px;
                 height: 25px;
@@ -97,6 +101,10 @@
 
                 this.tododom = this.$$(".onetodoContainer");
                 this.sampledom = this.$$(".dragSample");
+
+                if(this.todo.duedate !== null && this.todo.duedate !== undefined ) {
+                    this.$$(".onetodoContainer").style.backgroundColor = "skyblue";
+                }
             },
 
             todoChecked: function(e) {
@@ -145,11 +153,9 @@
                     var sampleLeft = e.detail.x;
                     var sampleTop = e.detail.y;
                     this.fire("sampledragEvent", {todoname: todoName, left: sampleLeft, top: sampleTop});
+                    this.$$(".onetodoContainer").style.backgroundColor = "skyblue";
                 }
-            },
-
-
-
+            }
         });
     </script>
 

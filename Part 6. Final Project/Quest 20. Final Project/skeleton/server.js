@@ -5,8 +5,18 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
     Sequelize = require('sequelize'),
 	crypto = require('crypto');
+	google = require('googleapis'),
+	OAuth2Client = google.auth.OAuth2,
+	plus = google.plus('v1'),
+	readline = require('readline');
 	app = express();
 
+var secreteData = JSON.parse(fs.readFileSync(path.join(__dirname, 'secrete/secrete.json'), 'utf-8'));
+var CLIENT_ID = secreteData.CLIENT_ID;
+var CLIENT_SECRET = secreteData.CLIENT_SECRET;
+var REDIRECT_URL = secreteData.REDIRECT_URL;
+
+var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -220,6 +230,57 @@ app.get('/logincheck', function(req, res) {
 	}
 });
 
+// google
+
+app.get('/googlelogin', function(req, res) {
+	// generate consent page url
+	var url = oauth2Client.generateAuthUrl({
+		access_type: 'offline',
+		scope: 'https://www.googleapis.com/auth/userinfo.email',
+		approval_prompt: 'auto',
+	});
+	res.redirect(url);
+});
+
+
+app.get('/oauth2callback', function(req, res) {
+	var code = req.query.code;
+	//console.log(code);
+	var username, useremail, accesstoken;
+	oauth2Client.getToken(code, function(err, tokens){
+		if (err) {res.send(err)};
+		var token = JSON.parse(JSON.stringify(tokens));
+		accesstoken = token.access_token;
+		// console.log('accessToken: ' + accesstoken);
+		oauth2Client.setCredentials(tokens);
+
+		plus.people.get({ userId: 'me', auth: oauth2Client }, function (err, profile) {
+			if (err) {
+				return console.log('An error occured', err);
+			}
+			//console.log('profile.email: ' + profile.emails[0].value + ' name: ' + profile.name.familyName);
+			var profiles = JSON.parse(JSON.stringify(profile));
+			username = profiles.name.familyName;
+			useremail = profiles.emails[0].value;
+
+			User.findOrCreate({
+				where: {username: username, useremail: useremail},
+		        // attributes: ['username', 'userid']
+			}).spread(function(result, created) {
+				if(created === true) {
+					req.session.username = result.dataValues.username;
+					req.session.userid = result.dataValues.userid;
+					req.session.save(function() {
+						res.redirect('/');
+					});
+				} else {
+					res.send("false");
+				}
+	        });
+		});
+	});
+});
+
 // get event in currentMonth
 app.get('/getevent/:startday/:endday', function(req, res) {
 	if(req.session.username) {
@@ -230,9 +291,15 @@ app.get('/getevent/:startday/:endday', function(req, res) {
 		Todo.findAll({
 			where: {
 				userid: userid,
-				$and: [
-					{ duedate: {gte: start} },
-					{ duedate: {lt: end} }
+				// $and: [
+				// 	{ duedate: {gt: start} },
+				// 	{ duedate: {lte: end} },
+				// ],
+				$or: [{duedate: null},
+					{$and: [
+						{ duedate: {gt: start} },
+						{ duedate: {lte: end} },
+					]}
 				]
 			}
 		}).then(function(result) {

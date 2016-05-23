@@ -5,6 +5,7 @@
     "crypto": "0.0.3",
     "express": "*",
     "express-session": "^1.13.0",
+    "googleapis": "^7.0.0",
     "mysql": "^2.10.2",
     "sequelize": "*"
   }

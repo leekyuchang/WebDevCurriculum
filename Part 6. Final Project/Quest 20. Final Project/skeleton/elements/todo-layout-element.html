@@ -93,7 +93,7 @@
                 var res = response.detail.response;
                 // add calendar dom
                 for(var i = 0; i < res.length; i++) {
-                    this.push('todos', {todoname: res[i].todoname});
+                    this.push('todos', {todoname: res[i].todoname, duedate: res[i].duedate});
                 }
             }
 
