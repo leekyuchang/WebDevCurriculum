@@ -191,12 +191,12 @@
                 this.$.ajaxx.generateRequest();
             },
 
-            // showDate: function(e) {
-            //     if (e.target.innerText !== null) {
-            //         // console.log(e.target.innerText);
-            //         // add event direct in calendar without todo layout
-            //     }
-            // },
+            showDate: function(e) {
+                if (e.target.innerText !== null) {
+                    // console.log(e.target.innerText);
+                    // add event direct in calendar without todo layout
+                }
+            },
 
             _currentEventChanged: function(b) {
 
@@ -242,6 +242,7 @@
             handleResponse: function(response) {
                 var res = response.detail.response;
                 var todo = [];
+                var startname = this.startWeekname(this.year, this.month);
                 // add calendar dom
                 for(var i = 0; i < res.length; i++) {
                     var obj = {
@@ -256,7 +257,7 @@
                     var n = Number(todo[j].date);
                     var eventdom = document.createElement("event-element");
                     eventdom.todoname = todo[j].todoname;
-                    daydom[n].appendChild(eventdom);
+                    daydom[n + startname - 1].appendChild(eventdom);
                 }
 
             }

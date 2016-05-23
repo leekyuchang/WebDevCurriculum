@@ -93,9 +93,9 @@ app.post('/addtodo', function(req, res) {
 });
 
 // deletetodo  // delete
-app.delete('/deletetodo/:todoname', function(req, res) {
+app.delete('/deletetodo', function(req, res) {
 	if(req.session.username) {
-		var todoname = req.params.todoname;
+		var todoname = req.body.todoname;
 		var uid = req.session.userid;
 		var uname = req.session.username;
 

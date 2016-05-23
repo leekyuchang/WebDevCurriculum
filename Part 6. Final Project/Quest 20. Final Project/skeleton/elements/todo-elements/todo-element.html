@@ -47,6 +47,14 @@
 
         </style>
 
+        <iron-ajax
+            id="ajax"
+            method="DELETE"
+            url="http://localhost:8080/deletetodo"
+            contenttype="application/x-www-form-urlencoded"
+            handle-as="json">
+        </iron-ajax>
+
         <div class="onetodoContainer" on-down="dragstart" on-track="dragging" on-up="dragstop">
             <div class="todoInner">
                 <input type="checkbox" name="todo" class="todocheckbox" on-down="todoChecked">
@@ -92,9 +100,14 @@
             },
 
             todoChecked: function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
                 this.checked = true;
                 this.$$(".todocheckbox").checked = true;
                 this.$$(".todocheckbox").disabled = true;
+
+                this.$.ajax.body = 'todoname=' + this.todo.todoname;
+                this.$.ajax.generateRequest();
             },
 
             dragstart: function(e) {
