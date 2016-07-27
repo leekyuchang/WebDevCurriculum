@@ -27,6 +27,7 @@
 * Web components가 무엇이고, 이 것을 사용할 때 어떤 점을 유의해야 하나요?
     * web components는 web application의 구성요로를 재사용할 수 있게 만든 컬렉션.
     * web application의 custom element가 될 부분들을 잘 정해야 한다.
+
 ## Quest
 * Polymer를 통해 Quest 07에서 만들었던 바탕화면 시스템을 다시 한 번 만들어 보세요.
   * 어떤 Custom Element가 필요한지 생각해 보세요.
